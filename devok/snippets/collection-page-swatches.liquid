@@ -1,0 +1,163 @@
+{%- unless product.has_only_default_variant -%}
+  {%- for option in product.options_with_values -%}
+
+    {%- liquid
+      assign current_variant_option = option.name | downcase 
+      assign current_size_variant_option = settings.text_variant_size | downcase 
+      assign current_color_variant_option = settings.text_variant_color | downcase 
+      assign current_color = false 
+      assign current_size = false 
+      assign product_card_variants_limit = product_card_variants_limit | plus: '0' 
+
+     if current_size_variant_option == current_variant_option 
+       assign current_size = true 
+     endif 
+
+    if current_color_variant_option == current_variant_option
+       assign current_color = true 
+     endif 
+
+     if current_color
+       assign variants_option1_arr = product.variants | map: 'option1'
+	     assign variants_option2_arr = product.variants | map: 'option2'
+       assign variants_option3_arr = product.variants | map: 'option3'
+       assign variants_available_arr = product.variants | map: 'available'
+       assign values_option = product.options_by_name.Color.values
+       assign colorOptionIndex = forloop.index0 
+     elsif current_size 
+       assign values_option = product.options_by_name.Size.values
+     else 
+       assign values_option = product_option.values 
+     endif 
+  -%}
+  
+  {%- capture variants_color -%}
+    {% if current_color %}
+        <div class="product_variants{% if settings.variants_image_swatch != blank %} color_via_image{% endif %}{% if colorOptionIndex != 0 %} product_variants--notFirst{% endif %} no-js-hidden">
+          {%- for value in values_option limit: product_card_variants_limit -%} 
+            {%- liquid
+              for option1_name in variants_option1_arr
+                case option.position
+                  when 1
+                    for variant in product.variants
+                      if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                        assign variant_needed = variant
+                      endif
+                    endfor
+                  when 2
+                    for variant in product.variants
+                      if variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                        assign variant_needed = variant
+                      endif 
+                    endfor 
+                  when 3
+                    for variant in product.variants
+                      if variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                        assign variant_needed = variant
+                      endif
+                    endfor    
+                endcase
+                
+                assign variantImage = variant_needed.featured_image | default: product.featured_image
+                      
+              endfor
+            -%}
+
+              <color-option-swatch
+                class="color-option-swatch"
+                style="--swatch-background-color:{% if variant_needed.metafields.color.swatch != blank %}{{ variant_needed.metafields.color.swatch }}{% else %}{{ value }}{% endif %}; 
+                {% if settings.variants_image_swatch != blank %}--swatch-background-image:{% if variant_needed.metafields.image.swatch != blank %}url('{{ variant_needed.metafields.image.swatch }}');{% elsif variant_needed.image != blank %} url('{{ variant_needed.image | image_url: width: 120 }}');{% endif %}{% endif %}"
+                title="{{ value }}"
+                data-variant-id="{{ variant_needed.id }}"
+                data-product-handle="{{ product.handle }}"
+                data-collection-handle="{{ collection.handle }}"
+                data-srcset="
+                  {%- if variantImage.width >= 95 -%}{{ variantImage | image_url: width: 95 }} 95w,{%- endif -%}
+                  {%- if variantImage.width >= 165 -%}{{ variantImage | image_url: width: 165 }} 165w,{%- endif -%}
+                  {%- if variantImage.width >= 360 -%}{{ variantImage | image_url: width: 360 }} 360w,{%- endif -%}
+                  {%- if variantImage.width >= 533 -%}{{ variantImage | image_url: width: 533 }} 533w,{%- endif -%}
+                  {%- if variantImage.width >= 720 -%}{{ variantImage | image_url: width: 720 }} 720w,{%- endif -%}
+                  {%- if variantImage.width >= 940 -%}{{ variantImage | image_url: width: 940 }} 940w,{%- endif -%}
+                  {%- if variantImage.width >= 1066 -%}{{ variantImage | image_url: width: 1066 }} 1066w,{%- endif -%}
+                  {{ variantImage | image_url }} {{ variantImage.width }}w
+                "
+                data-src="{{ variantImage | image_url: width: 533 }}"
+              >
+                <a href="{{ product.url }}?variant={{ variant_needed.id }}" tabindex="-1" title="{{ value }}">
+                  <span class="visually-hidden">{{ value }}</span>
+                </a>
+              </color-option-swatch>
+        
+          {%- endfor -%}
+           {% if values_option.size > product_card_variants_limit %}
+              <div class="color_options_info"><a href="{{ product.url }}" class="link link--text underlined-link">+ {{ values_option.size | minus: product_card_variants_limit }}</a></div>
+            {% endif %}
+        </div>
+        {% endif %}
+  {%- endcapture -%}
+
+  {%- capture variants_size -%}
+      {% if current_size %}
+            <ul class="product_variants list-unstyled">
+              {%- for value in values_option limit: product_card_variants_limit -%}
+                {%- for variant in product.variants -%}
+                  {% if variant.options contains value %}
+                    {%- assign variant_needed = variant -%}
+                  {% endif %}
+                  {%- if variant.title contains value -%}
+                    {%- assign productOptionURL = product.url | append: '?variant=' | append: variant.id -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <li>
+                  <a class="btn_option" href="{{ productOptionURL }}" title="{{ value }}">
+                    {{ value }}
+                  </a>
+                </li>
+              {%- endfor -%}
+              {% if values_option.size > product_card_variants_limit %}
+                <li class="color_options_info"><a href="{{ product.url }}" class="link link--text underlined-link">+ {{ values_option.size | minus: product_card_variants_limit }}</a></li>
+              {% endif %}
+            </ul>
+          {% endif %}
+  {%- endcapture -%}
+
+    {% case variants_type_url %}
+      {% when 'only_color' %}
+        {{ variants_color }}
+      {% when 'only_size' %}
+         {{ variants_size }}
+      {% when 'only_size_color' %}
+        {{ variants_color }}
+        {{ variants_size }}
+      {% when 'all' %}
+         {{ variants_color }}
+        {{ variants_size }} 
+      {%- unless current_size or current_color -%}
+             <ul class="product_variants list-unstyled">
+              {%- for value in values_option limit: product_card_variants_limit -%}
+                {%- for variant in product.variants -%}
+                  {% if variant.options contains value %}
+                    {%- assign variant_needed = variant -%}
+                  {% endif %}
+                  {%- if variant.title contains value -%}
+                    {%- assign productOptionURL = product.url | append: '?variant=' | append: variant.id -%}
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <li>
+                  <a class="btn_option" href="{{ productOptionURL }}" title="{{ value }}">
+                    {{ value }}
+                  </a>
+                </li>
+              {%- endfor -%}
+              {% if values_option.size > product_card_variants_limit %}
+                <li class="color_options_info"><a href="{{ product.url }}" class="link link--text underlined-link">+ {{ values_option.size | minus: product_card_variants_limit }}</a></li>
+              {% endif %}
+            </ul>
+      {%- endunless -%}
+     
+    {% endcase %}
+  {%- endfor -%}
+{%- endunless -%}
+

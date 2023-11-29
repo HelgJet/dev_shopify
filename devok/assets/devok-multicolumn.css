@@ -1,0 +1,66 @@
+.devok-multicolumn .multicolumn-card-spacing {
+    padding: 0;
+    margin: 0;
+}
+
+.devok-multicolumn .itemTextInfo .rte {
+    margin-top: 0.5rem;
+}
+.devok-multicolumn .multicolumn-list__item.center .footer__list-social{
+    justify-content: center;
+}
+
+.devok-multicolumn .multicolumn-list__item.left .footer__list-social{
+    justify-content: flex-start;
+}
+.devok-multicolumn .multicolumn-list__item.right .footer__list-social{
+    justify-content: flex-end;
+}
+.devok-multicolumn .multicolumn-list__item .footer__list-social {
+    margin-top: 0.9rem;
+}
+.devok-multicolumn .multicolumn-card__info .link {
+    padding: 0;
+    margin-right: 0.6rem;
+
+}
+.devok-multicolumn .list-social__item a{
+    margin-top: 0;
+}
+.devok-multicolumn .multicolumn-list__item.grid__item {
+    margin-bottom: 2.7rem; 
+}
+.devok-multicolumn a.link.animate-arrow{
+    margin-top: 0.6rem;
+}
+
+.devok-multicolumn .multicolumn-card__info .title{
+    margin-bottom: 0.5rem;
+    font-weight: bold; 
+}
+
+.devok-multicolumn .multicolumn-list__item.center .list-social {
+    justify-content: center;
+}
+
+.devok-multicolumn .multicolumn-list__item.left .list-social {
+    justify-content: flex-start;
+}
+
+.devok-multicolumn .multicolumn-list__item.right .list-social {
+    justify-content: flex-end;
+}
+
+
+.devok-testimonials button.slider-button.slider-button--next {
+    right: -28px;
+}
+.devok-testimonials button.slider-button.slider-button--prev {
+    left: -28px;
+}
+.devok-testimonials .multicolumn-card__info {
+    padding: 0;
+}
+
+
+

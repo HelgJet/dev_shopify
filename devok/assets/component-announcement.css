@@ -1,0 +1,382 @@
+/* section-announcement-bar */
+#shopify-section-announcement-bar {
+  z-index: 4;
+}
+
+.announcement-bar {
+  color: rgb(var(--color-foreground));
+  position: relative;
+}
+.announcement-bar.announcement-bar__border-bottom {
+  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.announcement-bar .button{
+  min-height: 3rem; 
+  min-width: unset; 
+} 
+
+.announcement-bar__link {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0;
+  text-decoration: none;
+}
+
+.announcement-bar__link:hover {
+  color: rgb(var(--color-foreground));
+  background-color: rgba(var(--color-card-hover), 0.06);
+}
+
+.announcement-bar__link .icon-arrow {
+  display: inline-block;
+  pointer-events: none;
+  margin-left: 0.8rem;
+  vertical-align: middle;
+  margin-bottom: 0.2rem;
+}
+
+.announcement-bar .text-1 {
+  font-size: calc(var(--font-text-scale-1) * 1.4rem); 
+}
+
+.announcement-bar .text-2 {
+  font-size: calc(var(--font-text-scale-2) * 1.4rem); 
+}
+
+.announcement-bar__link .announcement-bar__message {
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+} 
+
+.announcement-bar__link .announcement-bar__message > span:not(.button) {
+  padding: 0.5rem 1.5rem 0.5rem 0;
+  display: inline-block;
+}
+
+/* Countown*/
+
+.announcement__info--timer .countdown-timer .separator {
+  display: block;
+  line-height: 1.1;
+  font-size: 0.8rem; 
+}
+
+.announcement__info--timer .countdown-timer {
+  padding: 0.5rem 0; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-evenly; 
+  gap: 0.3rem;
+  background-color: transparent;
+}
+
+.announcement__info--timer .countdown-timer .divider {
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: bold;
+  color: rgba(var(--color-button-text), var(--alpha-button-background))
+}
+
+.announcement__info--timer .countdown-timer .time-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center; 
+  background-color: transparent;
+  position: relative;
+  border: 0.1rem solid rgba(var(--color-shadow), 0.1);
+  color: rgb(var(--color-button));
+  background: rgba(var(--color-button-text), var(--alpha-button-background));
+  width: 3rem;  
+  min-height: 3rem;
+}
+
+.announcement__info--timer .countdown-timer .time {
+  font-size: 1.2rem; 
+  font-weight: bold;
+  line-height: 1;
+}
+
+.announcement-bar__text .announcement__info-wrapper.has--timer:not(.center) {
+  display: grid;
+  align-items: center; 
+  grid-template-areas: "message timer";
+  grid-template-columns: auto auto;
+  column-gap: 1.5rem;
+}
+
+.announcement__info-wrapper.has--timer .announcement-bar__message {
+  padding: 0.5rem 0;
+  margin: 0;
+  letter-spacing: 0.1rem;
+  line-height: 1.2;
+}
+
+.announcement-bar__text .announcement__info-wrapper.has--timer .announcement-bar__message {
+  grid-area: message;
+}
+
+.announcement-bar__text .announcement__info-wrapper.has--timer .announcement__info--timer {
+  grid-area: timer; 
+}
+
+.announcement-bar__text .announcement__info-wrapper.has--timer.right {
+  grid-template-areas: "timer message";
+}
+
+.announcement__info-wrapper.center{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement__info-wrapper.center > *{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.announcement__info-wrapper.left .announcement__info--timer{
+   justify-self: end; 
+}
+
+.announcement__info-wrapper.right .announcement__info--timer{
+  justify-self: start;
+  text-align: left;
+}
+
+.announcement__info-wrapper.right .announcement-bar__message {
+  justify-self: end; 
+  text-align: right;  
+}
+
+
+/* Annoucement bar image*/
+
+.announcement-bar__image .announcement__info--timer{
+  position: absolute;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.announcement-bar__image .announcement__info--timer__center {
+   left: 50%;
+   transform: translate(-50%, -50%);
+   text-align: center;  
+}
+
+.announcement-bar__image .announcement__info--timer__left {
+  right: auto;
+}
+
+.announcement-bar__image .announcement__info--timer__right {
+ left: auto;
+ text-align: right;
+}
+
+@media screen and (max-width: 989px) {
+  .announcement__info-wrapper__column--1.has--timer{
+    display: block;   
+  }
+  .announcement-bar__message > span{ 
+    display: inline-flex;
+    flex-grow: 1;
+  } 
+}
+@media screen and (min-width: 990px) {
+  .announcement-bar__image .announcement__info--timer{
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+
+/* Announcement Coupon */
+
+.announcement-bar__coupon {
+  --base-font: inherit;
+  --small-font: 0.75rem;
+  --normal-font: 1rem;
+  --medium-font: 1.25rem;
+  --base-padding: 0.3rem;
+}
+
+.announcement-bar__coupon .announcement__info-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: inherit;
+}
+
+@media (max-width: 989px) {
+  .announcement-bar__coupon .announcement__info-wrapper{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 20;
+    text-align: center;
+    flex-direction: column-reverse; 
+    padding: 1rem;
+  }
+}
+
+@media print {
+  .announcement-bar__coupon {
+    display: none;
+  }
+}
+
+.announcement-bar__coupon .announcement-bar__message,
+.announcement-bar__coupon .coupon {
+  padding: 0 1rem;
+} 
+
+
+
+@media (max-width: 989px) {
+  .announcement-bar__coupon .announcement-bar__message {
+    padding-bottom: var(--base-padding);
+  }
+}
+
+.announcement-bar__coupon input,
+.announcement-bar__coupon button {
+  font-family: var(--base-font);
+  font-size: var(--small-font);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: var(--base-padding);
+  border: 2px dashed rgb(var(--color-background));
+  /* height: 36px; */
+}
+
+.announcement-bar__coupon input {
+  background: rgb(var(--color-foreground));
+  color:  rgb(var(--color-background));
+  text-align: center;
+  border-right: 0;
+  font-size: 1.6rem;
+}
+
+.announcement-bar__coupon button {
+  cursor: pointer;
+  box-shadow: none;
+  border-radius: 0;
+  font-size: 1rem;
+  height: 3.1rem;
+}
+
+.announcement-bar__coupon .coupon {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 989px) {
+  .announcement-bar__coupon .coupon {
+    margin: 1rem auto;
+  }
+}
+
+/* Style the close button (span) */
+.announcement-bar__coupon .close {
+  cursor: pointer;
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0;
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+  height: 2rem;
+  width: 2rem;
+  line-height: 2rem;
+  text-align: center;
+  border-radius: 50%;
+}
+
+.announcement-bar__coupon .close .icon{
+  width:1rem;
+  height:1rem;   
+}
+
+@media (min-width: 990px) {
+  .announcement-bar__coupon .close {
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    left: inherit;
+    right: 0.5rem;
+  }
+}
+
+.announcement-bar__coupon .copyTooltip {
+  position: relative;
+  display: inline-block;
+  color: rgb(var(--color-background));
+  opacity: 1;
+  line-height: inherit;
+  font-size: inherit;
+  z-index: inherit;
+}
+
+.announcement-bar__coupon .copyTooltip .copyTooltiptext {
+  visibility: hidden;
+  position: absolute;
+  top:50%;
+  transform: translateY(-50%);
+  left: auto;
+  right: 100%; 
+  background-color: rgb(var(--color-foreground));
+  color: inherit;
+  width: auto;
+  min-width: 13rem; 
+  font-size: 0.8rem;
+  /* font-weight: bold; */
+  text-align: center;
+  padding: 2px 5px; 
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 1;
+}
+
+.announcement-bar__coupon .copyTooltip:hover .copyTooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+
+.is-hidden {
+  display: none !important;
+}
+
+.is-desktop {
+  display: block;
+}
+
+@media (max-width: 989px) {
+  .is-desktop {
+    display: none !important;
+  }
+}
+
+.is-mobile {
+  display: none !important;
+}
+
+@media (max-width: 989px) {
+  .is-mobile {
+    display: block !important;
+  }
+}  

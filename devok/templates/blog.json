@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-blog",
+      "settings": {
+        "layout": "grid",
+        "columns_desktop": 2,
+        "show_image": true,
+        "image_height": "medium",
+        "show_date": true,
+        "show_author": true,
+        "show_comments": true,
+        "blog_show_tags": true,
+        "blog_show_btn": false,
+        "desc_none": false,
+        "btn_style": "blog__button button",
+        "caption_vertical_alignment": "middle",
+        "caption_padding": "1rem 2rem 1rem 0rem",
+        "padding_top": 0,
+        "padding_bottom": 36,
+        "caption_padding_mobile": "1rem 1rem 1rem 1rem"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

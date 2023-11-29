@@ -1,0 +1,92 @@
+
+<style>
+  .devok-load-more__wrapper {
+    max-width: 30rem;
+    margin: 2rem auto;
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+ #devok-load-more .progressbar{
+    height: 0.2rem;
+    margin: -0.5rem 0 2rem;
+    background-color: rgba(0, 0, 0, .1); 
+  } 
+
+  #devok-load-more .progressbar--line{
+    height: 0.2rem;
+    background-color: var(--gradient-base-accent-1); 
+    display: block;
+    position: relative;  
+  }
+  #devok-load-more .progressbar--line:after{
+    content: '';
+    display: block;
+    width: 0.9rem;
+    height: 0.9rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0;
+    left: auto;
+    border-radius: 50%;
+    background-color: var(--gradient-base-accent-1); 
+  }
+</style> 
+
+
+<script src="{{ 'collection-load-more.js' | asset_url }}" defer="defer"></script>
+
+ <div id="devok-load-more" class="devok-load-more text-center" data-infinite="{{ infiniteScroll }}">
+            <div class="devok-load-more__wrapper">
+              {%- if collection -%}
+                 <p>
+                    {% assign product_count = paginate.current_offset | plus: collection.products.size %}
+                    {% assign total = paginate.items %} 
+
+                    {%- if products_count == total -%}
+                      {{ 'products.facets.product_count_simple' | t: count: product_count }}
+                    {%- else -%}
+                      {{ 'products.facets.product_count' | t: product_count: product_count, count: total }}
+                    {%- endif -%}
+                </p>
+                <div class="progressbar" aria-hidden="true">
+                    {% assign progressbar_width = product_count | times: 100.0 | divided_by: total | round | append: "%" %}
+                    <div class="progressbar--line" style="width: {{ progressbar_width }};"></div>
+                </div>
+              {%- else -%}
+                  <p>
+                    {% assign result_count = paginate.current_offset | plus: search.results.size %}
+                    {% assign total = paginate.items %} 
+
+                    {%- if result_count == total -%}
+                      {{ 'templates.search.results_with_count' | t: count: result_count }}
+                       {%- else -%} 
+                      {{ 'templates.search.search_result_count' | t: product_count: result_count, count: total }}
+                    {%- endif -%}  
+                  </p>
+                <div class="progressbar" aria-hidden="true">
+                    {% assign progressbar_width = result_count | times: 100.0 | divided_by: total | round | append: "%" %}
+                    <div class="progressbar--line" style="width: {{ progressbar_width }};"></div>
+                </div>
+              {%- endif -%} 
+              
+              {%- if paginate.next -%} 
+            
+                 <button id="devok-load-button" class="load-more_btn{% if infiniteScroll %} visually-hidden{% endif %} text-center mt-12 button button--primary" data-next-url="{{ paginate.next.url }}" onclick="devokLoadMore(this)">{{ 'products.loadmore.title' | t }}</button>
+                
+              {%- endif -%}
+                <div class="load-more__spinner loading-overlay__spinner hidden">
+                   <svg
+                     aria-hidden="true"
+                     focusable="false"
+                     class="spinner"
+                     viewBox="0 0 66 66"
+                     xmlns="http://www.w3.org/2000/svg"
+                   >
+                     <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                   </svg>
+                 </div> 
+            </div>                
+        </div> 
+  

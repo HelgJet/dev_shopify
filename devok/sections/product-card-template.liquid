@@ -1,0 +1,33 @@
+{%- if template == 'product.litecard' -%}
+   {% render 'card-product',
+   card_product: product, 
+   card_design: 'design-1', 
+   badge_card_toggle: settings.badge_card_toggle,
+   lazy_load: true, 
+   media_aspect_ratio: settings.viewed_image_ratio,  
+   show_rating: settings.viewed_show_rating,
+   show_vendor: settings.viewed_show_vendor, 
+   section_id: section.id 
+ %} 
+ {%- else -%}
+ {% render 'card-product',
+   card_product: product, 
+   card_design: 'design-1',
+   media_aspect_ratio: 'adapt', 
+   show_rating: true,
+   lazy_load: true, 
+   badge_card_toggle: settings.badge_card_toggle,
+   show_quick_add: true, 
+   show_compare: true,   
+   show_wishlist: true,
+   custom_class: "grid__item", 
+   section_id: section.id 
+ %} 
+{%- endif -%}
+
+{% schema %} 
+  {
+    "templates": ["product"]
+  }
+{% endschema %}
+

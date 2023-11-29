@@ -1,0 +1,236 @@
+{%- if section.blocks.size > 0 -%}
+        {%- liquid
+          if section.blocks.size == 9
+            assign footer_grid_class = 'grid--3-col-tablet'
+          elsif section.blocks.size > 6
+            assign footer_grid_class = 'grid--4-col-desktop'
+          elsif section.blocks.size > 4
+            assign footer_grid_class = 'grid--3-col-tablet'
+          endif
+        -%}
+        <div class="footer__blocks-wrapper grid grid--1-col grid--2-col grid--4-col-tablet {{ footer_grid_class }}">
+          {%- for block in section.blocks -%}
+            <div class="footer-block grid--{{ block.settings.columns_desktop }}-col-desktop grid__item{% if block.type == 'link_list' %} footer-block--menu{% endif %}" {{ block.shopify_attributes }}>
+            
+              {%- if block.settings.heading != blank -%}
+                <h2 class="footer-block__heading{% if block.type == 'link_list' and block.settings.mobile_collapse %} small-hide{% endif %}">{{- block.settings.heading | escape -}}</h2>
+              {%- endif -%}
+
+              {%- case block.type -%}
+                {%- when '@app' -%}
+                  {% render block %}
+                {%- when 'text' -%}
+                  <div class="footer-block__details-content rte">
+                    {{ block.settings.subtext }}
+                  </div>
+                {%- when 'link_list' -%}    
+
+                  {%- if block.settings.menu != blank -%}
+                     <ul class="footer-block__details-content list-unstyled{% if block.settings.mobile_collapse %} small-hide{% endif %}">
+                      {%- for link in block.settings.menu.links -%}
+                        <li>
+                          <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}">
+                            {{ link.title }}
+                          </a> 
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                  
+                  {%- if block.settings.mobile_collapse -%}
+                     <details id="Details-{{ block.id }}-{{ section.id }}" class="medium-up--hide">
+                        <summary id="Summary-{{ block.id }}-{{ section.id }}">
+                          {%- if block.settings.heading != blank -%}
+                            <h2 class="h3 mb-0">{{- block.settings.heading | escape -}}</h2>
+                          {%- endif -%}
+                          {% render 'icon-caret' %}  
+                        </summary>
+                        <div class="accordion__content rte" id="CollapsibleAccordion-{{ block.id }}-{{ section.id }}" role="region" aria-labelledby="Summary-{{ block.id }}-{{ section.id }}">
+                        {%- if block.settings.menu != blank -%}
+                            <ul class="mt-2 list-unstyled">
+                              {%- for link in block.settings.menu.links -%}
+                                <li>
+                                  <a href="{{ link.url }}" class="link link--text list-menu__item list-menu__item--link{% if link.active %} list-menu__item--active{% endif %}">
+                                    {{ link.title }}
+                                  </a>
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                        {%- endif -%}
+                        </div>
+                     </details>
+                  {%- endif -%}
+                 
+                 
+                {%- when 'brand_information' -%}
+                  <div class="footer-block__brand-info">
+                    {%- if settings.brand_image != blank -%}
+                      <a href="{{ routes.root_url }}" class="link focus-inset">
+                        {%- assign brand_image_height = settings.brand_image_width | divided_by: settings.brand_image.aspect_ratio -%}
+                        <div class="footer-block__image-wrapper global-media-settings" style="max-width: min(100%, {{ settings.brand_image_width }}px);">
+                          {{ settings.brand_image | image_url: width: 1100 | image_tag:
+                            loading: 'lazy',
+                            widths: '50, 100, 150, 200, 300, 400, 550, 800, 1100',
+                            height: brand_image_height,
+                            width: settings.brand_image_width
+                          }}
+                        </div>
+                      </a>
+                    {%- endif -%}
+                    {%- if settings.brand_headline != blank -%}
+                      <h2 class="footer-block__heading rte">{{ settings.brand_headline }}</h2>
+                    {%- endif -%}
+                    {%- if settings.brand_description != blank -%}
+                      <div class="rte">{{ settings.brand_description }}</div>
+                    {%- endif -%}
+                    {%- if block.settings.show_social -%}
+                       {%- assign class_list_social = 'footer__list-social' -%}
+                      {%- render 'social-icons', social_style: section.settings.social_style, class_list_social: class_list_social -%}
+                    {%- endif -%}
+                  </div>
+                {%- when 'footer_payment' -%}
+                  <div class="footer__payment footer-block__payment">
+                    {%- if section.settings.payment_heading != blank -%}
+                      <h2 class="footer-block__heading">{{ section.settings.payment_heading | escape }}</h2>
+                   {%- endif -%}
+                    <span class="visually-hidden">{{ 'sections.footer.payment' | t }}</span>
+                    <ul class="list list-payment" role="list">
+                      {%- for type in shop.enabled_payment_types -%}
+                        <li class="list-payment__item">
+                          {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                  </div>
+                {% when 'contacts' %}
+                  <div class="footer-block__contacts">
+                    {%- if section.settings.contacts_heading != blank -%}
+                      <h2 class="footer-block__heading">{{ section.settings.contacts_heading | escape }}</h2>
+                    {%- endif -%}
+                  <ul class="contact_list list-unstyled">
+                  {% if block.settings.contacts_address.size > 0 %}
+                		<li class="contact_address">
+                			<div class="d-flex">
+                				<div>{% render 'icon-home' %}</div>
+                				<div class="wrapp">{{ block.settings.contacts_address }}</div>
+                			</div>
+                		</li>
+                	{% endif %}
+                    {% if block.settings.contacts_time.size > 0 %}
+                		<li class="c_time">
+                			<div class="d-flex">
+                				<div>{% render 'icon-clock' %}</div>
+                				<div class="wrapp">{{ block.settings.contacts_time }}</div>
+                			</div>
+                		</li>
+                	{% endif %}
+                	{% if block.settings.contacts_phone.size > 0 %}
+                		<li class="c_phone">
+                          <div class="d-flex">
+                			<a class="contact_phone tel_ltr link" href="tel:{{ block.settings.contacts_phone }}">
+                				{% render 'icon-call' %}
+                				<span>{{ block.settings.contacts_phone_text }}<span>{{ block.settings.contacts_phone }}</span></span>
+                			</a>
+                          </div>
+                		</li>
+                	{% endif %}
+                	{% if block.settings.contacts_email.size > 0 %}
+                		<li class="c_email">
+                          <div class="d-flex">
+                			<a class="contact_email link" href="mailto:{{ block.settings.contacts_email }}">
+                				{% render 'icon-letter' %}
+                				<span>{{ block.settings.contacts_email_text }}  <span class="d-none">{{ block.settings.contacts_email }}</span></span>
+                			</a>
+                          </div>
+                		</li>
+                	{% endif %}
+                	
+                </ul>
+                  </div>
+                {%- when 'image' -%}
+                  <div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+                    {%- if block.settings.image != blank -%}
+                      {%- assign image_size_2x = block.settings.image_width | times: 2 | at_most: 5760 -%}
+                      <div class="footer-block__image-wrapper global-media-settings"  style="max-width: min(100%, {{ block.settings.image_width }}px);">
+                        <img
+                          srcset= "{{ block.settings.image | image_url: width: block.settings.image_width }}, {{ block.settings.image | image_url: width: image_size_2x }} 2x"
+                          src="{{ block.settings.image | image_url: width: 760 }}"
+                          alt="{{ block.settings.image.alt | escape }}"
+                          loading="lazy"
+                          width="{{ block.settings.image.width }}"
+                          height="{{ block.settings.image.height }}"
+                        >
+                      </div>
+                    {%- else -%}
+                      {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+                    {%- endif -%}
+                  </div>
+                  {%- when 'footer_newsletter' -%}
+                     <div class="footer-block__newsletter">
+                     
+                      {%- if block.settings.newsletter_heading != blank -%}
+                         {% style %}
+                            footer .footer-block__newsletter .footer-block__heading{
+                              --font-heading-scale: {{ block.settings.section_subtitle_scale | times: 1.0 | divided_by: settings.body_scale }};
+                            }
+                         {% endstyle %}
+                        <h2 class="footer-block__heading" style="line-height: 1;">{{ block.settings.newsletter_heading }}</h2>
+                      {%- endif -%}
+                      {%- if block.settings.newsletter_text != blank -%}
+                        <div class="footer-block__newsletter_text">{{ block.settings.newsletter_text }}</div>
+                      {%- endif -%}
+                      {%- form 'customer', id: 'ContactFooterBlock', class: 'footer__newsletter newsletter-form' -%}
+                        <input type="hidden" name="contact[tags]" value="newsletter">
+                        <div class="newsletter-form__field-wrapper style_{{ block.settings.input_style }}">
+                          <div class="field">
+                            <input
+                              id="NewsletterForm--{{ section.id }}"
+                              type="email"
+                              name="contact[email]"
+                              class="field__input"
+                              value="{{ form.email }}"
+                              aria-required="true"
+                              autocorrect="off"
+                              autocapitalize="off"
+                              autocomplete="email"
+                              {% if form.errors %}
+                                autofocus
+                                aria-invalid="true"
+                                aria-describedby="ContactFooter-error"
+                              {% elsif form.posted_successfully? %}
+                                aria-describedby="ContactFooter-success"
+                              {% endif %}
+                              placeholder="{{ 'newsletter.label' | t }}"
+                              required
+                            >
+                            <label class="field__label" for="NewsletterForm--{{ section.id }}">
+                              {{ 'newsletter.label' | t }}
+                            </label>
+                            <button type="submit" class="newsletter-form__button field__button" name="commit" id="Subscribe" aria-label="{{ 'newsletter.button_label' | t }}">
+                              {% render 'icon-letter' %}
+                            </button>
+                          </div>
+                          {%- if form.errors -%}
+                            <small class="newsletter-form__message form__message" id="ContactFooter-error">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
+                          {%- endif -%}
+                        </div>
+                        {%- if form.posted_successfully? -%}
+                          <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>{% render 'icon-success' %}{{ 'newsletter.success' | t }}</h3>
+                        {%- endif -%}
+                      {%- endform -%}
+                          {%- if block.settings.show_social -%}
+                          <div class="mt-2">
+                          {%- assign class_list_social = 'footer__list-social' -%}
+                          {%- render 'social-icons', social_style: section.settings.social_style, class_list_social: class_list_social -%}
+                          </div>
+                        {%- endif -%} 
+                    </div>
+                {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+{%- endif -%}
+ 
+ 
+
+

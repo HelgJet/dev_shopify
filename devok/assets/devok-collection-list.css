@@ -1,0 +1,167 @@
+
+.devok-collection-list .collection-list {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.devok-collection-list .collection-list-title {
+    margin: 0;
+}
+
+.devok-collection-list .collection-list__item:only-child {
+    max-width: 100%;
+    width: 100%;
+}
+
+.card--collection .card__media + .card__content.standard{
+    pointer-events: none;
+ }
+ 
+ .card--collection .card__media img{
+   transition: transform var(--duration-short) ease;
+ }
+ 
+ 
+ .card--collection:hover img{
+    transform: scale(1.05);
+ }
+ 
+
+@media screen and (max-width: 749px) {
+    .devok-collection-list .collection-list:not(.slider) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .devok-collection-list .collection-list:not(.slider) {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .devok-collection-list .slider.collection-list--1-items {
+        padding-bottom: 0;
+    }
+}
+
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+    .devok-collection-list .slider.collection-list--1-items,
+    .devok-collection-list .slider.collection-list--2-items,
+    .devok-collection-list .slider.collection-list--3-items,
+    .devok-collection-list .slider.collection-list--4-items {
+        padding-bottom: 0;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .devok-collection-list .collection-list__item a:hover {
+        box-shadow: none;
+    }
+}
+
+
+@media screen and (max-width: 989px) {
+
+    .devok-collection-list .collection-list.slider .collection-list__item {
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .devok-collection-list .button--collection{
+        min-width: unset;
+        min-height: unset;
+        max-width: 140px;
+    }
+}
+
+.devok-collection-list .collection-list-view-all {
+    margin-top: 2rem;
+}
+
+.devok-collection-list .collection-list.grid .card__content {
+    display: flex;
+    flex-direction: column;
+}
+
+.devok-collection-list .collection-list.grid .card__content.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.devok-collection-list .collection-list.grid .card__content.overlay .button--collection{
+    position: static;
+}
+
+.devok-collection-list .collection-list .card__content.overlay:not(.button--wrapper) {
+    background: rgba(var(--color-background), 0.05);
+    padding: 2rem; 
+}
+
+.devok-collection-list .collection-list .card__heading {
+    font-size: 2.4rem;
+}
+
+.devok-collection-list .collection-list .card__heading a:not(.button--collection){
+    font-size: inherit;
+}
+
+.devok-collection-list .button--collection{
+    font-size: 1.2rem;
+    flex-wrap: wrap;
+    padding: 0.5rem 1rem;
+    text-transform: uppercase;
+    transition: .2s;
+}
+
+.devok-collection-list .collection-list.grid .card__content.overlay .button--collection::before,
+.devok-collection-list .collection-list.grid .card__content .button--collection::after{
+    box-shadow: none;
+}
+
+.devok-collection-list .collection-list.grid .card__content.overlay:hover .button--collection::before,
+.devok-collection-list .collection-list.grid .card__content.overlay:hover .button--collection::after{
+    box-shadow: none;
+}
+
+.devok-collection-list .button--collection > .items_count {
+    flex: 1 0 100%;
+    font-size: 1rem;
+    line-height: 1.5;
+    text-transform: none;
+}
+
+.devok-collection-list .image-with-text__text-item .button{
+    min-width: unset;
+    width: 5.1rem;
+    height: 5.1rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.devok-collection-list .collection-list .image-with-text {
+    margin-top: 2rem;
+}
+
+.devok-collection-list .collection-list .image-with-text__content {
+    padding: 2rem calc(2rem / var(--font-body-scale)) 3rem;
+}
+
+
+@media screen and (min-width: 990px) {
+
+    .devok-collection-list .button--collection{
+        font-size: 1.4rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .devok-collection-list .collection-list .image-with-text {
+        margin-top: 5rem;
+    }
+
+    .devok-collection-list .collection-list .image-with-text__content {
+        padding: 5rem 7rem 6rem;
+    }
+} 
+

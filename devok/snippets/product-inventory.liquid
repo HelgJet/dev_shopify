@@ -1,0 +1,116 @@
+   <div id="Inventory-{{ section.id }}" class="{% if product.selected_or_first_available_variant.inventory_management != 'shopify' %}visibility-hidden{% endif %}" {{ block.shopify_attributes }}> 
+      <p
+         class="product__inventory my-0 no-js-hidden{% if block.settings.text_style == 'uppercase' %} caption-with-letter-spacing{% elsif block.settings.text_style == 'subtitle' %} subtitle{% endif %}"
+         role="status">
+         {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+            {%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+               {%- if product.selected_or_first_available_variant.inventory_quantity <= block.settings.inventory_threshold -%}
+                  <svg
+                     width="14"
+                     height="14"
+                     viewBox="0 0 14 14"
+                     fill="none"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path d="M7.00008 13.2708C3.54092 13.2708 0.729248 10.4591 0.729248 6.99996C0.729248 3.54079 3.54092 0.729126 7.00008 0.729126C10.4592 0.729126 13.2709 3.54079 13.2709 6.99996C13.2709 10.4591 10.4592 13.2708 7.00008 13.2708ZM7.00008 1.60413C4.02508 1.60413 1.60425 4.02496 1.60425 6.99996C1.60425 9.97496 4.02508 12.3958 7.00008 12.3958C9.97508 12.3958 12.3959 9.97496 12.3959 6.99996C12.3959 4.02496 9.97508 1.60413 7.00008 1.60413Z" fill="#FFB13D" />
+                     <path d="M9.16421 9.29253C9.08837 9.29253 9.01254 9.27503 8.94254 9.22836L7.13421 8.14919C6.68504 7.88086 6.35254 7.29169 6.35254 6.77253V4.38086C6.35254 4.14169 6.55087 3.94336 6.79004 3.94336C7.02921 3.94336 7.22754 4.14169 7.22754 4.38086V6.77253C7.22754 6.98253 7.40254 7.29169 7.58337 7.39669L9.39171 8.47586C9.60171 8.59836 9.66587 8.86669 9.54337 9.07669C9.45587 9.21669 9.31004 9.29253 9.16421 9.29253Z" fill="#FFB13D" />
+                  </svg>
+                  {%- if block.settings.show_inventory_quantity -%}
+                     {{- 'products.product.inventory_low_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}
+                  {%- else -%}
+                     {{- 'products.product.inventory_low_stock' | t -}}
+                  {%- endif -%}
+               {%- else -%}
+                  <svg
+                     width="14"
+                     height="14"
+                     viewBox="0 0 14 14"
+                     fill="none"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path d="M7.00008 13.2708C3.54091 13.2708 0.729248 10.4591 0.729248 6.99996C0.729248 3.54079 3.54091 0.729126 7.00008 0.729126C10.4592 0.729126 13.2709 3.54079 13.2709 6.99996C13.2709 10.4591 10.4592 13.2708 7.00008 13.2708ZM7.00008 1.60413C4.02508 1.60413 1.60425 4.02496 1.60425 6.99996C1.60425 9.97496 4.02508 12.3958 7.00008 12.3958C9.97508 12.3958 12.3959 9.97496 12.3959 6.99996C12.3959 4.02496 9.97508 1.60413 7.00008 1.60413Z" fill="#00CA8D" />
+                     <path d="M6.17159 9.08839C6.05493 9.08839 5.94409 9.04172 5.86243 8.96006L4.21159 7.30922C4.04243 7.14006 4.04243 6.86006 4.21159 6.69089C4.38076 6.52172 4.66076 6.52172 4.82993 6.69089L6.17159 8.03256L9.16993 5.03422C9.33909 4.86506 9.61909 4.86506 9.78826 5.03422C9.95743 5.20339 9.95743 5.48339 9.78826 5.65256L6.48076 8.96006C6.39909 9.04172 6.28826 9.08839 6.17159 9.08839Z" fill="#00CA8D" />
+                  </svg>
+                  {%- if block.settings.show_inventory_quantity -%}
+                     {{- 'products.product.inventory_in_stock_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}
+                  {%- else -%}
+                     {{- 'products.product.inventory_in_stock' | t -}}
+                  {%- endif -%}
+               {%- endif -%}
+            {%- else -%}
+               {%- if product.selected_or_first_available_variant.inventory_policy == 'continue' -%}
+                  <svg
+                     width="14"
+                     height="14"
+                     viewBox="0 0 14 14"
+                     fill="none"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path d="M7.00008 13.2708C3.54091 13.2708 0.729248 10.4591 0.729248 6.99996C0.729248 3.54079 3.54091 0.729126 7.00008 0.729126C10.4592 0.729126 13.2709 3.54079 13.2709 6.99996C13.2709 10.4591 10.4592 13.2708 7.00008 13.2708ZM7.00008 1.60413C4.02508 1.60413 1.60425 4.02496 1.60425 6.99996C1.60425 9.97496 4.02508 12.3958 7.00008 12.3958C9.97508 12.3958 12.3959 9.97496 12.3959 6.99996C12.3959 4.02496 9.97508 1.60413 7.00008 1.60413Z" fill="#00CA8D" />
+                     <path d="M6.17159 9.08839C6.05493 9.08839 5.94409 9.04172 5.86243 8.96006L4.21159 7.30922C4.04243 7.14006 4.04243 6.86006 4.21159 6.69089C4.38076 6.52172 4.66076 6.52172 4.82993 6.69089L6.17159 8.03256L9.16993 5.03422C9.33909 4.86506 9.61909 4.86506 9.78826 5.03422C9.95743 5.20339 9.95743 5.48339 9.78826 5.65256L6.48076 8.96006C6.39909 9.04172 6.28826 9.08839 6.17159 9.08839Z" fill="#00CA8D" />
+                  </svg>
+                  {{- 'products.product.inventory_out_of_stock_continue_selling' | t -}}
+               {%- else -%}
+                  <svg
+                     width="14"
+                     height="14"
+                     viewBox="0 0 14 14"
+                     fill="none"
+                     aria-hidden="true"
+                     xmlns="http://www.w3.org/2000/svg">
+                     <path d="M7.00008 13.2708C3.54091 13.2708 0.729248 10.4591 0.729248 6.99996C0.729248 3.54079 3.54091 0.729126 7.00008 0.729126C10.4592 0.729126 13.2709 3.54079 13.2709 6.99996C13.2709 10.4591 10.4592 13.2708 7.00008 13.2708ZM7.00008 1.60413C4.02508 1.60413 1.60425 4.02496 1.60425 6.99996C1.60425 9.97496 4.02508 12.3958 7.00008 12.3958C9.97508 12.3958 12.3959 9.97496 12.3959 6.99996C12.3959 4.02496 9.97508 1.60413 7.00008 1.60413Z" fill="#DBDBDB" />
+                     <path d="M2.85841 11.5208C2.74757 11.5208 2.63674 11.48 2.54924 11.3925C2.38007 11.2233 2.38007 10.9433 2.54924 10.7741L10.7159 2.60747C10.8851 2.4383 11.1651 2.4383 11.3342 2.60747C11.5034 2.77663 11.5034 3.05663 11.3342 3.2258L3.16757 11.3925C3.08007 11.48 2.96924 11.5208 2.85841 11.5208Z" fill="#DBDBDB" />
+                  </svg>
+                  {{- 'products.product.inventory_out_of_stock' | t -}}
+               {%- endif -%}
+            {%- endif -%} 
+         {%- endif -%}
+         
+      </p>
+
+      {% comment %} Inventory tracking stockbar on product page {% endcomment %}
+      {%- if block.settings.show_inventory_bar != blank -%}
+         {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+            {% assign current_variant = product.selected_or_first_available_variant %}
+            {%- liquid
+               if current_variant.inventory_quantity > block.settings.inventory_threshold
+                  assign inventory_status = 'high' 
+               else
+                  assign inventory_status = 'low'
+               endif
+            -%}
+            {%- assign bar_progress = current_variant.inventory_quantity
+               | times: 100
+               | divided_by: block.settings.max_bar_inventory 
+               | append: '%' 
+            -%}
+            <div class="devok-stockbar devok-stockinfo_{{ inventory_status }} {% unless current_variant.available and current_variant.inventory_quantity > 0 %} hidden {% endunless %}">
+               <div class="devok-stockinfo-bar">
+                  <span class="devok-stockinfo-probar" style="width: {{ bar_progress }}"></span>
+               </div>
+            </div>
+            {%- style -%} 
+               :root {
+                  --product-in-stock-color: #00CA8D;
+                  --product-low-stock-color: #FFB13D;
+               } 
+            {%- endstyle -%}
+
+            {{ 'component-stockbar.css' | asset_url | stylesheet_tag }}
+            
+            <script id="product-variants" type="application/json">
+               {
+                  {%- for variant in product.variants -%}
+                  "{{- variant.id -}}": {{ variant.inventory_quantity }}{%- if forloop.last == false -%},{%- endif -%}
+                  {%- endfor -%}
+               }
+            </script>
+            <script id="product-stock-count-config" type="application/json">
+               {
+                  "limited_stock_cut_off": {{ block.settings.inventory_threshold }},
+                  "max_count": {{ block.settings.max_bar_inventory }}
+               }
+            </script>
+         {%- endif -%}
+      {%- endif -%}
+</div>

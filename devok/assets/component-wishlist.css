@@ -1,0 +1,110 @@
+/*  wishlist */
+
+.wishlist-link {
+  position: relative;
+}
+
+.wishlist-link .devok_wishlist_total__style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 1.8rem;
+  left: 2.6rem;
+  background-color: rgb(var(--color-button));
+  color: rgb(var(--color-button-text));
+  height: 1.7rem;
+  width: 1.7rem;
+  border-radius: 100%;
+  font-size: .9rem;
+  line-height: calc(1 + .1 / var(--font-body-scale)); 
+}
+
+
+.wishlist_page {
+  padding-bottom: 4rem;
+  margin-bottom: 4rem; 
+}
+
+.wishlist_page .product-grid-container {
+  position: relative;
+  overflow-x: hidden; 
+}
+
+
+.wishlist_page .wishlist-icon > span:not(.hidden){
+display: none; 
+}
+
+.wishlist_page .wishlist-icon > span.hidden{
+  display: block!important; 
+  height: auto;
+}
+
+.wishlist_page .wishlist-icon > span.hidden .icon{
+  color: rgba(var(--color-background), 1);
+}
+
+
+.wishlist__block-empty,
+.wishlist_page.wishlist-empty .wishlist__share{
+  display: none;
+}
+.wishlist_page.wishlist-empty .wishlist__block-empty{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.wishlist__share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wishlist_page.wishlist-empty .wishlist__share {
+  display: none;
+}
+
+.wishlist_page .page_content {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+.wishlist_page .page_heading {
+  margin-bottom: 4rem; 
+} 
+.wishlist_page .product_item .quick_view_icon {
+  display: none;
+}
+
+
+.wishlist_btn:not(.button--tertiary).active{
+  background-color: rgba(var(--color-button-text), var(--alpha-button-background));
+  color: rgb(var(--color-button)); 
+}
+
+.wishlist_btn:not(.button--tertiary).active .icon {
+  color: inherit;
+}
+
+.wishlist_btn:hover:not(.active) .icon{
+  opacity: .65;   
+}
+
+.wishlist_btn .action_add {
+  display: block;
+}
+.wishlist_btn .action_remove {
+  display: none;
+}
+.wishlist_btn.active .action_remove {
+  display: block;
+}
+.wishlist_btn.active .action_add {
+  display: none;
+}
+ 
+.wishlist_page .card__content .quick-add{
+  grid-row-start: 3;   
+ } 

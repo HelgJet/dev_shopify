@@ -1,0 +1,164 @@
+{% assign btnOpasity = settings.buttons_shadow_opacity | divided_by: 100.0 %}
+{% style %}
+
+   {% if block.settings.show_text_box == false %}
+         .section-style-{{ section.id }} .item-{{ block.id }} .slideshow__text.banner__box.content-container.gradient{
+          background: none;
+        }
+          {% endif %}
+  
+    {% unless section.settings.color_scheme == "inverse" or block.settings.color_scheme == "inverse" %}
+        .section-style-{{ section.id }} .item-{{ block.id }} .title{
+        color:{{ block.settings.title_color }};
+        }
+        .section-style-{{ section.id }} .item-{{ block.id }} .subtitle{
+        color:{{ block.settings.subtitle_color }};
+        }
+        .section-style-{{ section.id }} .item-{{ block.id }} .description,
+        .section-style-{{ section.id }} .item-{{ block.id }} .description p a{
+           color:{{ block.settings.text_color }};
+        }
+    {%endunless%}
+    
+    .section-style-{{ section.id }} .item-{{ block.id }}{
+    --font-heading-scale: {{ block.settings.section_heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+    }
+      
+    .section-style-{{ section.id }} .item-{{ block.id }} .subtitle{
+    line-height: {{ block.settings.section_subtitle_scale | times: 1.0 | divided_by: 100 | times: 1.6 | append: "rem" }};
+    font-size: {{ block.settings.section_subtitle_scale | times: 1.0 | divided_by: 100 | times: 1.4 | append: "rem" }};
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .description{
+    line-height: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 1.6 | append: "rem" }};
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 1.4 | append: "rem" }};
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .button{
+    background: {{ block.settings.btn_bg_color }};
+    color:{{ block.settings.btn_text_color }};
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s;
+    transition: .3s;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .button:before{
+    box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius) {{ block.settings.btn_border_color | hex_to_rgba: btnOpasity }};
+    }
+
+   {%-
+      liquid
+      assign rgb = block.settings.btn_border_color | color_to_rgb
+      assign tail = 1 | prepend: ', ' | append: ')'
+    -%}
+  
+    .section-style-{{ section.id }} .item-{{ block.id }} .button:after{
+   box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset)) {{ block.settings.btn_border_color }},0 0 0 var(--buttons-border-width) {{ rgb | replace: 'rgb', 'rgba' | replace: ')', tail }};
+   }
+
+
+    .section-style-{{ section.id }} .item-{{ block.id }} .button:hover{
+    background: {{ block.settings.btn_bg_color_hover }};
+    color:{{ block.settings.btn_text_color_hover }};
+    -webkit-transform: scale(1.02);
+    transform: scale(1.02);
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .button:hover:before{
+    box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius) {{ block.settings.btn_border_color_hover | hex_to_rgba: btnOpasity }};
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .button:hover:after{
+    box-shadow: 0 0 0 calc(var(--buttons-border-width) + var(--border-offset)) {{ block.settings.btn_border_color_hover }},0 0 0 var(--buttons-border-width) rgba(var(--color-button),var(--alpha-button-background));
+
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .subtitle{
+    margin-top: {{ block.settings.mob_margin_subtitle | default: 1 }}rem;
+    display: block;
+    }
+  .section-style-{{ section.id }} .item-{{ block.id }} .description{
+    margin-top: {{ block.settings.mob_margin_text | default: 1 }}rem;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} div.link,
+  .section-style-{{ section.id }} .item-{{ block.id }} a.link{
+    margin-top: {{ block.settings.mob_margin_btn | default: 1 }}rem;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .title{
+    margin-top: {{ block.settings.mob_margin_title | default: 1 }}rem;
+    }
+     #shopify-section-{{ section.id }} .description h1,
+     #shopify-section-{{ section.id }} .description h2,
+     #shopify-section-{{ section.id }} .description h3,
+     #shopify-section-{{ section.id }} .description h4,
+     #shopify-section-{{ section.id }} .description h5,
+     #shopify-section-{{ section.id }} .description h6{
+    margin: 1rem 0;
+    color: inherit;
+    }
+  
+    @media screen and (min-width: 768px){
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h1{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 4.8 | append: "rem" }};
+    }
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h2{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 3.6 | append: "rem" }};
+    }
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h3{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 3 | append: "rem" }};
+    }
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h4{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 2.4 | append: "rem" }};
+    }
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h5{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 2 | append: "rem" }};
+    }
+     #shopify-section-{{ section.id }} .item-{{ block.id }} .description h6{
+    font-size: {{ block.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 1.6 | append: "rem" }};
+    }
+       .section-style-{{ section.id }} .item-{{ block.id }} .subtitle{
+    margin-top: {{ block.settings.margin_subtitle }}rem;
+    display: block;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .description{
+    margin-top: {{ block.settings.margin_text }}rem;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} div.link,
+      .section-style-{{ section.id }} .item-{{ block.id }} a.link{
+    margin-top: {{ block.settings.margin_btn }}rem;
+    }
+    .section-style-{{ section.id }} .item-{{ block.id }} .title{
+    margin-top: {{ block.settings.margin_title }}rem;
+    }
+    }
+{% endstyle %}
+
+{% if subtitle != blank %}
+    <span class="subtitle">
+    {{ subtitle }}
+</span>
+{% endif %}
+
+{% if title != blank %}
+    <h2 class="title {{ block.settings.caption_size }}">
+        {{ title }}
+    </h2>
+{% endif %}
+
+{% if description != blank %}
+    <div class="rte description">
+        {{ description }}
+    </div>
+{% endif %}
+
+{% if block.settings.code.size > 0 %}
+    <div class="custom_html">
+        {{ block.settings.code }}
+    </div>
+{% endif %}
+
+{%- if block.settings.link_label != blank -%}
+        {% if block.settings.link_type_banner %}
+        <div class="link{% if block.settings.useButton %} button {{ block.settings.devok_btn_size }} {% else %} animate-arrow{% endif %}" {% if block.settings.link == blank %}role="link" aria-disabled="true"{% endif %}>{{ block.settings.link_label | escape }}{% unless block.settings.useButton %} <span class="icon-wrap">&nbsp;{% render 'icon-arrow' %}</span> {% endunless %}</div>
+    {% else %}
+        <a class="link{% if block.settings.useButton %} button {{ block.settings.devok_btn_size }} {% else %} animate-arrow{% endif %}" {% if block.settings.link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.link }}"{% endif %}>{{ block.settings.link_label | escape }}{% unless block.settings.useButton %} <span class="icon-wrap">&nbsp;{% render 'icon-arrow' %}</span> {% endunless %}</a>
+
+    {% endif %}
+  
+  {%- endif -%}
+

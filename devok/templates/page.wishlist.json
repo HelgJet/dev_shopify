@@ -1,0 +1,12 @@
+{
+    "wrapper": "section#wishlist.wishlist_page",
+    "sections": {
+        "main": {
+            "type": "template-wishlist",
+            "settings": {}
+        }
+    },
+    "order": [
+        "main"
+    ]
+}

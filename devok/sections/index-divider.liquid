@@ -1,0 +1,254 @@
+<div class="divider_item d-none d-lg-block {{ section.settings.section_view }} " style="
+	{%- if section.settings.type_value == "vw" -%}
+	  {%- if section.settings.padding_top_vw > 0 -%}
+		  padding-top: {{ section.settings.padding_top_vw | append: "vw" }};
+	  {%- endif -%}
+	  {%- if section.settings.padding_bottom_vw > 0 -%}
+		  padding-bottom: {{ section.settings.padding_bottom_vw | append: "vw" }};
+	  {%- endif -%}
+	{%- else -%}
+	  {%- if section.settings.padding_top > 0 -%}
+		  padding-top: {{ section.settings.padding_top | append: "px" }};
+	  {%- endif -%}
+	  {%- if section.settings.padding_bottom > 0 -%}
+		  padding-bottom: {{ section.settings.padding_bottom | append: "px" }};
+	  {%- endif -%}
+	{%- endif -%}
+	{%- if section.settings.margin_top > 0 -%}
+		margin-top: {{ section.settings.margin_top | append: "px" }};
+	{%- endif -%}
+	{%- if section.settings.margin_bottom > 0 -%}
+		margin-bottom: {{ section.settings.margin_bottom | append: "px" }};
+	{%- endif -%} 
+	{%- if section.settings.background_color.size > 0 -%}
+		background-color: {{ section.settings.background_color }};
+	{%- endif -%}
+"></div>
+
+
+{% comment %} SHOW ON SIZE < 992 {% endcomment %}
+<div class="divider_item tablet_show d-lg-none d-block {% if section.settings.section_view == 'boxed' %} container{% endif %}" style="
+	{%- if section.settings.tablet_padding_top > 0 -%}
+		padding-top: {{ section.settings.tablet_padding_top | append: "px" }};
+	{%- elsif section.settings.padding_top > 0 -%} 
+		padding-top: {{ section.settings.padding_top | append: "px" }};
+	{%- endif -%}
+	{%- if section.settings.tablet_padding_bottom > 0 -%}
+		padding-bottom: {{ section.settings.tablet_padding_bottom | append: "px" }};
+	{%- elsif section.settings.padding_bottom > 0 -%} 
+		padding-bottom: {{ section.settings.padding_bottom | append: "px" }};
+	{%- endif -%}
+	{%- if section.settings.tablet_margin_top > 0 -%}
+		margin-top: {{ section.settings.tablet_margin_top | append: "px" }};
+	{%- elsif section.settings.margin_top > 0 -%} 
+		margin-top: {{ section.settings.margin_top | append: "px" }};
+	{%- endif -%}
+	{%- if section.settings.tablet_margin_bottom > 0 -%}
+		margin-bottom: {{ section.settings.tablet_margin_bottom | append: "px" }};
+	{%- elsif section.settings.margin_bottom > 0 -%} 
+		margin-bottom: {{ section.settings.margin_bottom | append: "px" }};
+	{%- endif -%} 
+	{%- if section.settings.background_color.size > 0 -%}
+		background-color: {{ section.settings.background_color }};
+	{%- endif -%}
+"></div>
+
+
+{% schema %}
+{
+	"name": "Divider",
+	"class": "section section_divider",
+	"settings": [
+		{
+			"type": "header",
+			"content": "Divider"
+		},
+		{
+			"type": "select",
+			"id": "section_view",
+			"label": "Section view",
+			"default": "container",
+			"options": [
+  				{
+  					"value": "container",
+  					"label": "Box"
+  				},
+  				{
+  					"value": "container-fluid",
+  					"label": "Container Fluid"
+  				},
+  				{
+  					"value": "full-width",
+  					"label": "Full"
+  				}
+			]
+		},
+  
+  		{
+  			"type": "header",
+  			"content": "Desktop Insets"
+  		},
+  
+  		{
+  			"type": "radio",
+  			"id": "type_value",
+  			"label": "Type value for inset (padding) desktop",
+  			"default": "px",
+  			"info": "for vw use internet query 'px to vw calculator'",
+  			"options": [
+  				{
+  					"value": "px",
+  					"label": "pixel (px)"
+  				},
+  				{
+  					"value": "vw",
+  					"label": "variable width (vw)"
+  				}
+  				
+  			]
+  		},
+  
+ 		{
+ 			"type": "paragraph",
+ 			"content": "Inset in PX"
+ 		},
+  	
+		{
+	        "type":      "range",
+	        "id":        "padding_top",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Padding top",
+	        "default":   80
+		},
+		{
+	        "type":      "range",
+	        "id":        "padding_bottom",
+	          "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Padding bottom",
+	        "default":   80
+		},
+  
+  		
+  		{
+  			"type": "paragraph",
+  			"content": "Inset in VW"
+  		},
+  
+  		{
+  			"type":      "range",
+  			"id":        "padding_top_vw",
+  			"min":       0,
+  			"max":        10,
+  			"step":       0.1,
+  			"unit":       "vw",
+  			"label":     "Padding top",
+  			"default":   1.5
+  		},
+  
+  		{
+  			"type":      "range",
+  			"id":        "padding_bottom_vw",
+  			"min":       0,
+  			"max":        10,
+  			"step":       0.1,
+  			"unit":       "vw",
+  			"label":     "Padding bottom",
+  			"default":   1.5
+  		},
+  
+  		{
+  			"type": "header",
+  			"content": "Desktop Offsets"
+  		},
+  		
+		{
+	        "type":      "range",
+	        "id":        "margin_top",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Margin top",
+	        "default":   0
+		},
+		{
+	        "type":      "range",
+	        "id":        "margin_bottom",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Margin bottom",
+	        "default":   0
+		},
+		{
+			"type": "color",
+			"id": "background_color",
+			"label": "Background color"
+		},
+		
+
+		// TABLET VIEW ///////////////////////////////////////////////////////////////////////////////////////
+		{
+			"type": "header",
+			"content": "Tablet size (lower 992px)"
+		},
+		{
+			"type": "paragraph",
+			"content": "The value may be higher then '0'"
+		},
+		{
+	        "type":      "range",
+	        "id":        "tablet_padding_top",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Padding top",
+	        "default":   20
+		},
+		{
+	        "type":      "range",
+	        "id":        "tablet_padding_bottom",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Padding bottom",
+	        "default":   20
+		},
+		{
+	        "type":      "range",
+	        "id":        "tablet_margin_top",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Margin top",
+	        "default":   0
+		},
+		{
+	        "type":      "range",
+	        "id":        "tablet_margin_bottom",
+	        "min":       0,
+	        "max":        100,
+	        "step":       1,
+	        "unit":       "px",
+	        "label":     "Margin bottom",
+	        "default":   0
+		}
+	],
+	"presets": [
+		{
+			"name": "Divider",
+			"category": "Advanced layout"
+		}
+	]
+}
+{% endschema %}

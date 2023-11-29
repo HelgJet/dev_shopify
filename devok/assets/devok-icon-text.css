@@ -1,0 +1,96 @@
+.devok-icon-text .multicolumn-card-spacing {
+    padding: 0;
+    margin: 0;
+}
+.devok-icon-text .color-inverse .icon {
+    color: white;
+}
+.devok-icon-text .color-inverse p {
+    color: white;
+}
+.devok-icon-text .rte h1,
+.devok-icon-text .rte h2,
+.devok-icon-text .rte h3,
+.devok-icon-text .rte h4,
+.devok-icon-text .rte h5,
+.devok-icon-text .rte h6{
+  margin:0;
+  color: inherit;
+}
+.devok-icon-text .multicolumn.no-heading .title {
+    display: block;
+    font-weight: bold;
+}
+.devok-icon-text .itemTextInfo .rte {
+    margin-top: 0.5rem;
+}
+
+.devok-icon-text .multicolumn-list__item.center .multicolumn-card__info{
+    justify-content: center;
+}
+.devok-icon-text .multicolumn-list__item.left .multicolumn-card__info{
+    justify-content: flex-start;
+}
+.devok-icon-text .multicolumn-list__item.right .multicolumn-card__info{
+    justify-content: flex-end;
+}
+
+.devok-icon-text .multicolumn-list__item .footer__list-social {
+    margin-top: 0.9rem;
+}
+.devok-icon-text .multicolumn-card__info .link {
+    padding: 0;
+    margin-right: 0.6rem;
+
+}
+.devok-icon-text .list-social__item a{
+    margin-top: 0;
+}
+.devok-icon-text .multicolumn-list__item.grid__item {
+    margin-bottom: 2.7rem; 
+}
+.devok-icon-text a.link.animate-arrow{
+    margin-top: 0.6rem;
+}
+.devok-icon-text button.slider-button.slider-button--next {
+    right: -28px;
+}
+.devok-icon-text button.slider-button.slider-button--prev {
+    left: -28px;
+}
+.devok-icon-text .multicolumn-card__info {
+    padding: 0;
+}
+
+
+
+.devok-icon-text img {
+    width: 100%;
+}
+.devok-icon-text .iconWrapper svg {
+    width: 100%;
+    height: auto;
+}
+
+.devok-icon-text .multicolumn-list__item.right .iconWrapper {
+    margin-left: auto;
+}
+.devok-icon-text .multicolumn-list__item.center .iconWrapper {
+    margin-left: auto;
+    margin-right: auto;
+}
+@media screen and (min-width: 750px){
+    .devok-icon-text .icon-with-text--horizontal {
+        display: flex;
+    }
+}
+
+.devok-icon-text .title {
+    margin: 1rem 0; 
+}
+
+@media screen and (min-width: 990px){
+    .devok-icon-text .title {
+        margin: 1rem 0;
+    }
+}

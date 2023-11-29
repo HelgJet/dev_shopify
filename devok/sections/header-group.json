@@ -1,0 +1,300 @@
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "announcement-bar": {
+      "type": "devok-announcement-bar",
+      "blocks": {
+        "a0964bee-05b2-48f3-8870-a0b8c9adf003": {
+          "type": "announcement-image",
+          "settings": {
+            "only_home": false,
+            "image": "shopify:\/\/shop_images\/Devok_pro.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/banner_Devok_pro.jpg",
+            "text_alignment": "right",
+            "link": "#",
+            "ad_timer": false,
+            "time": "2024-08-25T00:30:00Z",
+            "timer_color_scheme": "background-1"
+          }
+        },
+        "450ee7c2-9276-404b-bbc5-97b5f25103fc": {
+          "type": "announcement",
+          "disabled": true,
+          "settings": {
+            "only_home": true,
+            "text": "Devok PRO THE BEST SHOPIFY THEME FOR FASHION",
+            "section_heading_scale_1": 100,
+            "text_color_1": "#1383df",
+            "btn_text": "BUY NOW",
+            "price_text": "Now Exclusive price $79",
+            "section_heading_scale_2": 143,
+            "text_color_2": "#e10000",
+            "text_alignment": "center",
+            "color_scheme": "accent-1",
+            "link": "#",
+            "ad_timer": true,
+            "time": "2024-08-24T00:00:00Z",
+            "timer_color_scheme": "accent-2",
+            "columns_mobile": "1"
+          }
+        },
+        "2b08a40f-fe5b-4db6-9b19-2f3b7a657e83": {
+          "type": "announcement-coupon",
+          "disabled": true,
+          "settings": {
+            "only_home": false,
+            "sale-heading": "PROMOTION",
+            "sale-text": "Promotion text short description. Use Coupon",
+            "sale-mobile": "Promotion text short description. Use Coupon",
+            "discount-percent": "50% OFF",
+            "coupon": "CODE-THIS-50-OFF",
+            "disable_period": 1,
+            "timer_color_scheme": "inverse",
+            "ad_timer": true,
+            "time": "2024-05-25T00:30:00Z"
+          }
+        }
+      },
+      "block_order": [
+        "a0964bee-05b2-48f3-8870-a0b8c9adf003",
+        "450ee7c2-9276-404b-bbc5-97b5f25103fc",
+        "2b08a40f-fe5b-4db6-9b19-2f3b7a657e83"
+      ],
+      "settings": {
+        "page_width": 1800,
+        "separate_border": false
+      }
+    },
+    "ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4": {
+      "type": "devok-ticker",
+      "blocks": {
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-0": {
+          "type": "text",
+          "settings": {
+            "item_title": "Devok PRO THE BEST SHOPIFY THEME",
+            "color_title": "#121212"
+          }
+        },
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-1": {
+          "type": "text",
+          "settings": {
+            "item_title": "<a href=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\" target=\"_blank\" title=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\">BUY NOW<\/a>",
+            "color_title": "#f1ee36"
+          }
+        },
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-2": {
+          "type": "text",
+          "settings": {
+            "item_title": "Devok PRO THE BEST SHOPIFY THEME",
+            "color_title": "#121212"
+          }
+        },
+        "35643895-18bf-4778-839f-ccbcab45395a": {
+          "type": "text",
+          "settings": {
+            "item_title": "<a href=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\" target=\"_blank\" title=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\">BUY NOW<\/a>",
+            "color_title": "#e10000"
+          }
+        },
+        "6712b7c9-9d20-4225-9c0a-c9523717def8": {
+          "type": "text",
+          "settings": {
+            "item_title": "Devok PRO THE BEST SHOPIFY THEME",
+            "color_title": "#121212"
+          }
+        },
+        "1ff2aa47-7233-4ab4-9a45-27b67ccd143c": {
+          "type": "text",
+          "settings": {
+            "item_title": "<a href=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\" target=\"_blank\" title=\"https:\/\/devok.io\/checkout?edd_action=add_to_cart&download_id=18391&edd_options[price_id]=1\">BUY NOW<\/a>",
+            "color_title": "#8f21d6"
+          }
+        }
+      },
+      "block_order": [
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-0",
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-1",
+        "sections--14917454659626__ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4-1682345997a6921995-2",
+        "35643895-18bf-4778-839f-ccbcab45395a",
+        "6712b7c9-9d20-4225-9c0a-c9523717def8",
+        "1ff2aa47-7233-4ab4-9a45-27b67ccd143c"
+      ],
+      "disabled": true,
+      "settings": {
+        "ticker_direct": "1",
+        "bg_section": "#e4effd",
+        "padding_top": 9,
+        "padding_bottom": 6
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "eac67f99-ea47-49b7-b080-09891d5713c8": {
+          "type": "2linklists-2banners",
+          "settings": {
+            "heading": "Home",
+            "links_1": "home-pages",
+            "links_2": "home-page-2",
+            "show_title": false,
+            "banner1_img": "shopify:\/\/shop_images\/menu-banner.jpg",
+            "banner1_title": "",
+            "banner1_link": "https:\/\/devok.io\/shopify-themes\/Devok-pro\/",
+            "banner_style_1": "type-1",
+            "banner_position_vertical_1": "end",
+            "banner_position_horizontal_1": "center",
+            "banner2_img": "shopify:\/\/shop_images\/menu-banner2.jpg",
+            "banner2_title": "",
+            "banner2_link": "https:\/\/devok.io\/shopify-themes\/Devok-pro\/",
+            "banner_style_2": "type-1",
+            "banner_position_vertical_2": "end",
+            "banner_position_horizontal_2": "center"
+          }
+        },
+        "a3abd9fb-bcfd-4b88-9643-b29ac13a9aa6": {
+          "type": "3linklists-2banners",
+          "settings": {
+            "heading": "Shop",
+            "links_1_3l2b": "shop-pages-1",
+            "links_2_3l2b": "shop-pages-2",
+            "links_3_3l2b": "shop-pages-3",
+            "show_title_3l2b": false,
+            "banner_color_scheme": "accent-1",
+            "banner1_title_3l2b": "Sale up to 50% off is still on",
+            "banner1_text_3l2b": "Find more discounted products.",
+            "banner1_link_3l2b": "shopify:\/\/collections\/clothes",
+            "banner1_link_text_3l2b": "DISCOVER NOW",
+            "banner_align_1_3l2b": "center",
+            "banner2_img_3l2b": "shopify:\/\/shop_images\/banner-menu3_126067f0-5b37-45cb-9f5d-8c3695867bdd.jpg",
+            "banner2_title_3l2b": "Last Chance Styles",
+            "banner2_text_3l2b": "15% OFF",
+            "banner2_link_3l2b": "shopify:\/\/collections\/clothes",
+            "banner_style_2_3l2b": "type-1",
+            "banner_position_vertical_2_3l2b": "end",
+            "banner_position_horizontal_2_3l2b": "center"
+          }
+        },
+        "e9273fd4-4ede-4582-8f4a-2f07dac5ce60": {
+          "type": "product-list",
+          "settings": {
+            "heading": "Sale",
+            "collection": "sale",
+            "products_to_show": 4,
+            "columns_desktop": 4,
+            "image_ratio": "portrait",
+            "show_vendor": false,
+            "horizontal_class": false,
+            "width_default_menu": 0,
+            "width_custom_menu": 100,
+            "count_default_menu": 4
+          }
+        },
+        "91ba9a5e-5f94-40e7-a738-0d082f5ccab7": {
+          "type": "bloglist",
+          "settings": {
+            "heading": "Blog",
+            "blog": "news",
+            "time_author": true,
+            "blog_limit": 3,
+            "blog_align": "left",
+            "width_default_menu": 20,
+            "width_custom_menu": 100,
+            "count_default_menu": 1
+          }
+        },
+        "caa84562-e54b-4d18-81b7-46dc82c802c9": {
+          "type": "4img-4linklists",
+          "settings": {
+            "heading": "Products",
+            "show_title": false,
+            "image_1_link": "",
+            "links_1_4imgl": "product-pages-1",
+            "image_2_link": "",
+            "links_2_4imgl": "product-pages-2",
+            "image_3_link": "",
+            "links_3_4imgl": "product-pages-3",
+            "image_4_link": "",
+            "links_4_4imgl": "product-pages-4"
+          }
+        },
+        "fcd85f23-97fd-4cc4-bf30-08d261eb4092": {
+          "type": "topbar",
+          "disabled": true,
+          "settings": {
+            "text_description": "Free shipping on orders over <a href=\"\/collections\/all\" target=\"_blank\" title=\"All products\">$100<\/a>",
+            "topbar_color_scheme": "",
+            "show_social": true,
+            "social_style": "circle"
+          }
+        },
+        "f9cfc123-83d8-4492-a848-e77212250725": {
+          "type": "4img-4linklists",
+          "settings": {
+            "heading": "",
+            "show_title": false,
+            "image_1_link": "",
+            "links_1_4imgl": "",
+            "image_2_link": "",
+            "links_2_4imgl": "",
+            "image_3_link": "",
+            "links_3_4imgl": "",
+            "image_4_link": "",
+            "links_4_4imgl": ""
+          }
+        }
+      },
+      "block_order": [
+        "eac67f99-ea47-49b7-b080-09891d5713c8",
+        "a3abd9fb-bcfd-4b88-9643-b29ac13a9aa6",
+        "e9273fd4-4ede-4582-8f4a-2f07dac5ce60",
+        "91ba9a5e-5f94-40e7-a738-0d082f5ccab7",
+        "caa84562-e54b-4d18-81b7-46dc82c802c9",
+        "fcd85f23-97fd-4cc4-bf30-08d261eb4092",
+        "f9cfc123-83d8-4492-a848-e77212250725"
+      ],
+      "settings": {
+        "page_width": 1500,
+        "enable_full": false,
+        "color_scheme": "background-1",
+        "sub_color_scheme": "background-1",
+        "enable_inverse_logo": false,
+        "enable_transparent": false,
+        "transparent_text": "#ffffff",
+        "hover_background": "#ffffff",
+        "hover_background_gradient": "",
+        "hover_text": "#222222",
+        "transparent_logo": "inverse",
+        "transparent_hover_logo": "standard",
+        "logo_position": "middle-left-center",
+        "menu": "main-menu",
+        "hover_menu": true,
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "search_style": "toggle",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "local_selector_topbar": true,
+        "show_account_text": false,
+        "reverse_account_text": false,
+        "show_wishlist_text": false,
+        "reverse_wishlist_text": false,
+        "show_search_text": false,
+        "reverse_search_text": false,
+        "show_cart_text": false,
+        "reverse_cart_text": true,
+        "mobile_logo_position": "center",
+        "margin_bottom": 0,
+        "social_style": "color",
+        "padding_top": 16,
+        "padding_bottom": 16
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "ec4645fe-cc6a-44d0-8e8c-c76a9fba1bc4",
+    "header"
+  ]
+}

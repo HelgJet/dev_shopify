@@ -1,0 +1,120 @@
+.row {
+        display: inline-table;
+        width: 25%;
+        font-size: 1.9rem;
+        text-align: center;
+    }
+    .event_grid_title {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding-top: 3rem;
+    }
+    .event_grid_descr {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+    table.event_list_table {
+        padding: 2rem;
+        background-color: #f2f2f2;
+        border: 1px solid #cecece;
+        border-radius: 6px;
+        width: 100%;
+        text-align: center;
+    }
+    .event_block {
+        background-attachment: fixed !important;
+        padding-bottom: 6rem;
+    }
+    .event_block::before {
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover !important;
+        background-size: cover;
+        overflow: hidden;
+    }
+    @media only screen and (max-width: 750px){
+        .row {
+            font-size: 1.4rem;
+        }
+        .event_list_table{
+            padding: 0.2rem !important;
+            background-color: unset !important;
+            border: none !important;
+        }
+        .row p {
+            line-height: 1.5rem !important;
+        }
+        .cont_tz {
+            font-size: 1rem !important;
+        }
+        p.timezones {
+            font-weight: 600;
+        }
+    }
+
+    .cont_tz {
+        font-size: 1.2rem;
+    }
+    .row p {
+        line-height: .2rem;
+        margin: 1.6rem 0;
+    }
+    .event_platform.row {
+        width: 110px;
+    }
+    .event_descr.row {
+        width: 40rem;
+        text-align: start;
+    }
+    .event_month p {
+        line-height: 1.2rem;
+    }
+    .event_day p {
+        line-height: 1px !important;
+    }
+    .event_day {
+        font-size: 3rem;
+    }
+    .event_month {
+        font-size: 1.9rem;
+    }
+    .calendar.row {
+        width: 20%;
+        display: inline-block;
+    }
+    .event_title {
+        text-align: left;
+        width: auto;
+    }
+    .event_descr {
+        text-align: start;
+        font-weight: 600;
+    }
+    .event_platform {
+    text-align: left;
+    }
+    .calendar.row {
+    vertical-align: top;
+    width: 20%;
+    display: inline-block;
+    }
+    .event_img.row {
+    display: inline-flex;
+    }
+    .calendar.event_info.row {
+    width: 40%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #cecece;
+    }
+    a.event__channel.link.list-social__link {
+        max-width: 3rem;
+        color: unset;
+        padding: 0;
+    }
+    a.event__channel_link {
+        text-decoration: none;
+    }
+    .event_platform {
+        max-width: 3rem;
+        padding: 0;
+    } 

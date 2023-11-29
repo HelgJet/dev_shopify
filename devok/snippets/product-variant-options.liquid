@@ -1,0 +1,259 @@
+{% comment %}
+    Renders product variant options
+
+    Accepts:
+    - product: {Object} product object.
+    - option: {Object} current product_option object.
+    - block: {Object} block object.
+    
+    Usage:
+    {% render 'product-variant-options',
+      product: product,
+      option: option,
+      block: block
+    %}
+{% endcomment %} 
+{%- liquid
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+  assign variants_available_arr = product.variants | map: 'available'
+
+  assign is_color = false   
+  assign is_size = false  
+  assign downcased_option = option.name | downcase 
+  if downcased_option contains 'colo'      
+    assign is_color = true     
+  endif 
+  if downcased_option contains 'size'      
+    assign is_size = true     
+  endif 
+  assign variant_img_ratio = ''
+  assign product_form_id = 'product-form-' | append: section.id
+  if block.settings.image_button_ratio == 'portrait'
+    assign variant_img_ratio = 'portrait'
+  else
+    assign variant_img_ratio = 'square'
+  endif
+-%}
+
+{%- capture variant_img_placeholder -%}
+    {% render 'placeholder_base64' %} 
+{%- endcapture -%}
+
+{%- for value in option.values -%}
+ 
+  {%- liquid
+    assign found_option_1 = false
+    assign option_disabled = true
+    assign option_low_stock = false
+
+    for variant in product.variants 
+      if variant.options contains value
+				assign variant_needed = variant 
+			endif 
+    endfor 
+
+    for option1_name in variants_option1_arr 
+      case option.position
+        when 1
+             for variant in product.variants 
+                if variants_option1_arr[forloop.index0] == value
+                  assign found_option_1 = true
+                  if variant.featured_image != null 
+                    assign opt_imgs = variant.featured_image | image_url: width: 100  
+                    else
+                      assign opt_imgs = variant_img_placeholder     
+                  endif 
+                  if variant.inventory_management == 'shopify'  
+                    if variant.inventory_quantity > 0 
+                      if variant.inventory_quantity <= block.settings.inventory_threshold
+                        assign option_low_stock = true 
+                      endif  
+                    endif 
+                  endif        
+                endif
+             endfor 
+          if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        when 2
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false 
+          endif
+        when 3
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+      endcase
+    endfor 
+    
+    assign show_more_options = false
+    if block.settings.enable_show_more and forloop.index > block.settings.show_more_count
+      assign show_more_options = true
+    endif
+  -%}
+
+    {%- capture color_value -%}
+     {% if is_color %}
+        {% if variant_needed.metafields.image.swatch %}{%- if color_picker_type == 'color' -%} padding: 2rem;{% endif %} background-size: cover; background-image: url({{variant_needed.metafields.image.swatch}}); {% elsif variant_needed.metafields.color.swatch %} background-color: {{ variant_needed.metafields.color.swatch }}; {% else %} background-color: {{ value | downcase | split: ' ' | last | handle }}; {% endif %} 
+     {% endif %}
+   {%- endcapture -%}
+
+    {%- capture tooltips_option -%}
+      {%- if found_option_1 -%}
+        {%- if option_disabled -%}
+          <div class="tooltip">
+            <div class="tooltip-frame">
+              <span>{{ value | escape }}</span>
+              <span class="tooltip__unavailable">
+                {{ 'accessibility.tooltip_sold_out' | t }} 
+              </span> 
+              {%- if block.settings.link_notify != blank or block.settings.link_similar != blank -%}
+                <div class="quick-add-hidden"> 
+                {%- if block.settings.link_notify != blank and product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+                  <button type="button" class="tooltip__link " onclick="document.querySelector('[data-notify-id]').click()">
+                    {{- 'products.product.notify' | t -}}    
+                  </button>
+                {%- endif -%}
+                {%- if block.settings.link_notify != blank and block.settings.link_similar != blank -%}
+                  &nbsp|&nbsp 
+                {%- endif -%}  
+                    {%- if block.settings.link_similar != blank -%}
+                     <a class="tooltip__link" href="#ProductRecomentations-{{ product.id }}">
+                        {{ 'accessibility.similar_products' | t }}
+                      </a> 
+                  {%- endif -%}
+                </div>
+                {%- endif -%}
+            </div>
+          </div>
+          {%- elsif option_low_stock -%}
+                <span data-tooltip="{{ value | append: ' |' }} {{- 'products.product.inventory_low_stock' | t -}}" data-tooltip-position="bottom" class="tooltip-content" style="color: rgb(238,148,65)"></span>
+            {%- else -%}
+            <span data-tooltip="{{ value }}" data-tooltip-position="bottom" class="tooltip-content"></span> 
+        {%- endif -%} 
+    
+      {%- endif -%}
+    {%- endcapture -%}
+
+     {%- capture icon_option -%}
+     
+        {%- if option_disabled -%}
+           <svg class="icon icon-sms" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.91667 12.3958H4.08333C1.95417 12.3958 0.729168 11.1708 0.729168 9.04163V4.95829C0.729168 2.82913 1.95417 1.60413 4.08333 1.60413H9.91667C12.0458 1.60413 13.2708 2.82913 13.2708 4.95829V9.04163C13.2708 11.1708 12.0458 12.3958 9.91667 12.3958ZM4.08333 2.47913C2.415 2.47913 1.60417 3.28996 1.60417 4.95829V9.04163C1.60417 10.71 2.415 11.5208 4.08333 11.5208H9.91667C11.585 11.5208 12.3958 10.71 12.3958 9.04163V4.95829C12.3958 3.28996 11.585 2.47913 9.91667 2.47913H4.08333Z" fill="#222222"/>
+            <path d="M6.99987 7.50748C6.50987 7.50748 6.01404 7.35582 5.63487 7.04665L3.80904 5.58832C3.62237 5.43665 3.58737 5.16248 3.73904 4.97582C3.8907 4.78915 4.16487 4.75415 4.35154 4.90582L6.17737 6.36415C6.6207 6.71998 7.3732 6.71998 7.81653 6.36415L9.64237 4.90582C9.82903 4.75415 10.109 4.78332 10.2549 4.97582C10.4065 5.16248 10.3774 5.44248 10.1849 5.58832L8.35904 7.04665C7.9857 7.35582 7.48987 7.50748 6.99987 7.50748Z" fill="#222222"/>
+            </svg>
+         {%- elsif option_low_stock -%}
+            <svg class="icon icon-clock" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+              <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12C1.25 6.07 6.07 1.25 12 1.25C17.93 1.25 22.75 6.07 22.75 12C22.75 17.93 17.93 22.75 12 22.75ZM12 2.75C6.9 2.75 2.75 6.9 2.75 12C2.75 17.1 6.9 21.25 12 21.25C17.1 21.25 21.25 17.1 21.25 12C21.25 6.9 17.1 2.75 12 2.75Z" fill="rgb(238,148,65)"/>
+              <path d="M15.71 15.93C15.58 15.93 15.45 15.9 15.33 15.82L12.23 13.97C11.46 13.51 10.89 12.5 10.89 11.61V7.51001C10.89 7.10001 11.23 6.76001 11.64 6.76001C12.05 6.76001 12.39 7.10001 12.39 7.51001V11.61C12.39 11.97 12.69 12.5 13 12.68L16.1 14.53C16.46 14.74 16.57 15.2 16.36 15.56C16.21 15.8 15.96 15.93 15.71 15.93Z" fill="rgb(238,148,65)"/>
+            </svg>
+        {%- endif -%} 
+     
+    {%- endcapture -%}
+
+  {%- if block.settings.picker_type == 'button' -%}
+    <input
+          type="radio"
+          data-option-value="{{ value | escape }}"
+          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+          name="{{ option.name }}" 
+          value="{{ value | escape }}" 
+          form="{{ product_form_id }}"  
+          {% if option.selected_value == value %}
+            checked
+          {% endif %}  
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+    >
+
+     {%- if is_color and color_picker_type == 'color' -%}
+            <label  for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="{% if show_more_options %}  show-more-item hidden{% endif %} variant-color tooltip-wrapper" style="{{ color_value }}">
+              <span class="visually-hidden">{{ value }}</span>{% if option_disabled %}<span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>{% endif %}
+             {{ tooltips_option }}
+            </label>
+     {%- elsif is_color and color_picker_type == 'color_label' -%}
+        <label  for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="{% if show_more_options %}  show-more-item hidden{% endif %} variant-color-label tooltip-wrapper">
+         <div class="variant-color-wrapper">
+              <span class="color-label-text" style="{{ color_value }}"></span>
+            <span>{{- value -}}</span><span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>  
+         </div>
+         {{ tooltips_option }} 
+        </label> 
+     {%- else -%} 
+        <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="variant-button{% if show_more_options %}  show-more-item hidden{% endif %} tooltip-wrapper{% if found_option_1 and option_low_stock or option_disabled %} variant-button--icon{% endif %}">
+         <span class="label-icon"> {% if found_option_1 %}{{ icon_option }}{% endif %}<span class="label-value">{{- value -}}</span></span>
+         <span class="visually-hidden">
+           {{ 'products.product.variant_sold_out_or_unavailable' | t }}
+         </span>
+         {{ tooltips_option }}
+        </label>
+     {%- endif -%} 
+    
+  {%- elsif block.settings.picker_type == 'image_button' -%}
+      <input 
+              type="radio"
+              data-option-value="{{ value | escape }}"
+              id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+              name="{{ option.name }}"
+              value="{{ value | escape }}" 
+              form="{{ product_form_id }}"
+              {% if option.selected_value == value %}
+                checked
+              {% endif %}
+              {% if option_disabled %}
+                class="disabled"
+              {% endif %}
+      
+        >
+        {%- if found_option_1 -%}
+        
+                 <label  for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="variant-image {% if show_more_options %}  show-more-item hidden{% endif %} tooltip-wrapper {{ variant_img_ratio }}" style="background-image: url('{{ opt_imgs }}');">
+                    <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+                    {{ tooltips_option }}
+                 </label>
+             
+        {%- else -%}
+            {%- if is_color and color_picker_type == 'color' -%}    
+          
+                <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="variant-color {% if show_more_options %}  show-more-item hidden{% endif %} tooltip-wrapper" style="{{ color_value }}">
+                  <span class="visually-hidden">{{ value }}</span>{% if option_disabled %}<span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>{% endif %}
+                {{ tooltips_option }}
+                </label>
+    
+            {%- elsif is_color and color_picker_type == 'color_label' -%}
+              <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="variant-color-label {% if show_more_options %}  show-more-item hidden{% endif %} tooltip-wrapper">
+              <div class="variant-color-wrapper">
+                  <span class="color-label-text" style="{{ color_value }}"></span>
+                  <span>{{- value -}}</span><span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>  
+              </div>
+              {{ tooltips_option }} 
+              </label> 
+            {%- else -%}
+                 <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}" class="variant-button {% if show_more_options %}  show-more-item hidden{% endif %}">
+                   {{- value -}} 
+                    <span class="visually-hidden">
+                      {{ 'products.product.variant_sold_out_or_unavailable' | t }}
+                    </span>  
+                </label>
+          {%- endif -%}
+        {%- endif -%} 
+  {%- else -%} 
+    <option
+      value="{{ value | escape }}"
+      {% if option.selected_value == value %}
+        selected="selected"
+      {% endif %}
+    >
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif %}
+    </option>
+  {%- endif -%}                       
+                             
+{%- endfor -%} 
+

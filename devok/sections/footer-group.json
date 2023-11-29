@@ -1,0 +1,70 @@
+{
+  "type": "footer",
+  "name": "Footer Group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "c33df3ad-a3cd-4cc7-a0bc-20f2ac0197a8": {
+          "type": "brand_information",
+          "settings": {
+            "show_social": false,
+            "columns_desktop": "4"
+          }
+        },
+        "4a5bb286-0d01-44bd-a466-0eca5624b84e": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Information",
+            "menu": "information",
+            "columns_desktop": "6",
+            "mobile_collapse": true
+          }
+        },
+        "31a115ae-1c9a-4475-8fbb-78083d6ac88f": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Order",
+            "menu": "account-menu",
+            "columns_desktop": "4",
+            "mobile_collapse": true
+          }
+        },
+        "c7f5da47-566e-430e-a110-4804c6ab249c": {
+          "type": "footer_newsletter",
+          "settings": {
+            "newsletter_heading": "Subscribe to our emails",
+            "section_subtitle_scale": 100,
+            "newsletter_text": "Stay Updated on all that's new add noteworthy",
+            "input_style": "2",
+            "show_social": false
+          }
+        }
+      },
+      "block_order": [
+        "c33df3ad-a3cd-4cc7-a0bc-20f2ac0197a8",
+        "4a5bb286-0d01-44bd-a466-0eca5624b84e",
+        "31a115ae-1c9a-4475-8fbb-78083d6ac88f",
+        "c7f5da47-566e-430e-a110-4804c6ab249c"
+      ],
+      "settings": {
+        "page_width": 1200,
+        "color_scheme": "background-1",
+        "enable_follow_on_shop": false,
+        "show_social": true,
+        "social_style": "square",
+        "enable_country_selector": false,
+        "enable_language_selector": false,
+        "payment_enable": false,
+        "show_policy": true,
+        "menu": "footer",
+        "margin_top": 0,
+        "padding_top": 60,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

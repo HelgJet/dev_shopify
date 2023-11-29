@@ -1,0 +1,520 @@
+
+/* devok Section Modal */
+
+section-modal {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0; 
+  z-index: -1; 
+  margin: 0 auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; 
+  background: rgba(var(--color-foreground),.2);
+}
+
+.devok-modal__dialog {
+  box-sizing: border-box;
+  display: none; 
+  position: absolute; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  pointer-events: none; 
+  justify-content: center; 
+  border: none;
+  box-shadow: none; 
+  background-color: transparent; 
+  --popup-max-width: 100vw;
+  --popup-max-height: 100vh;
+}
+
+.devok-modal__content {
+  align-self: center;
+  border-radius: var(--popup-corner-radius);
+  overflow: auto; 
+  pointer-events: visible;
+  z-index: 30;
+  position: relative; 
+  flex-direction: column;
+  align-items: center;
+  align-self: center; 
+  width: calc(100% - 2rem); 
+  max-width: var(--popup-max-width);
+  max-height: var(--popup-max-height);  
+  border-color: rgba(var(--color-foreground), var(--popup-border-opacity));
+  border-style: solid;
+  border-width: var(--popup-border-width);
+  box-shadow: var(--popup-shadow-horizontal-offset) var(--popup-shadow-vertical-offset) var(--popup-shadow-blur-radius) rgba(var(--color-shadow), var(--popup-shadow-opacity));
+}
+
+.devokSection-modal.no-blocks .devok-modal__content {
+  max-height: var(--popup-height);  
+}
+
+section-modal[open] {
+  visibility: visible;
+  opacity: 1;  
+  z-index: 101;
+  display: flex;
+}
+
+section-modal[open] .devok-modal__dialog {
+  display: flex; 
+  animation: fade-in var(--duration-default) ease;
+} 
+
+section-modal[open] .devok-modal__dialog:focus-visible {
+  outline: none;
+  box-shadow: none; 
+}
+
+.devok-modal__content--wrapper {
+  height: 100%;
+  display: flex;
+  cursor: initial;
+  max-width: 100%;
+  width: 100vw;
+  overflow-x: hidden;
+  overflow-y: hidden; 
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+}
+
+.no-blocks .devok-modal__content--wrapper {
+  display: block; 
+}
+
+.devok-modal__text__content {
+  height: 100%;
+  display: flex; 
+  max-width: 100%;
+  position: relative;  
+  overflow-x: hidden;
+  overflow-y: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;  
+}
+
+.devok-modal__content--wrapper.modal-image--top,
+.devok-modal__content--wrapper.modal-image--bottom{
+  overflow-y: auto;
+}
+
+.no-blocks .devok-modal__content--wrapper.modal-image--top,
+.no-blocks .devok-modal__content--wrapper.modal-image--bottom{
+  overflow: hidden;  
+}
+
+.devok-modal-text__content--wrapper {
+  flex: 1 1 auto;
+  position: relative;
+  z-index: 1; 
+}
+
+.devok-modal-text__content {
+  background-color: rgb(var(--color-background));
+  padding: 3rem 1.5rem;
+}
+
+section-modal .modal__close-button {
+  background-color: rgb(var(--color-background));
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  border-radius: 50%;
+  color: rgba(var(--color-foreground), 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center; 
+  align-self: flex-end;
+  cursor: pointer; 
+  position: absolute; 
+  padding: 1.2rem;
+  z-index: 2;
+  top: 1.5rem;
+  left: auto;
+  right: 2rem;
+  height: 3.6rem;
+  width: 3.6rem;
+}
+
+
+section-modal .modal__close-button::after {
+  content: "";
+  z-index: -1;
+  position: absolute;
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  background-color: rgb(var(--color-background));
+  transition: var(--duration-short);
+  box-shadow: 0 0 3rem rgba(var(--color-foreground),.1); 
+}
+
+section-modal .modal__close-button:hover {
+  color: rgba(var(--color-foreground), 0.75);
+}
+
+section-modal .modal__close-button:hover::after{
+  box-shadow: 0 0 1rem rgba(var(--color-foreground),.1);  
+}
+
+section-modal .modal__close-button .icon {
+  height: auto;
+  margin: 0;
+  width: 2rem;
+}
+
+.newsletter-modal-form {
+  height: 4.6rem;
+  margin-bottom: 2.5rem;
+} 
+
+.newsletter-modal-form-input {
+  margin: 0; 
+}
+
+.devokSection-modal .list-social {
+  margin-bottom: 2rem;
+}
+
+.devok-modal__content--wrapper.is-image.modal-image--left .modal-media, 
+.devok-modal__content--wrapper.is-image.modal-image--right .modal-media{
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;  
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.no-blocks .devok-modal__content--wrapper .is-image .modal-media img{
+  object-fit: contain;    
+  object-position: center;  
+}
+
+.interior__align__block {
+  justify-content: unset; 
+}
+
+.devok-modal-text__content--mobile-left .devok-modal-text__content .interior__align__block {
+  align-self: flex-start;
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.devok-modal-text__content--mobile-right .devok-modal-text__content > *,
+.devok-modal-text__content--mobile-right .devok-modal-text__content .interior__align__block {
+  align-self: flex-end; 
+  text-align: right;
+  justify-content: flex-end;
+}
+
+.devok-modal-text__content--mobile-center .devok-modal-text__content > *,
+.devok-modal-text__content--mobile-center .devok-modal-text__content .interior__align__block {
+  align-self: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.devok-modal-text__content--mobile-right .devok-modal-text__content .newsletter-form__field-wrapper {
+ margin-left: auto;
+ margin-right: 0;
+}
+
+.devok-modal-text__content--mobile-center .devok-modal-text__content .newsletter-form__field-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.devok-modal__image--wrapper {
+  display: block;
+  position: relative;
+  overflow: hidden; 
+}
+
+
+@media screen and (max-width: 749px) {
+  .devok-modal__content--wrapper {
+    padding-top: 3rem;  
+  }
+}
+
+@media screen and (min-width: 750px) {
+
+  .devok-modal__dialog {
+    padding: 5rem;
+    --popup-max-width: calc(100vw - 10rem);
+    --popup-max-height: calc(100vh - 10rem);
+  }
+
+  .devok-modal__content{ 
+     width: auto;  
+     display: flex;  
+  } 
+
+  .modal-image--bottom,
+  .modal-image--top {
+    width: var(--popup-width); 
+  }
+
+  .modal-image--top {
+    flex-direction: column; 
+  }
+
+  .modal-image--bottom {
+    flex-direction: column-reverse; 
+  }
+
+  .devok-modal-text__content {
+    max-height: 100%;
+    padding: calc(var(--popup-padding) * .75); 
+    overflow-x: hidden;
+    overflow-y: auto; 
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+  } 
+
+  
+  .devok-modal__content--wrapper.modal-image--bottom::-webkit-scrollbar,
+  .devok-modal__content--wrapper.modal-image--top::-webkit-scrollbar,
+  .modal-image--left .devok-modal-text__content::-webkit-scrollbar,
+  .modal-image--right .devok-modal-text__content::-webkit-scrollbar{
+    appearance: none;
+    width: 0.9rem;
+    background-clip: padding-box;
+    border: 0.3rem solid transparent;
+    border-radius: 1.6rem;
+    background-color: rgba(var(--color-base-text), 0.08); 
+  }
+  
+  .devok-modal__content--wrapper.modal-image--bottom::-webkit-scrollbar-thumb,
+  .devok-modal__content--wrapper.modal-image--top::-webkit-scrollbar-thumb,
+  .modal-image--left .devok-modal-text__content::-webkit-scrollbar-thumb, 
+  .modal-image--right .devok-modal-text__content::-webkit-scrollbar-thumb{
+    border: 0.3rem solid transparent;
+    background-clip: padding-box;
+    border-radius: 1.6rem;
+    background-color: rgba(var(--color-base-text), 0.15);  
+  }
+
+  .modal-image--left .devok-modal-text__content, 
+  .modal-image--right .devok-modal-text__content{
+    background: var(--gradient-background);
+    background-color: rgb(var(--color-background));
+    max-width: calc(min(var(--popup-width),var(--popup-max-width)) - var(--image-width));
+  } 
+
+  .devok-modal__image--wrapper {
+    display: block;
+    flex: 0 0 auto; 
+  }
+
+  .modal-image--left,
+  .modal-image--right {
+    --image-width: 24rem; 
+    width: min(var(--popup-width), var(--popup-max-width));
+  } 
+
+  .modal-media {
+    display: block;
+    width: 100%;
+    height: auto; 
+  }
+
+  .modal-image--left .devok-modal__image--wrapper,
+  .modal-image--right .devok-modal__image--wrapper {
+    width: var(--image-width);
+    height: 100%; 
+    position: absolute;
+    top: 0;
+    z-index: 2;
+  }
+
+  .modal-image--left .devok-modal__image--wrapper {
+    left: 0;
+    right: auto; 
+  }
+
+  .modal-image--right .devok-modal__image--wrapper {                                     
+    right: 0; 
+    left: auto;
+  }
+
+  .modal-image--left .modal-media,
+  .modal-image--right .modal-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .devok-modal__content--wrapper.is-image.modal-image--left .devok-modal-text__content--wrapper{
+    padding-inline-start: var(--image-width);
+  }
+
+  .devok-modal__content--wrapper.is-image.modal-image--right .devok-modal-text__content--wrapper{
+    padding-inline-end: var(--image-width);
+  }
+
+  .devok-modal-text__grid--reverse .devok-modal-text__content--wrapper {
+    margin-left: auto;
+  }
+
+  .devok-modal-text__content--desktop-right .devok-modal-text__content > *, 
+  .devok-modal-text__content--desktop-right .devok-modal-text__content .interior__align__block{
+    align-self: flex-end;
+    text-align: right;
+    justify-content: flex-end;
+  }
+
+  .devok-modal-text__content--desktop-left .devok-modal-text__content > *,
+  .devok-modal-text__content--desktop-left .devok-modal-text__content .interior__align__block{
+    align-self: flex-start;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .devok-modal-text__content--desktop-center .devok-modal-text__content > *,
+  .devok-modal-text__content--desktop-center .devok-modal-text__content .interior__align__block {
+    align-self: center;
+    text-align: center; 
+    justify-content: center; 
+  }
+
+  .devok-modal-text__content--desktop-right .devok-modal-text__content .newsletter-form__field-wrapper {
+   margin-left: auto;
+   margin-right: 0;
+  }
+
+  .devok-modal-text__content--desktop-left .devok-modal-text__content .newsletter-form__field-wrapper {
+    margin-left: 0;
+    margin-right: auto;
+  }
+
+  .devok-modal-text__content--desktop-center .devok-modal-text__content .newsletter-form__field-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .devok-modal-text__content {
+    padding: var(--popup-padding);
+  }
+  
+  .modal-image--left, .modal-image--right {
+    --image-width: 36rem;
+  }
+}
+
+.devok-modal-text__content > * + * {
+  margin-top: 2rem;
+}
+
+.devok-modal-text__content > .devok-modal-text__text:empty ~ a {
+  margin-top: 2rem;
+}
+
+.devok-modal-text__content > :first-child:is(.devok-modal-text__heading),
+.devok-modal-text__text--caption + .devok-modal-text__heading,
+.devok-modal-text__text--caption:first-child {
+  margin-top: 0;
+}
+
+.devok-modal-text__content :last-child:is(.devok-modal-text__heading),
+.devok-modal-text__text--caption {
+  margin-bottom: 0;
+}
+
+.devok-modal-text__content .button + .devok-modal-text__text {
+  margin-top: 2rem;
+}
+
+.devok-modal-text__content .devok-modal-text__text + .button {
+  margin-top: 3rem;
+}
+
+.devok-modal-text__heading {
+  word-break: break-word;
+  margin-bottom: 0;
+}
+
+.devok-modal-text__text p {
+  word-break: break-word;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+
+/* Countown*/
+
+.modal__info--timer .countdown-timer .time  {
+  font-size: calc(var(--font-text-scale-1) * 1.2rem); 
+}
+
+.modal__info--timer .countdown-timer .divider,
+.modal__info--timer .countdown-timer .separator {
+  font-size: calc(var(--font-text-scale-1) * 1rem); 
+}
+
+.modal__info--timer .countdown-timer .separator {
+  display: block;
+  line-height: 1.1;
+}
+
+.modal__info--timer .countdown-timer {
+  padding: calc(var(--font-text-scale-1) * 0.5rem) 0; 
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-evenly; 
+}
+
+.modal__info--timer .countdown-timer .divider {
+  line-height: 1;
+  font-weight: bold;
+  margin-left: calc(var(--font-text-scale-1) * 0.25rem); 
+  margin-right: calc(var(--font-text-scale-1) * 0.25rem);  
+}
+
+.modal__info--timer .time-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  text-align: center; 
+  background-color: transparent;
+  position: relative;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.1);
+  color: rgb(var(--color-foreground)); 
+  width: calc(var(--font-text-scale-1) * 3rem);  
+  min-height: calc(var(--font-text-scale-1) * 3rem);  
+}
+
+.modal__info--timer .time {
+  font-weight: bold;
+  line-height: 1;
+}
+
+@media only screen and (min-width: 750px) {
+  .modal__info--timer .time-wrapper {
+    width: calc(var(--font-text-scale-1) * 4.4rem);    
+    min-height: calc(var(--font-text-scale-1) * 4.4rem);   
+  }
+  .modal__info--timer .divider,
+  .modal__info--timer .separator {
+    font-size: calc(var(--font-text-scale-1) * 1.6rem); 
+  }
+  .modal__info--timer .time  {
+    font-size: calc(var(--font-text-scale-1) * 2rem);
+  }
+}
+

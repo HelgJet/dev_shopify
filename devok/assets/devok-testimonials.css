@@ -1,0 +1,70 @@
+.devok-testimonials span.star_item:not(:first-child) {
+    margin-left: -3px;
+}
+
+.devok-testimonials img.additionalInfo__image {
+    max-width: 50px;
+    height: auto;
+}
+.devok-testimonials .additionalInfoWrapper {
+    display: flex;
+    padding-top: 3rem;
+}
+.devok-testimonials .additionalInfo__imageWrapper{
+    margin-right: 2rem;
+}
+.devok-testimonials .multicolumn-card__info>:nth-child(2){
+    margin-right: 0;
+}
+.devok-testimonials h3{
+    font-weight: 700;
+}
+.devok-testimonials .rte{
+    margin-top: 1.3rem;
+}
+.devok-testimonials p.authorName {
+    font-weight: 700;
+    font-size: 1.4rem;
+}
+.devok-testimonials .title-wrapper-with-link .description p {
+    margin: 0;
+}
+.devok-testimonials .title-wrapper-with-link .description {
+    margin-top: 0.7rem;
+}
+.devok-testimonials .title-wrapper-with-link.title-wrapper--self-padded-mobile.title-wrapper--no-top-margin {
+    margin-bottom: 0;
+}
+.devok-testimonials .multicolumn-list__item{
+    margin-top: 3.7rem;
+}
+.devok-testimonials .grid--peek.slider--mobile .grid__item{
+    margin-bottom: 2.7rem; 
+}
+.devok-testimonials .slider-counter.caption {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.devok-testimonials .additionalInfoWrapper.additionalInfoWrapper_type--2{
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    margin-right: 0;
+}
+
+@media screen and (min-width: 750px){
+    .devok-testimonials ul.multicolumn-list {
+        padding-right: 0;
+        padding-left: 0; 
+    }
+  }
+  
+
+@media screen and (min-width: 990px){
+    .devok-testimonials .slider-counter.caption {
+        margin-top: 25px;
+    }
+}
+
+

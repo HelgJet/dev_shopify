@@ -1,0 +1,387 @@
+
+{%- liquid
+ assign isHeading = false
+ if section.settings.title != blank or section.settings.subtitle != blank or section.settings.description != blank 
+   assign isHeading = true
+ endif 
+-%}
+
+{% render 'section-style', section: section, isHeading: isHeading %}
+
+{{ 'component-devok-image-compare-container.css' | asset_url | stylesheet_tag }} 
+{{ 'devok-image-compare-banner.css' | asset_url | stylesheet_tag }} 
+
+<script src="{{ 'image-compare.js' | asset_url }}" defer="defer"></script>
+
+{%- capture pbValue -%}
+  {%- if section.settings.image != blank -%}
+    {{- 1 | divided_by: section.settings.image.aspect_ratio | times: 100 -}}
+  {%- else -%} 
+    42  
+  {%- endif -%}
+{%- endcapture -%} 
+
+  {% style %}
+  
+    #devokImageCompare__banner-{{ section.id }} {
+      --offsetX: 1.5rem;
+      --page-width: {{ section.settings.page_width | divided_by: 10 }}rem; 
+      padding-left: var(--offsetX);
+      padding-right: var(--offsetX);
+    } 
+
+    #ImageCompareWrapper-{{ section.id }}::before{
+        padding-bottom: {{ pbValue }}%; 
+        content: ''; 
+        display: block;
+    } 
+
+    .section-style-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+    .section-style-{{ section.id }} {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+  {% endstyle %}
+
+<div id="devokImageCompare__banner-{{ section.id }}"  class="section-style-{{ section.id }} color-{{ section.settings.color_scheme }} gradient">
+<div class="devokImageCompare__banner image__compare--wrapper">
+     {%- unless section.settings.title == blank and section.settings.subtitle == blank and section.settings.description == blank -%}
+            <style>
+                {%- case section.settings.mobile_heading_alignment -%}
+                  {%- when 'center' -%}
+                    {%- assign mobile_text_align = 'center' -%}
+                  {%- when 'flex-end' -%}
+                    {%- assign mobile_text_align = 'right' -%}
+                  {%- else -%}
+                    {%- assign mobile_text_align = 'left' -%}
+                {%- endcase -%}
+
+                  @media screen and (max-width: 989px){
+                    #devokImageCompare__banner-{{ section.id }} .heading--container {
+                        align-items: {{ section.settings.mobile_heading_alignment }};
+                        text-align: {{ mobile_text_align }}; 
+                      } 
+                  }
+            </style>
+
+          <div class="description__wrapper order-{{ section.settings.content_order }} title-wrapper-with-link heading--container justify-content-lg-between flex-lg-{{ section.settings.desktop_content_column }}">
+            <div>
+              {% if section.settings.title.size > 0 %}
+                  <h2 class="heading--title">
+                      {{ section.settings.title }} 
+                  </h2>
+              {% endif %}
+
+              {% if section.settings.subtitle.size > 0 %}
+                  <div class="heading--subtitle mt-2">
+                    {{ section.settings.subtitle }}
+                  </div>
+              {% endif %}
+            </div>
+
+          <div>
+            <div class="heading--description">
+              {{ section.settings.description }} 
+            </div>
+
+            {%- if section.settings.button_label_1 != blank -%}
+              <a {% if section.settings.button_link_1 == blank %} role="link" aria-disabled="true"{% else %} href="{{ section.settings.button_link_1 }}"{% endif %} class="button button--primary">{{ section.settings.button_label_1 | escape }}</a>
+            {%- endif -%} 
+          </div> 
+        </div>
+      {%- endunless -%}
+
+    <image-compare-container id="ImageCompareWrapper-{{ section.id }}" class="no-js-hidden"> 
+     
+      <div id="ImageCompareContainer-{{ section.id }}" class="image-container"> 
+    
+        {%- if section.settings.image_2 != blank -%}
+          <div class="before-image"> 
+            {{
+              section.settings.image_2
+              | image_url: width: 3840
+              | image_tag: loading: 'lazy', sizes: '100vw', widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840', 
+              alt: section.settings.image_2.alt | escape
+            }} 
+          </div> 
+        {%- elsif section.settings.image_2 == blank -%}
+          <div class="before-image placeholder__media">
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.image != blank -%}
+        <div class="after-image">
+            {{
+              section.settings.image 
+              | image_url: width: 3840 
+              | image_tag: loading: 'lazy', sizes: '100vw', widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+              alt: section.settings.image.alt | escape
+            }}       
+        </div>
+        {%- elsif section.settings.image == blank -%}
+          <div class="after-image placeholder__media">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%} 
+
+        {%- if section.settings.show_label -%}
+          <span class="label-image label-image--before">{{ 'accessibility.before' | t }}</span>
+          <span class="label-image label-image--after">{{ 'accessibility.after' | t }}</span>
+        {%- endif -%} 
+
+        <div class="scroller" data-start-point="{{ section.settings.start_point }}">
+          <svg class="scroller__thumb" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><polygon points="0 50 37 68 37 32 0 50" style="fill: currentColor;"/><polygon points="100 50 64 32 64 68 100 50" style="fill: currentColor;"/></svg>
+        </div>
+
+      </div>
+  </image-compare-container> 
+</div>
+</div>
+
+
+{% schema %}
+{
+  "name": "t:sections.devok-image-compare-banner.name",
+  "tag": "section",
+  "class": "section section-devok-image-compare-banner",
+    "disabled_on": {
+    "groups": ["header", "footer"] 
+  },
+
+  "settings": [
+     {
+      "type": "range",
+      "id": "page_width",
+      "min": 800,
+      "max": 1800, 
+      "step": 10, 
+      "default": 1200,
+      "unit": "px",
+      "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-banner.settings.image.label"
+    },
+
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "t:sections.image-banner.settings.image_2.label"
+    },
+
+    {
+      "type": "range",
+      "id": "start_point",
+      "min": 25,
+      "max": 75,
+      "step": 1,
+      "unit": "%",
+      "label": "Start point area",
+      "default": 25
+    },
+
+    {
+      "type": "checkbox",
+      "id": "show_label",
+      "default": true,
+      "label": "Show label before/after?"
+    },
+
+   {
+    "type": "header",
+    "content": "t:sections.banners.settings.header.header_2"
+    },
+    {
+    "type": "text",
+    "id": "title",
+    "default": "Title",
+    "label": "t:sections.banners.settings.title.label_2"
+    },
+    {
+    "type": "range",
+    "id": "section_heading_scale",
+    "min": 100,
+    "max": 150,
+    "step": 1,
+    "unit": "%",
+    "label": "t:sections.all.section_heading_scale.label",
+    "default": 100
+    },
+    {
+    "type": "text",
+    "id": "subtitle",
+    "default": "Subtitle",
+    "label": "t:sections.banners.settings.subtitle.label"
+    },
+    {
+    "type": "range",
+    "id": "section_subtitle_scale", 
+    "min": 100,
+    "max": 150,
+    "step": 1,
+    "unit": "%",
+    "label": "t:sections.banners.settings.section_subtitle_scale.label",
+    "default": 100
+    },
+    {
+    "type": "inline_richtext",
+    "id": "description",
+    "default": "Description",
+    "label": "t:sections.banners.settings.description.label"
+    },
+    {
+    "type": "range",
+    "id": "section_description_scale",
+    "min": 100,
+    "max": 150,
+    "step": 1,
+    "unit": "%",
+    "label": "t:sections.banners.settings.section_description_scale.label",
+    "default": 100
+    },
+
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "Button label",
+      "label": "t:sections.image-banner.blocks.buttons.settings.button_label_1.label",
+      "info": "t:sections.image-banner.blocks.buttons.settings.button_label_1.info"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "t:sections.image-banner.blocks.buttons.settings.button_link_1.label"
+    },
+
+    {
+    "type": "select",
+    "id": "heading_alignment",
+    "label": "t:sections.banners.settings.heading_alignment.label",
+    "options": [
+    {
+    "value": "flex-start",
+    "label": "Left"
+    },
+    {
+    "value": "center",
+    "label": "Center"
+    },
+    {
+    "value": "flex-end",
+    "label": "Right"
+    }
+    ],
+    "default": "flex-start"
+    },
+
+
+    {
+      "type": "select",
+      "id": "content_order",
+      "options": [
+        {
+          "value": "1",
+          "label": "Top"
+        },
+        {
+          "value": "2",
+          "label": "Bottom"
+        }
+      ],
+      "default": "1",
+      "label": "Heading position top or bottom"
+    },
+
+     {
+      "type": "select",
+      "id": "desktop_content_column",
+      "options": [
+        {
+          "value": "row",
+          "label": "In row"
+        },
+        {
+          "value": "column", 
+          "label": "In column"
+        }
+      ],
+      "default": "row",
+      "label": "Desktop Type heading (row or columns)"
+    },
+
+
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.image-banner.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "mobile_heading_alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__2.label"
+        },
+        {
+          "value": "flex-end",
+          "label": "t:sections.image-banner.settings.mobile_content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.image-banner.settings.mobile_content_alignment.label"
+    },
+   
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [ 
+    {
+      "name": "t:sections.devok-image-compare-banner.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,142 @@
+
+
+<div id="header__topbar" class="header__topbar--wrapper{% if local_in_topbar %} has__localization{% endif %}{% if social_links and block.settings.show_social %} has__social{% endif %} small-hide medium-hide color-{{ block.settings.color_scheme }} gradient">
+      <style>
+
+       #header__topbar .topbar__social__message {
+          grid-area: text;
+          justify-self: center; 
+        }
+
+        #header__topbar  .list-social {
+        display: flex;
+        }
+
+        #header__topbar.has__social:not(.has__localization) .topbar__social__message {
+           justify-self: end; 
+        }
+
+       #header__topbar.has__localization:not(.has__social) .topbar__social__message {
+           justify-self: start; 
+        }
+        #header__topbar .topbar__social {
+          grid-area: social;
+          justify-self: start;
+        }
+
+        #header__topbar .header__localization {
+          grid-area: local;
+          justify-self: end;
+        }
+        #header__topbar:not(.has__localization) .header__topbar {
+          grid-template-areas: 'social text text';
+        } 
+         #header__topbar.has__localization:not(.has__social) .header__topbar {
+          grid-template-areas: ' text text local';
+        }
+     
+        #header__topbar.has__localization.has__social .header__topbar {
+          grid-template-areas: 'social text local';
+        }
+
+          #header__topbar:not(.has__localization, .has__social) .header__topbar {
+          grid-template-areas: 'text text text'; 
+        } 
+
+         #header__topbar:not(.has__localization, .has__social) .topbar__social__message {
+           justify-self: center;  
+         }
+
+
+        #header__topbar .topbar__social .list-social__link {
+          padding: 0.75rem;
+        }
+     </style>
+
+        {%- if block.settings.text_description != blank or local_in_topbar or social_links -%}
+      
+              <div class="header header__topbar page-width">
+                
+                  {%- if block.settings.text_description != blank -%}
+                  <div class="topbar__social__message">
+                    {{ block.settings.text_description }}
+                  </div>
+                  {%- endif -%}
+                
+                 
+                 {%- if social_links and block.settings.show_social -%}
+                  <div class="topbar__social">
+                    {%- assign class_list_social = 'list' -%}
+                    {%- render 'social-icons', social_style: block.settings.social_style, class_list_social: class_list_social -%} 
+                  </div>
+                 {%- endif -%}
+                
+
+                {%- if local_in_topbar -%} 
+                  <div class="header__localization">
+                      {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+                        <div class="desktop-localization-wrapper">
+                            {%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
+                              <noscript class="small-hide medium-hide">
+                                {%- form 'localization', id: 'HeaderCountryMobileFormNoScript', class: 'localization-form' -%}
+                                  <div class="localization-form__select">
+                                    <h2 class="visually-hidden" id="HeaderCountryMobileLabelNoScript">{{ 'localization.country_label' | t }}</h2>
+                                    <select class="localization-selector link" name="country_code" aria-labelledby="HeaderCountryMobileLabelNoScript">
+                                      {%- for country in localization.available_countries -%}
+                                        <option value="{{ country.iso_code }}" {%- if country.iso_code == localization.country.iso_code %} selected{% endif %}>
+                                          {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                                        </option>
+                                      {%- endfor -%}
+                                    </select>
+                                    {% render 'icon-caret' %}
+                                  </div>
+                                  <button class="button button--tertiary">{{ 'localization.update_country' | t }}</button>
+                                {%- endform -%}
+                              </noscript>
+
+                              <localization-form class="small-hide medium-hide no-js-hidden">
+                                {%- form 'localization', id: 'HeaderCountryForm', class: 'localization-form' -%}
+                                  <div>
+                                    <h2 class="visually-hidden" id="HeaderCountryLabel">{{ 'localization.country_label' | t }}</h2>
+                                    {%- render 'country-localization', localPosition: 'HeaderCountry', color_sub_scheme: color_sub_scheme -%}
+                                  </div>
+                                {%- endform -%}
+                              </localization-form>
+                            {% endif %} 
+
+                          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+                              <noscript class="small-hide medium-hide">
+                                {%- form 'localization', id: 'HeaderLanguageMobileFormNoScript', class: 'localization-form' -%}
+                                  <div class="localization-form__select">
+                                    <h2 class="visually-hidden" id="HeaderLanguageMobileLabelNoScript">{{ 'localization.language_label' | t }}</h2>
+                                    <select class="localization-selector link" name="locale_code" aria-labelledby="HeaderLanguageMobileLabelNoScript">
+                                      {%- for language in localization.available_languages -%}
+                                        <option value="{{ language.iso_code }}" lang="{{ language.iso_code }}" {%- if language.iso_code == localization.language.iso_code %} selected{% endif %}>
+                                          {{ language.endonym_name | capitalize }}
+                                        </option>
+                                      {%- endfor -%}
+                                    </select>
+                                    {% render 'icon-caret' %}
+                                  </div>
+                                  <button class="button button--tertiary">{{ 'localization.update_language' | t }}</button>
+                                {%- endform -%}
+                              </noscript>
+
+                              <localization-form class="small-hide medium-hide no-js-hidden">
+                                {%- form 'localization', id: 'HeaderLanguageForm', class: 'localization-form' -%}
+                                  <div>
+                                    <h2 class="visually-hidden" id="HeaderLanguageLabel">{{ 'localization.language_label' | t }}</h2>
+                                    {%- render 'language-localization', localPosition: 'HeaderLanguage', color_sub_scheme: color_sub_scheme -%}
+                                  </div>
+                                {%- endform -%}
+                              </localization-form> 
+                            {%- endif -%}
+                        </div>
+                      {%- endif -%}  
+                  </div>
+                {%- endif -%}
+                
+              </div>
+         
+        {%- endif -%}
+      </div>

@@ -1,0 +1,45 @@
+
+<sticky-product-component id="sticky-add-to-cart" class="sticky-add-to-cart quick-add-hidden no-js-hidden hidden">
+   
+     
+  <div class="page-width--medium">
+   <div class="sticky-cart-wrapper">
+      {%- if product.featured_image != blank -%}
+         {%- assign featured_media = product.featured_image -%}
+            <div class="product__media-item">
+               <img
+               src="{{ featured_media | image_url: width: 130 }}"
+               alt="{{ featured_media.alt | escape }}"  
+               width="50"
+               height="{{ 50 | divided_by: featured_media.aspect_ratio | ceil }}"
+               loading="lazy"
+               >
+            </div> 
+      {%- endif -%}
+
+         <div class="ml-2">
+           <div class="d-flex align-items-center mb-1">
+            <h3 class="h5 product__title my-0"> 
+               {{ product.title | escape }} 
+            </h3>  
+            {%- if product.selected_or_first_available_variant.title != "Default Title" -%}
+               <span id="CurrentVariantTitle-{{ section.id }}" class="current_variant__title ml-1"> {{ product.selected_or_first_available_variant.title }} </span>         
+            {%- endif -%} 
+           </div> 
+            
+            
+            <div class="d-flex align-items-center sticky-atc--buttons-wrapper"> 
+               {%- if  settings.wishlist_toggle != blank -%}  
+                  <div data-sticky-id="wishlist" data-sticky-layout="sticky"></div>
+               {%- endif -%} 
+
+               {%- if  settings.compare_toggle != blank -%}
+                  <div data-sticky-id="compare" data-sticky-layout="sticky"></div>
+               {%- endif -%} 
+               
+               <div data-target-id="atc"></div>
+           </div>
+         </div>      
+   </div> 
+  </div>
+</sticky-product-component>

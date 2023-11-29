@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "padding_top": 16,
+        "padding_bottom": 20
+      }
+    },
+    "6faf4e88-589a-4634-9ccc-ad240639a737": {
+      "type": "video",
+      "settings": {
+        "heading": "",
+        "heading_size": "h1",
+        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
+        "cover_image": "shopify:\/\/shop_images\/Rectangle_254.jpg",
+        "description": "",
+        "full_width": false,
+        "color_scheme": "background-1",
+        "padding_top": 16,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "6faf4e88-589a-4634-9ccc-ad240639a737"
+  ]
+}

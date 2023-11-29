@@ -1,0 +1,12 @@
+  {{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+  {{ 'component-card.css' | asset_url | stylesheet_tag }} 
+
+ <ul class="blog-list grid content_wrapper grid--{{ block.settings.blog_limit }}-col-desktop grid--1-col-tablet-down {{ block.settings.blog_align }}" data-type="bloglist">
+        {% if block.settings.blog != blank %} 
+            {% for article in block.settings.blog.articles limit: block.settings.blog_limit %}
+              <li class="grid__item">
+                 {% render 'article-card', blog: blog, article: article, show_image: true, media_aspect_ratio: 1.54, show_date: true, show_author: block.settings.time_author %}
+              </li>
+            {% endfor %}  
+        {% endif %} 
+</ul> 

@@ -1,0 +1,84 @@
+
+     <script> 
+        productCompare = true;
+        const product = {
+          newProductsPeriod: {{ settings.new_products_period }}, 
+          useCompareSize: {{ settings.use_compare_size }},
+          useCompareColor: {{ settings.use_compare_color }},
+          textCompareSize:{{ settings.text_pr_size_option | downcase | json }},
+          textCompareColor:{{ settings.text_pr_color_option | downcase | json }}
+        };  
+    </script>
+
+
+     <modal-opener class="no-js-hidden" data-modal="#PopupModal-Compare">
+                    <button id="compare_list" 
+                    class="compare-popup-modal__button color-accent-1 full-unstyled-link"
+                     type="button" 
+                    aria-label="compare"     
+                    aria-haspopup="dialog">
+                      {% render 'icon-compare' %}
+                      <span id="compare__counter">0</span> 
+                      <div class="loading-overlay__spinner hidden"> 
+                        <svg
+                          aria-hidden="true"
+                          focusable="false" 
+                          class="spinner" 
+                          viewBox="0 0 66 66"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                        </svg>
+                      </div>
+                    </button>
+                </modal-opener>
+
+                <modal-dialog id="PopupModal-Compare" class="color-{{ settings.color_schemes | first }} compare compare-popup-modal">
+                  <div class="compare__wrapper compare-popup-modal__content global-settings-popup" role="dialog" aria-label="compare" aria-modal="true" tabindex="-1">
+                    <button id="ModalClose-Compare" type="button" class="compare-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
+                      <div class="compare__title h6">
+                        {{ 'products.compare.compareTitle' | t }}
+                        <span id="compareClearAll">{{ 'products.compare.clear' | t }}</span>
+                      </div> 
+                      <div class="loading-overlay hidden">
+                      <div class="loading-overlay__spinner">
+                        <svg
+                          aria-hidden="true"
+                          focusable="false" 
+                          class="spinner"
+                          viewBox="0 0 66 66"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                   
+                </modal-dialog> 
+
+                <modal-opener class="no-js-hidden" data-modal="#PopupModal-AlertCompare">
+                    <button id="Alert-Compare" 
+                     type="button" 
+                    aria-label="alert"  
+                    aria-haspopup="dialog"
+                    class="visually-hidden"> 
+                    </button> 
+                </modal-opener> 
+                
+                <modal-dialog id="PopupModal-AlertCompare" class="color-{{ settings.color_schemes | first }} compare compare-popup-modal">
+                  <div class="py-1 compare_alert__wrapper compare-popup-modal__content" role="dialog" aria-label="alert" aria-modal="true" tabindex="-1">
+                    <button id="ModalClose-AlertCompare" type="button" class="compare-popup-modal__toggle" aria-label="{{ 'accessibility.close' | t }}">{% render 'icon-close' %}</button>
+                    <div class="overInfo">{{ 'products.compare.compareAlert' | t }}</div>
+                  </div> 
+                </modal-dialog>  
+ 
+         <script src="{{ 'compare.js' | asset_url }}" defer="defer"></script> 
+		 
+{% schema %}
+{
+  "name": "devok Compare",
+  "class": "devok-compare",
+  "tag": "div"
+}
+{% endschema %}

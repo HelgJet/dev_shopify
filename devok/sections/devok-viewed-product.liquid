@@ -1,0 +1,363 @@
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rte.css' | asset_url | stylesheet_tag }}
+ 
+ <link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+  
+{%- style -%}
+  
+    #ProductRecentlyViewed-{{ section.id }} {
+      --page-width: {{ section.settings.page_width | divided_by: 10 }}rem;
+    }
+
+    #ProductRecentlyViewed-{{ section.id }}  {
+      --grid-desktop-horizontal-spacing: {{ section.settings.spacing_grid_horizontal }}px;
+    } 
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+{%- endstyle -%}
+
+{%- liquid
+    assign count_show_recently = settings.recently_view_count | plus: 0
+    assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+    assign show_mobile_slider = false
+    if section.settings.swipe_on_mobile
+        assign show_mobile_slider = true 
+    endif
+
+    assign columns_desktop_int = section.settings.columns_desktop | plus: 0
+    assign show_desktop_slider = false
+    if section.settings.enable_desktop_slider 
+        assign show_desktop_slider = true
+    endif
+-%}
+
+<div id="ProductRecentlyViewed-{{ section.id }}" class="color-{{ section.settings.color_scheme }} gradient no-js-hidden">
+  <div class="recently__viewed section-{{ section.id }}-padding isolate{% if section.settings.use_section_width %} page-width{% endif %}{% if section.settings.title == blank %} no-heading{% endif %}">
+      <recently-viewed-products data-section="{{ section.id }}"> 
+              {%- unless section.settings.title == blank -%}
+                      <h2 class="product-veiwed__heading hidden {{ section.settings.heading_size }}">
+                          {{ section.settings.title | escape }}   
+                      </h2>
+              {%- endunless -%} 
+          <slider-component class="slider-mobile-gutter slider-component-full-width">
+              <ul
+                id="Slider-{{ section.id }}" 
+                class="grid product-grid contains-card contains-card--product grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
+                role="list"
+                aria-label="{{ 'general.slider.name' | t }}"
+                data-devok-slider="slider"  
+                data-slider-per-mobile="{{ columns_mobile_int }}"
+                data-slider-per-desktop="{{ columns_desktop_int }}"
+                data-viewedcount="{{ count_show_recently }}" 
+                data-enable-desktop-slider="{% if section.settings.enable_desktop_slider != blank %}1{% else %}0{% endif %}" 
+                data-enable-mobile-slider="{% if section.settings.swipe_on_mobile != blank %}1{% else %}0{% endif %}" 
+              >  
+                <li>
+                    <p class="hidden">
+                        {{ section.settings.title | escape }}    
+                    </p> 
+                </li>
+              </ul>
+             
+                {% if show_desktop_slider or show_mobile_slider %}
+                  <div class="slider-buttons hidden {% if show_desktop_slider == 'false' and show_mobile_slider %} large-up-hidden{% endif %} no-js-hidden">
+                      <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">
+                            {% if section.settings.nav_style_type == 'type_1' %}
+                                {%- render 'icon-list', icon: "caret-left" -%}
+                            {% else %}
+                                {%- render 'icon-list', icon: "left-style-2" -%}
+                            {% endif %}
+                        </button> 
+                    
+                        <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">
+                            {% if section.settings.nav_style_type == 'type_1' %}
+                                {%- render 'icon-list', icon: "caret-right" -%}
+                            {% else %}
+                                {%- render 'icon-list', icon: "right-style-2" -%} 
+                            {% endif %}
+                        </button>
+                  </div>
+                {% endif %} 
+          </slider-component>
+      </recently-viewed-products>
+  </div>
+</div>
+
+
+<script>
+
+class RecentlyViewedProducts extends HTMLElement {
+   constructor() {
+    super();
+ 
+    this.slider = this.querySelector('[id^="Slider-"]');
+    this.sliderButtons = this.querySelector('.slider-buttons');
+    this.titleSection = this.querySelector('.product-veiwed__heading');
+    this.selectors = {
+      itemProduct: '[product-template-js]',
+      sectionId: this.dataset.section,
+      perDesktop: this.slider.dataset.sliderPerDesktop,
+      perMobile: this.slider.dataset.sliderPerMobile,
+      isDesktopSlider: this.slider.dataset.enableDesktopSlider,
+      isMobileSlider: this.slider.dataset.enableMobileSlider,
+      recentlyViewedCount: this.slider.dataset.viewedcount
+    };   
+  }
+
+  connectedCallback() { 
+      const handleIntersection = (entries, observer) => {
+        if (!entries[0].isIntersecting) return;
+        observer.unobserve(this);
+        this.loadRecentlyViewedProducts();  
+      }
+      new IntersectionObserver(handleIntersection.bind(this), {rootMargin: '0px 0px 400px 0px'}).observe(this);
+  }
+
+  loadRecentlyViewedProducts() {
+    const productHandles = this.getRecentlyViewedProductHandles();
+    if (productHandles.length > 0) {
+      this.setTemplate(productHandles); 
+    } 
+  } 
+
+  getRecentlyViewedProductHandles() {
+    const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
+    return recentlyViewed.slice(-`${this.selectors.recentlyViewedCount}`).reverse();
+  }
+  
+   fetchProductHTML = (handle) => {
+      const productUrl = `/products/${handle}?view=litecard`; 
+      return fetch(productUrl)
+      .then((res) => res.text())  
+      .then((res) => {
+         const text = res;
+         const parser = new DOMParser(); 
+         const htmlDocument = parser.parseFromString(text, 'text/html');
+         const itemProduct = htmlDocument.documentElement.querySelector(this.selectors.itemProduct); 
+         return  itemProduct.outerHTML;   
+      }) 
+      .catch((err) => console.error(`[devok Recently Viewed Product] Failed to load content for handle: ${handle}`, err));
+   }  
+
+   
+   async setTemplate(handles){ 
+      const requests = handles.map(this.fetchProductHTML); 
+      const responses = await Promise.all(requests); 
+      const viewedItemProducts = responses.map((item, index) => `<li id="Slide-${this.selectors.sectionId}-${index + 1}" class="grid__item slider__slide slide__viewed">${item}</li>`).join('');
+      this.slider.innerHTML = '';
+      this.titleSection.classList.remove('hidden');
+      this.classList.add('recently-viewed--loaded');
+      this.slider.innerHTML = viewedItemProducts;
+      this.initSlider(handles);   
+   }  
+
+  initSlider(elements) {
+    let isSlider = false; 
+     
+    if (this.selectors.isDesktopSlider == 1 && elements.length > this.selectors.perDesktop) {
+      this.slider.classList.add('slider', 'slider--desktop');
+      this.sliderButtons.classList.remove('hidden');
+      this.slider.parentElement.classList.add('slider-component-desktop');
+      isSlider = true;
+    }  
+    if (this.selectors.isMobileSlider == 1 && elements.length > this.selectors.perMobile) {
+        this.slider.classList.add('slider', 'slider--tablet', 'grid--peek');
+        this.sliderButtons.classList.remove('hidden');
+        this.slider.classList.add('grid')
+        isSlider = true; 
+    } 
+
+    const sliderComponent = this.querySelector('slider-component');
+
+    if (!isSlider) return;
+
+    if (sliderComponent) {
+      sliderComponent.initPages();
+      sliderComponent.resetPages();
+    }
+  }
+}
+
+customElements.define('recently-viewed-products', RecentlyViewedProducts);
+
+</script>
+
+{% schema %}
+{
+  "name": "t:sections.devok-viewed-products.name",
+  "tag": "section",
+  "limit": 1,
+  "class": "section devok-slider devok-viewed-products",
+  "disabled_on": {
+    "templates": ["page"], 
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 1000,
+      "max": 1920,
+      "step": 10,
+      "default": 1200,
+      "unit": "px",
+      "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "use_section_width",
+      "label": "t:sections.devok-collection-list.settings.use_section_width.label",
+      "default": true 
+    },
+      {
+      "type": "text",
+      "id": "title",
+      "default": "Recently viewed products",
+      "label": "Title"
+    }, 
+     {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h2",
+      "label": "t:sections.all.heading_size.label"
+    },
+   
+     {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 4,
+      "label": "t:sections.featured-collection.settings.columns_desktop.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_desktop_slider",
+      "label": "t:sections.featured-collection.settings.enable_desktop_slider.label",
+      "default": false
+    },
+     {
+      "type": "range",
+      "id": "spacing_grid_horizontal",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 15,
+      "unit": "px",
+      "label": "t:sections.banners.settings.spacing_grid_horizontal.label"
+    },
+
+    {
+      "type": "select",
+      "id": "nav_style_type",
+      "label": "t:sections.devok-testimonials.settings.nav_style_type.label",
+      "default": "type_2",
+      "options": [
+        {
+          "value": "type_1",
+          "label": "Type #1"
+        },
+        {
+          "value": "type_2",
+          "label": "Type #2"
+        }
+      ]
+    },
+
+     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1",
+      "info": "t:sections.all.colors.has_cards_info"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.featured-collection.settings.header_mobile.content"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "default": "2",
+      "label": "t:sections.featured-collection.settings.columns_mobile.label",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.featured-collection.settings.columns_mobile.options__2.label"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": false,
+      "label": "t:sections.featured-collection.settings.swipe_on_mobile.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "devok Viewed Products"
+	  } 
+  ]
+}
+{% endschema %}
+

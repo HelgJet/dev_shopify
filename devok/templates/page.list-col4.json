@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "page_width": 1040,
+        "use_section_width": true,
+        "title": "",
+        "show_items_count": false,
+        "sort": "alphabetical",
+        "image_ratio": "adapt",
+        "contentHorizontal": "flex-start",
+        "design_type": "row_design",
+        "columns_desktop": 3,
+        "banner_style": "standard",
+        "v_cpos": "center",
+        "useButton": false,
+        "btn_bg_color": "#222222",
+        "btn_border_color": "#222222",
+        "btn_text_color": "#ffffff",
+        "btn_bg_color_hover": "#222222",
+        "btn_border_color_hover": "#222222",
+        "btn_text_color_hover": "#ffffff",
+        "buttom_full_width": false,
+        "image_layout": "alternate-left",
+        "media_size": "small",
+        "columns_mobile": "2"
+      }
+    },
+    "b0aecee7-b65f-4ae5-b9db-112da139b249": {
+      "type": "index-divider",
+      "settings": {
+        "section_view": "container",
+        "type_value": "px",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "padding_top_vw": 1.5,
+        "padding_bottom_vw": 1.5,
+        "margin_top": 0,
+        "margin_bottom": 0,
+        "background_color": "",
+        "tablet_padding_top": 20,
+        "tablet_padding_bottom": 20,
+        "tablet_margin_top": 0,
+        "tablet_margin_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "main",
+    "b0aecee7-b65f-4ae5-b9db-112da139b249"
+  ]
+}

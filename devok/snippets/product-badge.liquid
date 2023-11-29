@@ -1,0 +1,81 @@
+{% liquid
+  if settings.new_products_period != blank
+	assign date_pub_y = product.published_at | date: '%Y'
+	assign date_pub_d = product.published_at | date: '%j'
+	assign date_now_y = 'now' | date: '%Y'
+	assign date_now_d = 'now' | date: '%j' 
+	assign dates_diff_y = date_now_y | minus: date_pub_y | times: 365
+	assign dates_diff_d = date_now_d | minus: date_pub_d
+	assign dates_diff = dates_diff_y | plus: dates_diff_d
+	assign new_products_period = settings.new_products_period | plus: 0
+  endif
+  
+  assign is_new = false
+ if settings.badge_new_toggle and settings.new_products_period.size > 0 
+  	 if settings.new_products_period.size > 0 
+  		 if dates_diff <= new_products_period 
+  		   assign is_new = true
+  		 endif 
+  	 endif   
+   endif 
+
+%}
+
+
+	
+	{%- unless product.available == false -%}
+        
+			{%- if is_new -%}
+					<span class="badge new"> {{- 'products.product.new_badge' | t -}}</span>    
+			{%- endif -%}
+
+			    {%- if product.compare_at_price > product.price and product.available -%}
+					<span
+						id="NoMediaStandardBadge-{{ section_id }}-{{ product.id }}"
+						class="badge sale"
+					>
+						{{- 'products.product.on_sale' | t -}}
+					</span> 
+					{%- if settings.badge_sale_percent_toggle != blank -%}
+						<span class="badge sale-price">–{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%</span>
+					{%- endif -%}    
+			    {%- endif -%}   
+			
+
+
+						{%- if settings.badge_lowstock_toggle != blank -%}
+							{%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+								{%- if product.selected_or_first_available_variant.inventory_quantity > 0 -%}
+									{%- if product.selected_or_first_available_variant.inventory_quantity <= settings.inventory_threshold -%} 
+										{%- if settings.show_inventory_quantity -%}
+											<span class="badge low-stock">{{- 'products.product.inventory_low_show_count' | t: quantity: product.selected_or_first_available_variant.inventory_quantity -}}</span>
+										{%- else -%}
+											<span class="badge low-stock">{{- 'products.product.inventory_low_stock' | t -}}</span>  
+										{%- endif -%} 
+									{%- endif -%} 
+								{%- endif -%} 
+							{%- endif -%}
+						{%- endif -%}
+			
+
+	  	  {% for tag in product.tags %}
+			{% if tag == settings.custom_badge_1 and settings.custom_badge_1_toggle %}
+					<span class="badge custom_badge_1">{{ settings.custom_badge_1_text }}</span>
+			{% elsif tag == settings.custom_badge_2 and settings.custom_badge_2_toggle %}
+					<span class="badge custom_badge_2">{{ settings.custom_badge_2_text }}</span>
+			{% endif %}
+		  {% endfor %}
+		  
+	{%- else -%}
+		 <span
+            id="NoMediaStandardBadge-{{ section_id }}-{{ product.id }}"
+            class="badge soldout"
+          >
+            {{- 'products.product.sold_out' | t -}}  
+         </span>
+		  
+     {%- endunless -%} 
+	
+	
+  
+

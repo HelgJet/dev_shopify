@@ -1,0 +1,21 @@
+{% if social_style == 'color' %}
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="24" height="24" rx="12" fill="#1877F2"/>
+      <path d="M16.6711 15.4688L17.2031 12H13.875V9.75C13.875 8.80078 14.3391 7.875 15.8297 7.875H17.3438V4.92188C17.3438 4.92188 15.9703 4.6875 14.6578 4.6875C11.9156 4.6875 10.125 6.34922 10.125 9.35625V12H7.07812V15.4688H10.125V23.8547C10.7367 23.9508 11.3625 24 12 24C12.6375 24 13.2633 23.9508 13.875 23.8547V15.4688H16.6711Z" fill="white"/>
+      </svg>
+
+{% elsif social_style == 'circle' %}
+         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" class="icon icon-facebook-circle" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0ZM8.7698 7.99938V13.3333H6.70049V7.99958H5.66667V6.16147H6.70049V5.05788C6.70049 3.55835 7.28425 2.66667 8.94278 2.66667H10.3236V4.50499H9.46048C8.81485 4.50499 8.77214 4.76186 8.77214 5.24127L8.7698 6.16126H10.3333L10.1504 7.99938H8.7698Z" fill="currentColor"/>
+        </svg>
+{% elsif social_style == 'square' %}
+         <svg width="25" height="24" viewBox="0 0 25 24" fill="none" aria-hidden="true" class="icon square icon-facebook-square" xmlns="http://www.w3.org/2000/svg">
+        <rect width="24" height="24" fill="currentColor"/>
+        <path d="M13.2139 20V11.9991H15.2848L15.5592 9.2419H13.2139L13.2174 7.86191C13.2174 7.1428 13.2815 6.75748 14.2499 6.75748H15.5445V4H13.4734C10.9856 4 10.1099 5.33752 10.1099 7.58682V9.24221H8.5592V11.9994H10.1099V20H13.2139Z" fill="white"/>
+        </svg>
+{% else %}
+           <svg aria-hidden="true" focusable="false" class="icon icon-facebook" viewBox="0 0 18 18">
+            <path fill="currentColor" d="M16.42.61c.27 0 .5.1.69.28.19.2.28.42.28.7v15.44c0 .27-.1.5-.28.69a.94.94 0 01-.7.28h-4.39v-6.7h2.25l.31-2.65h-2.56v-1.7c0-.4.1-.72.28-.93.18-.2.5-.32 1-.32h1.37V3.35c-.6-.06-1.27-.1-2.01-.1-1.01 0-1.83.3-2.45.9-.62.6-.93 1.44-.93 2.53v1.97H7.04v2.65h2.24V18H.98c-.28 0-.5-.1-.7-.28a.94.94 0 01-.28-.7V1.59c0-.27.1-.5.28-.69a.94.94 0 01.7-.28h15.44z">
+          </svg>
+{%- endif -%}
+

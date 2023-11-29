@@ -1,0 +1,164 @@
+.devok-banners .multicolumn-card__info.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+}
+    
+.devok-banners .multicolumn-card__info .bannerItemWrapper {
+    position: relative;
+    z-index: 2;
+}
+.devok-banners .multicolumn:not(.background-none) .multicolumn-card {
+    background: transparent;
+}
+.devok-banners a.multicolumn-card{
+    cursor: pointer;
+}
+.devok-banners .multicolumn-list__item a.bannerLink {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.devok-banners .components-multicolumns .multicolumn-card-spacing{
+    padding: 0;
+    margin: 0; 
+}
+.devok-banners .multicolumn-card__info.standard.offOverlayMobileVisible {
+    display: flex;
+    flex-direction: column;
+}
+.devok-banners .banner--link img {
+    -webkit-transform: scale(1); 
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+.devok-banners a.banner--link:hover img {
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.devok-banners .components-multicolumns .multicolumn-list__item .media--adapt .multicolumn-card__image {
+    width: 100%;
+}
+.devok-banners .multicolumn-card__info.overlay.multicolumn-card__standart{
+    display:none;
+}
+.devok-banners .banner-placeholder-wrapper .multicolumn-card__info.overlay{
+    padding: 10px;
+}
+.devok-banners .multicolumn-list__item a{
+    text-decoration: none;
+}
+a.bannerLink {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+
+}
+.devok-banners .multicolumn-list__item .subtitle{
+    font-weight: 800;
+    letter-spacing: 0.05rem;
+}
+.devok-banners .multicolumn-card__info .title {
+   font-weight: 600;
+}
+.devok-banners .rte.description p a {
+    text-decoration: underline;
+}
+@media screen and (max-width: 749px){
+    .devok-banners .desktopImageRatio{
+        display: none;
+    }
+    
+    .devok-banners .button{
+        max-width: 100%;
+        min-width: 100%;
+    }
+    .devok-banners .grid--peek .grid__item {
+        width: 50%;
+    }
+    .devok-banners .slider--mobile.grid--peek.grid--1-col-tablet-down .grid__item {
+        width: 100%;
+    }
+    .devok-banners .grid--peek.slider .grid__item:first-of-type {
+        margin-left: 0;
+    }
+}
+
+
+@media screen and (max-width: 768px){
+    .devok-banners .multicolumn-card__info.overlay.offOverlayMobile{
+        display: none;
+    }
+    .devok-banners .multicolumn-card__info.overlay.offOverlayMobileVisible{
+        display: flex;
+        position: static;
+    }
+}
+
+
+
+@media screen and (min-width: 750px){
+   .devok-banners .mobileImgRatio{
+        display: none;
+    }
+    .devok-banners.section + .devok-banners.section {
+        margin-top: 0;
+    }
+}
+
+@media screen and (min-width: 990px) {
+  
+    .devok-banners .grid--8-col-desktop.grid__item {
+      width: calc(66.67% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
+      max-width: calc(66.67% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
+    }
+   .devok-banners  .grid--6-col-desktop.grid__item {
+      width: calc(16.66% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
+      max-width: calc(16.66% - var(--grid-desktop-horizontal-spacing) * 5 / 6);
+    }
+  
+    .devok-banners .grid--5-col-desktop.grid__item {
+      width: calc(20% - var(--grid-desktop-horizontal-spacing) * 4 / 5);
+      max-width: calc(20% - var(--grid-desktop-horizontal-spacing) * 4 / 5);
+    }
+  
+    .devok-banners .grid--4-col-desktop.grid__item {
+      width: calc(25% - var(--grid-desktop-horizontal-spacing) * 3 / 4);
+      max-width: calc(25% - var(--grid-desktop-horizontal-spacing) * 3 / 4);
+    }
+  
+    .devok-banners .grid--3-col-desktop.grid__item {
+      width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
+      max-width: calc(33.33% - var(--grid-desktop-horizontal-spacing) * 2 / 3);
+    }
+  
+    .devok-banners .grid--2-col-desktop.grid__item {
+      width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+      max-width: calc(50% - var(--grid-desktop-horizontal-spacing) / 2);
+    }
+    .devok-banners .grid--1-col-desktop.grid__item {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 989px){
+    .devok-banners .grid--2-col-tablet-down.grid__item {
+      width: calc(50% - var(--grid-mobile-horizontal-spacing) / 2);
+    }
+    .devok-banners .grid--1-col-tablet-down.grid__item{
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  

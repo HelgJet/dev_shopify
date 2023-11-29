@@ -1,0 +1,77 @@
+<li class="three-linklists-two-banners" data-type="3linklists-2banners" data-index="{{ ind }}">
+    <div class="linklists_wrap">
+        {% for i in (1..3) %}
+            {% capture list %}links_{{ i }}_3l2b{% endcapture %}
+            {%- assign list = block.settings[list] -%}
+          {% if list != blank %}
+            <div class="megamenu_col">
+                <div class="h6 {% if block.settings.show_title_3l2b %}visible{% else %}hidden{% endif %}">{{ linklists[list].title }}</div>
+                <ul class="linklists" id="menu_{{ block.id }}-{{ i }}">
+                    {% for link in linklists[list].links %}
+                        <li class="linklists__item">
+                          {% if link.title contains '[new]' %}
+                                      {%- assign link_text = link.title | replace: '[new]', '' -%}
+                                      {%- assign link_badge = 'new' -%}
+                                  {% elsif link.title contains '[hot]' %} 
+                                      {%- assign link_text = link.title | replace: '[hot]', '' -%}
+                                      {%- assign link_badge = 'hot' -%}	
+                                  {% elsif link.title contains '[bestseller]' %} 
+                                      {%- assign link_text = link.title | replace: '[bestseller]', '' -%}
+                                      {%- assign link_badge = 'bestseller' -%}	
+                                  {% elsif link.title contains '[popular]' %}  
+                                      {%- assign link_text = link.title | replace: '[popular]', '' -%}
+                                      {%- assign link_badge = 'popular' -%}
+                                  {% elsif link.title contains '[soon]' %}  
+                                      {%- assign link_text = link.title | replace: '[soon]', '' -%}
+                                      {%- assign link_badge = 'soon' -%}
+                                  {% else %}
+                                      {%- assign link_text = link.title -%}
+                                      {%- assign link_badge = false -%}	
+                                  {% endif %}
+                          <a class="linklists__link" href="{{ link.url }}">{{ link_text }}{% if link_badge %}<span class="menu_badge badge_{{ link_badge }}">{{ link_badge }}</span>{% endif %}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+          {% endif %}  
+        {% endfor %}
+        <div class="menu_banners_inner">
+            <div class="menu_banner_bg color-{{ block.settings.banner_color_scheme }} gradient"> 
+                <div class="menu_banner_caption {{ block.settings.banner_align_1_3l2b }}">
+                    <div class="bg_wrap">
+                        <div class="h5">{{ block.settings.banner1_title_3l2b }}</div>
+                        <p>{{ block.settings.banner1_text_3l2b }}</p>
+                        <a class="link animate-arrow" href="{{ block.settings.banner1_link_3l2b }}">{{ block.settings.banner1_link_text_3l2b }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   {% if block.settings.banner2_img_3l2b != blank %}
+    <div class="menu_banner_item megamenu_col {{ block.settings.banner_style_2_3l2b }}">
+           {%- if block.settings.banner2_link_3l2b != blank -%}
+              <a href="{{ block.settings.banner2_link_3l2b }}" class="megamenu_banner"></a>
+           {%- endif -%}
+            <div class="megamenu-img">
+             {%- capture sizes -%}(min-width: 990px)710px, (min-width: 750px) 550px, calc(100vw - 30px){%- endcapture -%}
+
+              {{ block.settings.banner2_img_3l2b | image_url: width: 710 | image_tag:
+                   sizes: sizes,
+                   loading: 'lazy',
+                   widths: '275, 550, 710', 
+                   alt: block.settings.banner2_img_3l2b.alt | escape
+               }}
+            </div>
+            <div class="menu_banner_caption
+                 justify-content-{{ block.settings.banner_position_vertical_2_3l2b }}
+                 align-items-{{ block.settings.banner_position_horizontal_2_3l2b }}">
+            {%- if block.settings.banner2_title_3l2b != blank and block.settings.banner2_text_3l2b != blank -%}  
+                <div class="bg_wrap">
+                   <div class="h4">{{ block.settings.banner2_title_3l2b }}</div>
+                    <p>{{ block.settings.banner2_text_3l2b }}</p>
+                </div>
+            {%- endif -%}   
+            </div> 
+    </div>
+   {% endif %}
+</li>

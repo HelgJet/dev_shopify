@@ -1,0 +1,447 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "d314344f-58a5-4c38-9d6f-31af4cbed0e3": {
+          "type": "timer",
+          "settings": {
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "430fe8e1-70e9-4b76-a903-797bf58aaf27": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/star_rating\/bae150af-8da8-48b2-9867-398188115e5f",
+          "settings": {
+            "stars_fill_color": "#ffdb1e",
+            "star_size": 15,
+            "text_align": "flex-start",
+            "product": "{{product}}",
+            "stars_text_empty": "No reviews"
+          }
+        },
+        "5581422c-cd42-4bd2-b1ee-4ebe51b0cb41": {
+          "type": "inventory",
+          "settings": {
+            "text_style": "body",
+            "inventory_threshold": 10,
+            "show_inventory_quantity": true,
+            "show_inventory_bar": true,
+            "max_bar_inventory": 100
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "variant_label": true,
+            "variant_pills_border_thickness": 1,
+            "variant_pills_border_opacity": 35,
+            "variant_pills_radius": 40,
+            "picker_type": "dropdown",
+            "image_button_ratio": "square",
+            "color_picker_type": "color_label",
+            "inventory_threshold": 10,
+            "link_notify": true,
+            "link_similar": true
+          }
+        },
+        "35cc6300-f8f4-4fc8-933d-0dcb0a0d21bd": {
+          "type": "popup",
+          "settings": {
+            "text": "Size chart",
+            "page": "size-shart",
+            "content": "",
+            "custom_liquid": "",
+            "icon": "ruler"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "wishlist_btn": true,
+            "compare_btn": true
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true
+          }
+        },
+        "ec496ca3-a1c2-43f4-99a7-532ba480809b": {
+          "type": "notify_button",
+          "settings": {
+          }
+        },
+        "000f8521-e633-4da6-8159-d77d9db6bfbc": {
+          "type": "product-drawer-all",
+          "settings": {
+            "text": "PRODUCT DETAILS",
+            "page": "",
+            "content": "",
+            "custom_liquid": "<p>Fine-knit, turtleneck top with long sleeves.<\/p>\n<p><strong>Size<\/strong> - The model is 177cm\/5'10\" and wears a size S<br \/><strong>Composition<\/strong> - Cotton 95%, Spandex 5%<br \/><strong>SKU<\/strong> - 3245-S<\/p>",
+            "icon": "none",
+            "custom_data_attr": ""
+          }
+        },
+        "53f26a9f-9529-4d9f-a2ac-32cfe1f639eb": {
+          "type": "product-drawer-all",
+          "settings": {
+            "text": "LOOK AFTER ME",
+            "page": "",
+            "content": "<p>Only non-chlorine bleach when needed<\/p><p>No dry clean<\/p><p>Machine wash cold<\/p><p>Dry flatUse mild detergent<\/p><p>Low iron<\/p>",
+            "custom_liquid": "",
+            "icon": "none",
+            "custom_data_attr": ""
+          }
+        },
+        "bde933d4-fc36-469f-b07d-18aef7be999b": {
+          "type": "visitors",
+          "settings": {
+            "live_views_text": "people are viewing this right now",
+            "live_views_range": "20-50",
+            "live_view_duration": "20"
+          }
+        },
+        "21395e72-380e-479f-a696-b99e3de1dcf6": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "DESCRIPTION",
+            "icon": "none",
+            "content": "",
+            "page": "",
+            "custom_liquid": "{%- if product.description != blank -%}\n                  <div class=\"h6\"> {{ block.settings.title }}<\/div>\n                  <div class=\"product__description rte quick-add-hidden\">\n                    {{ product.description }} \n                  <\/div>\n                {%- endif -%}",
+            "open_first_collapsible_row": false
+          }
+        },
+        "collapsible-row-0": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "PRODUCT DETAILS",
+            "icon": "none",
+            "content": "",
+            "page": "",
+            "custom_liquid": "<ul>\n<li>Relaxed-fit <\/li>\n<li>Jacquard-knit fabric with wool content<\/li>\n<li>Round neckline<\/li>\n<li>Dropped shoulders<\/li>\n<\/ul>",
+            "open_first_collapsible_row": false
+          }
+        },
+        "d6b1d212-599b-4088-8a14-95078ced1848": {
+          "type": "additional_info",
+          "settings": {
+            "block_heading": "DETAILS INFO",
+            "make_collapsible_row": true,
+            "show_sku": true,
+            "show_vendor": true,
+            "show_product_types": true,
+            "show_weight": true,
+            "show_tags": true,
+            "show_collections": true
+          }
+        },
+        "22481731-8bca-49a6-a7df-15c198b3da13": {
+          "type": "collapsible_tab",
+          "settings": {
+            "heading": "SIZE AND FIT",
+            "icon": "none",
+            "content": "",
+            "page": "",
+            "custom_liquid": "<img lazy=\"loading\" src=\"https:\/\/cdn.shopify.com\/s\/files\/1\/0565\/2109\/7391\/files\/size_guide.jpg?v=1675350078\" alt=\"size chart\"\/>",
+            "open_first_collapsible_row": false
+          }
+        },
+        "ca84ae0c-e874-4a01-b783-c506d099a62c": {
+          "type": "icon-with-text",
+          "settings": {
+            "layout": "vertical",
+            "icon_1": "truck",
+            "heading_1": "Free delivery",
+            "icon_2": "rotate_left",
+            "heading_2": "Free returns",
+            "icon_3": "tick_square",
+            "heading_3": "More delivery info"
+          }
+        },
+        "share": {
+          "type": "share",
+          "disabled": true,
+          "settings": {
+            "share_label": "Share"
+          }
+        },
+        "b7a5d6ff-5409-45b1-bd19-92b967b322d6": {
+          "type": "complementary",
+          "disabled": true,
+          "settings": {
+            "block_heading": "Style with",
+            "make_collapsible_row": true,
+            "icon": "eye",
+            "product_list_limit": 3,
+            "products_per_page": 1,
+            "pagination_style": "dots",
+            "image_ratio": "portrait",
+            "enable_quick_add": false
+          }
+        },
+        "f7abe3c6-c3a6-4d5b-b48d-1e08fb1ce827": {
+          "type": "product-drawer-all",
+          "settings": {
+            "text": "REVIEWS",
+            "page": "",
+            "content": "",
+            "custom_liquid": "<div id=\"shopify-product-reviews\" data-id=\"{{ product.id }}\"> \n{{ product.metafields.spr.reviews }}   \n<\/div>",
+            "icon": "star",
+            "custom_data_attr": "data-drawer-reviews"
+          }
+        }
+      },
+      "block_order": [
+        "d314344f-58a5-4c38-9d6f-31af4cbed0e3",
+        "title",
+        "price",
+        "430fe8e1-70e9-4b76-a903-797bf58aaf27",
+        "5581422c-cd42-4bd2-b1ee-4ebe51b0cb41",
+        "variant_picker",
+        "35cc6300-f8f4-4fc8-933d-0dcb0a0d21bd",
+        "quantity_selector",
+        "buy_buttons",
+        "ec496ca3-a1c2-43f4-99a7-532ba480809b",
+        "000f8521-e633-4da6-8159-d77d9db6bfbc",
+        "53f26a9f-9529-4d9f-a2ac-32cfe1f639eb",
+        "bde933d4-fc36-469f-b07d-18aef7be999b",
+        "21395e72-380e-479f-a696-b99e3de1dcf6",
+        "collapsible-row-0",
+        "d6b1d212-599b-4088-8a14-95078ced1848",
+        "22481731-8bca-49a6-a7df-15c198b3da13",
+        "ca84ae0c-e874-4a01-b783-c506d099a62c",
+        "share",
+        "b7a5d6ff-5409-45b1-bd19-92b967b322d6",
+        "f7abe3c6-c3a6-4d5b-b48d-1e08fb1ce827"
+      ],
+      "settings": {
+        "page_width": 1200,
+        "use_section_width": true,
+        "enable_sticky_info": true,
+        "show_sticky_buttons": true,
+        "media_position": "left",
+        "gallery_layout": "thumbnail_slider",
+        "media_size": "medium",
+        "constrain_to_viewport": false,
+        "media_fit": "cover",
+        "image_zoom": "hover",
+        "filter_media": true,
+        "thumbs_size": 90,
+        "thumbnails_list_revers": false,
+        "show_pag": false,
+        "hide_thumbnails_desktop": false,
+        "mobile_thumbnails": "hide",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 0,
+        "padding_bottom": 12,
+        "padding_left": 15,
+        "padding_right": 15,
+        "section_spacing_grid_horizontal": 28,
+        "section_spacing_grid_vertical": 28
+      }
+    },
+    "product-details-tabs": {
+      "type": "product-details-tabs",
+      "blocks": {
+        "683fcd44-6cce-4edb-9fab-3b3757484470": {
+          "type": "description",
+          "disabled": true,
+          "settings": {
+            "title": "description",
+            "block_width": 900
+          }
+        },
+        "7f7dc27e-4f07-4026-b103-1d7a116e3216": {
+          "type": "all_tab",
+          "settings": {
+            "title": "ABOUT BRAND",
+            "content": "",
+            "page": "about-brand",
+            "custom_liquid": "",
+            "block_width": 1200
+          }
+        },
+        "1ce0c7ae-664e-4c6f-8cba-747b18517b1d": {
+          "type": "all_tab",
+          "settings": {
+            "title": "F.A.Q",
+            "content": "",
+            "page": "demo",
+            "custom_liquid": "",
+            "block_width": 1200
+          }
+        },
+        "000853a4-e143-4e40-a9e9-27975d31be4f": {
+          "type": "all_tab",
+          "settings": {
+            "title": "Posts About product",
+            "content": "",
+            "page": "info-post",
+            "custom_liquid": "",
+            "block_width": 1200
+          }
+        }
+      },
+      "block_order": [
+        "683fcd44-6cce-4edb-9fab-3b3757484470",
+        "7f7dc27e-4f07-4026-b103-1d7a116e3216",
+        "1ce0c7ae-664e-4c6f-8cba-747b18517b1d",
+        "000853a4-e143-4e40-a9e9-27975d31be4f"
+      ],
+      "settings": {
+        "box_type": "box",
+        "section_width": 1200,
+        "section_fluid_width": 1880,
+        "spacing_grid_horizontal": 8,
+        "spacing_grid_vertical": 8,
+        "padding_top": 44,
+        "padding_bottom": 52,
+        "tab_style": "uppercase"
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "page_width": 1200,
+        "use_section_width": true,
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 6,
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "nav_style_type": "type_2",
+        "color_scheme": "background-1",
+        "image_ratio": "portrait",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "aab5e2b5-c406-422f-85cb-126af6e69d71": {
+      "type": "devok-featured-collection",
+      "blocks": {
+        "b30a4bd4-2607-43c3-bac6-e885422ac955": {
+          "type": "collection_tab",
+          "settings": {
+            "block_collection_title": "",
+            "block_title": "",
+            "collection": "accessories",
+            "card_design": "design-1",
+            "card_text_alignment": "left",
+            "image_ratio": "adapt",
+            "image_padding": 0,
+            "bg_wrap_img_color": "",
+            "bg_border_img_color": "#ffffff",
+            "show_secondary_image": false,
+            "badge_card_toggle": true,
+            "show_vendor": false,
+            "show_rating": false,
+            "enable_quick_add": false,
+            "enable_quick_view": false,
+            "show_compare": false,
+            "show_wishlist": false,
+            "show_color_link": false,
+            "show_countdown": false
+          }
+        }
+      },
+      "block_order": [
+        "b30a4bd4-2607-43c3-bac6-e885422ac955"
+      ],
+      "custom_css": [
+
+      ],
+      "settings": {
+        "box_type": "box",
+        "section_width": 1200,
+        "section_fluid_width": 1880,
+        "title": "See the most popular products",
+        "section_heading_scale": 100,
+        "subtitle": "",
+        "section_subtitle_scale": 100,
+        "description": "",
+        "customInfo": "",
+        "section_description_scale": 100,
+        "description_style": "body",
+        "heading_alignment": "flex-start",
+        "inverted": false,
+        "products_to_show": 15,
+        "columns_desktop": 4,
+        "spacing_grid_horizontal": 30,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_btn_text": "View all",
+        "view_all_style": "solid",
+        "use_tabs": false,
+        "enable_desktop_slider": true,
+        "carousel_control_type": "navigation",
+        "design_type": "type_1",
+        "color_scheme": "background-1",
+        "customColor": false,
+        "bg_color": "",
+        "container_color_scheme": "background-1",
+        "section_custom_color": false,
+        "bg_section_color": "",
+        "bg_color_opacity": 0.1,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "desktop_section_padding": "2rem 2rem 2rem 2rem",
+        "desktopContainerPadding": "2rem 2rem 2rem 2rem",
+        "mobile_section_padding": "1rem 1rem 1rem 1rem",
+        "mobileContainerPadding": "1rem 1rem 1rem 1rem"
+      }
+    },
+    "53790f8f-79f5-447a-86a6-0c62573cde21": {
+      "type": "devok-viewed-product",
+      "settings": {
+        "page_width": 1200,
+        "use_section_width": true,
+        "title": "Recently viewed products",
+        "heading_size": "h2",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "spacing_grid_horizontal": 15,
+        "nav_style_type": "type_1",
+        "color_scheme": "background-1",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "10ca66b7-3eaf-4a0f-9407-3ba0284ebc25": {
+      "type": "quick-order-list",
+      "settings": {
+        "show_image": true,
+        "show_sku": true,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-details-tabs",
+    "product-recommendations",
+    "aab5e2b5-c406-422f-85cb-126af6e69d71",
+    "53790f8f-79f5-447a-86a6-0c62573cde21",
+    "10ca66b7-3eaf-4a0f-9407-3ba0284ebc25"
+  ]
+}

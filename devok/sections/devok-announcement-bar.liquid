@@ -1,0 +1,535 @@
+{{ 'component-announcement.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+   .announcement-bar {
+      --page-width: {{ section.settings.page_width | divided_by: 10 }}rem; 
+    }  
+{%- endstyle -%}
+
+{%- for block in section.blocks -%}
+  {%- case block.type -%}
+    {%- when 'announcement' -%}
+     {%- unless block.settings.only_home and request.page_type != 'index' -%}
+      <div class="announcement-bar item-{{block.id}} announcement-bar__text{% if section.settings.separate_border %} announcement-bar__border-bottom{% endif %} color-{{ block.settings.color_scheme }} gradient" role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+        {%- if block.settings.text != blank or block.settings.price_text != blank or block.settings.btn_text != blank -%}
+           {%- style -%}
+            .announcement-bar.item-{{block.id}} .text-1{
+              --font-text-scale-1: {{ block.settings.section_heading_scale_1 | times: 1.0 | divided_by: settings.body_scale }};
+            }
+            .announcement-bar.item-{{block.id}} .text-2{
+              --font-text-scale-2: {{ block.settings.section_heading_scale_2 | times: 1.0 | divided_by: settings.body_scale }};
+            }
+          {%- endstyle -%}
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
+          {%- endif -%}
+              <div class="page-width announcement__info-wrapper announcement__info-wrapper__column--{{ block.settings.columns_mobile }} {{ block.settings.text_alignment }} {% if block.settings.ad_timer != blank %} has--timer {% endif %} ">
+                <p class="announcement-bar__message {{ block.settings.text_alignment }} text-1">
+                  {%- if block.settings.text != blank -%}
+                    <span style="color: {{ block.settings.text_color_1 }};">{{ block.settings.text | escape }}</span>
+                  {%- endif -%}
+                  
+                  {%- if block.settings.price_text != blank -%}
+                     <span class="text-2 pl-0" style="color: {{ block.settings.text_color_2 }};">{{ block.settings.price_text }}</span>
+                  {%- endif -%}
+
+                  {%- if block.settings.link != blank -%}
+                    {%- if block.settings.btn_text != blank -%}
+                      <span class="button button-small button--primary">{{ block.settings.btn_text }}</span>
+                    {%- else -%} 
+                      {% render 'icon-arrow' %} 
+                    {%- endif -%}
+                  {%- endif -%}
+                </p>
+                {%- if block.settings.ad_timer != blank -%}
+                  <div class="announcement__info--timer">
+                    {% assign launch_date = block.settings.time %}
+                    <countdown-timer data-datetime="{{ launch_date }}" class="countdown-timer color-{{ block.settings.timer_color_scheme }}"> 
+                        <div class="days time-wrapper">
+                          <span data-days class="time days">00</span>
+                          <span class="separator days">{{ 'accessibility.days' | t }}</span> 
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="hours time-wrapper"> 
+                          <span data-hours class="time hours">00</span>
+                          <span class="separator hours">{{ 'accessibility.hours' | t }}</span>
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="minutes time-wrapper">
+                          <span data-minutes class="time minutes">00</span>
+                          <span class="separator minutes">{{ 'accessibility.minutes' | t }}</span>
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="seconds time-wrapper">
+                          <span data-seconds class="time seconds">00</span>
+                          <span class="separator seconds">{{ 'accessibility.seconds' | t }}</span>
+                        </div>  
+                      </countdown-timer>   
+                  </div>
+                {%- endif -%}
+              </div>
+          {%- if block.settings.link != blank -%}
+            </a>
+          {%- endif -%} 
+        {%- endif -%}
+      </div>
+        
+     {%- endunless -%}  
+    {%- when 'announcement-image' -%}
+      {%- unless block.settings.only_home and request.page_type != 'index' -%}
+        <div class="announcement-bar announcement-bar__image {% if section.settings.separate_border %} announcement-bar__border-bottom{% endif %} color-{{ block.settings.color_scheme }} gradient"  role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+          {%- if block.settings.ad_timer != blank -%}
+                      <div class="announcement__info--timer announcement__info--timer__{{ block.settings.text_alignment }}">
+                      {% assign launch_date = block.settings.time %}
+                      <countdown-timer data-datetime="{{ launch_date }}" class="countdown-timer color-{{ block.settings.timer_color_scheme }}"> 
+                            <div class="days time-wrapper">
+                              <span data-days class="time days">00</span>
+                              <span class="separator days">{{ 'accessibility.days' | t }}</span> 
+                            </div> 
+                            <span class="divider">:</span>
+                            <div class="hours time-wrapper"> 
+                              <span data-hours class="time hours">00</span>
+                              <span class="separator hours">{{ 'accessibility.hours' | t }}</span>
+                            </div> 
+                            <span class="divider">:</span>
+                            <div class="minutes time-wrapper">
+                              <span data-minutes class="time minutes">00</span>
+                              <span class="separator minutes">{{ 'accessibility.minutes' | t }}</span>
+                            </div> 
+                            <span class="divider">:</span>
+                            <div class="seconds time-wrapper">
+                              <span data-seconds class="time seconds">00</span>
+                              <span class="separator seconds">{{ 'accessibility.seconds' | t }}</span>
+                            </div>  
+                          </countdown-timer>   
+                      </div>
+          {%- endif -%}
+          {%- if block.settings.image != blank -%}
+              <{% if block.settings.link != blank %}a href="{{ block.settings.link }}"{% else %}div{% endif %} class="media medium-down-hide"  style="padding-bottom: {{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+                {%-liquid
+                  assign image_height = block.settings.image.width | divided_by: block.settings.image.aspect_ratio
+                  assign sizes = "100vw"
+                -%}
+                {{ block.settings.image | image_url: width: 3840 | image_tag: 
+                  loading: 'lazy',
+                  width: block.settings.image.width,
+                  height: image_height,
+                  sizes: sizes,
+                  widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840',
+                  alt: block.settings.image.alt | escape
+                }}
+            </{% if block.settings.link != blank %}a{% else %}div{% endif %}> 
+          {%- endif -%}
+          {%- if block.settings.image_mobile != blank -%}
+              <{% if block.settings.link != blank %}a href="{{ block.settings.link }}"{% else %}div{% endif %} class="media large-up-hide" style="padding-bottom: {{ 1 | divided_by: block.settings.image_mobile.aspect_ratio | times: 100 }}%;">
+                {%-liquid
+                        assign image_height_mobile = block.settings.image_mobile.width | divided_by: block.settings.image_mobile.aspect_ratio
+                        assign sizes_mobile = "100vw"
+                  -%}
+                {{ block.settings.image_mobile | image_url: width: 1100 | image_tag:
+                  loading: 'lazy',
+                  width: block.settings.image_mobile.width,
+                  height: image_height_mobile,
+                  sizes: sizes_mobile,
+                  widths: '375, 550, 750, 1100',
+                  alt: block.settings.image_mobile.alt | escape  
+                }}
+              </{% if block.settings.link != blank %}a{% else %}div{% endif %}>
+          {%- endif -%} 
+        </div>
+      {%- endunless -%}
+    {%- when 'announcement-coupon' -%}
+     {%- unless block.settings.only_home and request.page_type != 'index' -%}
+      <div id="announcement-bar__coupon" data-ad-period='{{ block.settings.disable_period }}' class="announcement-bar announcement-bar__coupon color-{{ block.settings.color_scheme }} gradient{% if section.settings.separate_border %} announcement-bar__border-bottom{% endif %}"  role="region" aria-label="{{ 'sections.header.announcement' | t }}" {{ block.shopify_attributes }}>
+        <div class="page-width announcement__info-wrapper {% if block.settings.ad_timer != blank %} has--timer{% endif %}">
+          <span class="close" data-ad-cookie>{% render 'icon-close' %}</span>
+          <div class="announcement-bar__message">           
+            <span class="is-desktop">
+              <strong>{{ block.settings.sale-heading }}</strong>
+              {{ block.settings.sale-text }}
+            </span>
+            <span class="is-mobile">{{ block.settings.sale-mobile }} <strong>{{ block.settings.discount-percent }}</strong></span>
+          </div>
+          <div class="coupon">
+            <input type="text" value="{{ block.settings.coupon }}" id="couponCode" readonly />
+            <div class="copyTooltip">
+              <button onclick="myFunction()" onmouseout="outFunc()">
+                <span class="copyTooltiptext" id="myTooltip">{{ 'accessibility.copy_to' | t }}</span>
+                 {{ 'accessibility.copy' | t }}
+              </button>  
+            </div>
+          </div>
+          {%- if block.settings.ad_timer != blank -%}
+              <div class="announcement__info--timer">
+                {% assign launch_date = block.settings.time %}
+                <countdown-timer data-datetime="{{ launch_date }}" class="countdown-timer color-{{ block.settings.timer_color_scheme }}"> 
+                        <div class="days time-wrapper">
+                          <span data-days class="time days">00</span>
+                          <span class="separator days">{{ 'accessibility.days' | t }}</span> 
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="hours time-wrapper"> 
+                          <span data-hours class="time hours">00</span>
+                          <span class="separator hours">{{ 'accessibility.hours' | t }}</span>
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="minutes time-wrapper">
+                          <span data-minutes class="time minutes">00</span>
+                          <span class="separator minutes">{{ 'accessibility.minutes' | t }}</span>
+                        </div> 
+                        <span class="divider">:</span>
+                        <div class="seconds time-wrapper">
+                          <span data-seconds class="time seconds">00</span>
+                          <span class="separator seconds">{{ 'accessibility.seconds' | t }}</span>
+                        </div>  
+                </countdown-timer>   
+              </div>
+          {%- endif -%}
+        </div>
+      </div>       
+        <script>
+            // Click to Copy
+            var copyTooltip = document.getElementById('myTooltip');
+            var copyInput = document.getElementById('couponCode');
+            var copyText = `{{ 'accessibility.copy_to' | t }}`;
+            var copiedText = `{{ 'accessibility.copied' | t }}`;
+            function myFunction() {
+              copyInput.select();
+              copyInput.setSelectionRange(0, 99999);
+              document.execCommand('copy');
+              copyTooltip.innerHTML = copiedText + copyInput.value;
+            }
+            function outFunc() {
+              copyTooltip.innerHTML = copyText; 
+            } 
+         </script>
+   {%- endunless -%}
+  {%- endcase -%}
+{%- endfor -%}
+
+
+{% javascript %}
+    document.addEventListener('DOMContentLoaded', function() {
+      var adCookie = document.getElementById('announcement-bar__coupon');
+      if (adCookie) {
+        var viewPeriod = parseInt(adCookie.getAttribute('data-ad-period')); 
+        var adCookieClick = adCookie.querySelector('[data-ad-cookie]');
+        adCookie.style.display = 'block'; 
+
+        if (getCookie('cookieAd') == 'closed') {
+            adCookie.style.display = 'none';  
+        }
+                      
+        adCookieClick.addEventListener('click', function(e) {
+          e.preventDefault(); 
+          adCookie.style.display = 'none';
+          setCookie('cookieAd', 'closed', viewPeriod, '/');
+        });    
+      }   
+    }); 
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "class": "announcement-bar-section",
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "only_home",
+          "label": "Use only home page",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Welcome to our store",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+        "type": "range",
+        "id": "section_heading_scale_1",
+        "min": 100,
+        "max": 150,
+        "step": 1,
+        "unit": "%",
+        "label": "t:sections.all.section_heading_scale.label",
+        "default": 100
+        },
+        {
+          "type": "color",
+          "id": "text_color_1",
+          "label": "Another Color text"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "default": "buy now",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "text",
+          "id": "price_text",
+          "default": "$79",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+         {
+          "type": "range",
+          "id": "section_heading_scale_2",
+          "min": 100,
+          "max": 150,
+          "step": 1,
+          "unit": "%",
+          "label": "t:sections.all.section_heading_scale.label",
+          "default": 100
+        },
+        {
+          "type": "color",
+          "id": "text_color_2",
+          "label": "Another Color text"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.label"
+        },
+       {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "background-1"
+      },
+        {
+          "type": "url", 
+          "id": "link",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        },
+         {
+          "type": "checkbox",
+          "id": "ad_timer",
+          "label": "Enable Countdown",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Time Deal",
+          "default": "2023-08-25T00:30:00Z"
+        },
+        {
+          "type": "color_scheme",
+          "id": "timer_color_scheme",
+          "label": "Timer color",
+          "default": "background-1" 
+        },
+        {
+          "type": "header",
+          "content": "t:sections.product-recommendations.settings.header_mobile.content"
+        },
+        {
+          "type": "select",
+          "id": "columns_mobile",
+          "default": "2",
+          "label": "t:sections.product-recommendations.settings.columns_mobile.label",
+          "options": [
+            {
+              "value": "1",
+              "label": "t:sections.product-recommendations.settings.columns_mobile.options__1.label"
+            },
+            {
+              "value": "2",
+              "label": "t:sections.product-recommendations.settings.columns_mobile.options__2.label"
+            }
+          ]
+       }
+      ]
+    },
+    {
+      "type": "announcement-image",
+      "name": "t:sections.announcement-bar.blocks.announcement-image.name",
+      "settings": [
+         {
+          "type": "checkbox",
+          "id": "only_home",
+          "label": "Use only home page",
+          "default": false 
+        },
+       {
+        "type": "image_picker",
+        "id": "image",
+        "label": "t:sections.announcement-bar.blocks.announcement-image.settings.image.label"
+      },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "t:sections.announcement-bar.blocks.announcement-image.settings.image_mobile.label"
+        },
+     
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__1.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__2.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.options__3.label"
+            }
+          ],
+          "default": "center",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text_alignment.label"
+        },
+        {
+          "type": "url",
+          "id": "link", 
+          "label": "t:sections.announcement-bar.blocks.announcement-image.settings.link.label"
+        },
+         {
+          "type": "checkbox",
+          "id": "ad_timer",
+          "label": "Enable Countdown",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "time",
+          "label": "Time Deal",
+          "default": "2023-08-25T00:30:00Z"
+        },
+         {
+          "type": "color_scheme",
+          "id": "timer_color_scheme",
+          "label": "Timer color",
+          "default": "background-1"
+        }
+      ]
+    },
+     {
+      "type": "announcement-coupon",
+      "name": "t:sections.announcement-bar.blocks.announcement-coupon.name",
+      "limit": 1,
+      "settings": [
+         {
+          "type": "checkbox",
+          "id": "only_home",
+          "label": "Use only home page",
+          "default": false
+        },
+          {
+            "id": "sale-heading",
+            "type": "text",
+            "label": "t:sections.announcement-bar.blocks.announcement-coupon.settings.sale-heading.label",
+            "default": "PROMOTION"
+          },
+          {
+            "id": "sale-text",
+            "type": "text",
+            "label": "t:sections.announcement-bar.blocks.announcement-coupon.settings.sale-text.label",
+            "default": "Promotion text short description. Use Coupon"
+          },
+          {
+            "id": "sale-mobile",
+            "type": "text",
+            "label": "t:sections.announcement-bar.blocks.announcement-coupon.settings.sale-mobile.label",
+            "default": "Promotion text short description. Use Coupon"
+          },
+          {
+            "id": "discount-percent",
+            "type": "text",
+            "label": "t:sections.announcement-bar.blocks.announcement-coupon.settings.discount-percent.label",
+            "default": "50% OFF"
+          },
+          {
+            "id": "coupon",
+            "type": "text",
+            "label": "t:sections.announcement-bar.blocks.announcement-coupon.settings.coupon.label",
+            "default": "CODEPEN50"
+          },
+          {
+            "type": "range",
+            "id": "disable_period",
+            "min": 1,
+            "max": 7,
+            "step": 1,
+            "label": "Period disabled AD after close",
+            "default": 1
+          },
+         {
+          "type": "color_scheme",
+          "id": "timer_color_scheme",
+          "label": "Timer color", 
+          "default": "background-1"
+        },
+          {
+            "type": "checkbox",
+            "id": "ad_timer",
+            "label": "Enable Countdown",
+            "default": false
+          },
+          {
+            "type": "text",
+            "id": "time",
+            "label": "Time Deal",
+            "default": "2023-08-25T00:30:00Z"
+          } 
+      ]
+    }
+  ],
+  "settings": [
+    {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1800,
+        "step": 100,
+        "default": 1200, 
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "separate_border",
+      "label": "t:sections.announcement-bar.settings.separate_border.label",
+      "default": false
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "announcement"
+      }
+    ]
+  }
+}
+{% endschema %}
+
+  
+
+
+

@@ -1,0 +1,681 @@
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-menu.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-social.css' | asset_url | stylesheet_tag }}
+{{ 'section-footer.css' | asset_url | stylesheet_tag }}
+
+{%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
+  {{ 'component-localization-form.css' | asset_url | stylesheet_tag }}
+{%- endif -%} 
+
+{%- style -%}
+
+  .footer {
+      --page-width: {{ section.settings.page_width | divided_by: 10 }}rem; 
+  }
+
+  .footer {
+    margin-top: {{ section.settings.margin_top | times: 0.75 | round: 0 }}px;
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  } 
+
+  @media screen and (min-width: 750px) {
+    .footer {
+      margin-top: {{ section.settings.margin_top }}px;
+    }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  
+{%- endstyle -%}
+
+<footer class="footer footer-type-{{ settings.footer_type }} color-{{ section.settings.color_scheme }} gradient section-{{ section.id }}-padding">
+  
+    {% case settings.footer_type %} 
+		  {% when '1' %}
+			  {% render 'footer-content-1', section: section, block: block %}
+		  {% when '2' %}
+			{% render 'footer-content-2', section: section, block: block %}
+		  {% when '3' %}
+			{% render 'footer-content-3', section: section, block: block %}
+		  {% when '4' %}
+			{% render 'footer-content-4', section: section, block: block %}
+		  {% when '5' %}
+			 {% render 'footer-content-5', section: section, block: block %}
+      {% when '6' %}
+		   {% render 'footer-content-6', section: section, block: block %}
+	  {% endcase %}  
+
+</footer>
+
+{%- if section.settings.enable_country_selector or section.settings.enable_language_selector -%}
+  <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "class": "section-footer",
+  "blocks": [
+
+    {
+      "type": "@app"
+    },
+    
+    {
+      "type": "link_list",
+      "name": "t:sections.footer.blocks.link_list.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Quick links",
+          "label": "t:sections.footer.blocks.link_list.settings.heading.label"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "default": "footer",
+          "label": "t:sections.footer.blocks.link_list.settings.menu.label",
+          "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+        },
+        {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        },
+        {
+          "type": "checkbox",
+          "id": "mobile_collapse",
+          "label": "Use collapse on mobile",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "brand_information",
+      "name": "t:sections.footer.blocks.brand_information.name",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.footer.blocks.brand_information.settings.paragraph.content"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.footer.blocks.brand_information.settings.header__1.content"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "default": true,
+          "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
+          "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+        },
+        
+        {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.footer.blocks.text.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Heading",
+          "label": "t:sections.footer.blocks.text.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "subtext",
+          "default": "<p>Share contact information, store details, and brand content with your customers.</p>",
+          "label": "t:sections.footer.blocks.text.settings.subtext.label"
+        },
+        {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        }
+      ]
+    },
+    {
+        "type": "footer_payment",
+        "name": "Footer payment",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "default": "Payment methods",
+            "label": "t:sections.footer.blocks.text.settings.heading.label"
+          },
+          {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        }
+        ]
+    },
+    {
+        "type": "contacts",
+        "name": "Contacts info",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "heading",
+            "default": "Contacts",
+            "label": "t:sections.footer.blocks.text.settings.heading.label"
+          },
+          {
+            "type": "richtext",
+            "id": "contacts_address",
+            "label": "Contacts address"
+          },
+          {
+            "type": "richtext",
+            "id": "contacts_time",
+            "label": "Contacts time"
+          },
+          {
+            "type": "text",
+            "id": "contacts_phone",
+            "label": "Contacts phone"
+          },
+          {
+            "type": "text",
+            "id": "contacts_phone_text",
+            "label": "Contacts phone text"
+          },
+          {
+            "type": "text",
+            "id": "contacts_email",
+            "label": "Contacts email"
+          },
+          {
+            "type": "text",
+            "id": "contacts_email_text",
+            "label": "Contacts email text"
+          },
+          {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        }
+        ]
+    },
+    {
+        "type": "footer_newsletter",
+        "name": "Footer newsletter",
+        "limit": 1,
+        "settings": [
+           {
+              "type": "header",
+              "content": "t:sections.footer.settings.header__1.content",
+              "info": "t:sections.footer.settings.header__1.info"
+            },
+            {
+              "type": "text",
+              "id": "newsletter_heading",
+              "default": "Subscribe to our emails",
+              "label": "t:sections.footer.settings.newsletter_heading.label"
+            },
+            {
+                "type": "range",
+                "id": "section_subtitle_scale",
+                "min": 100,
+                "max": 200,
+                "step": 1,
+                "unit": "%",
+                "label": "t:sections.all.section_heading_scale.label",
+                "default": 100
+            },
+            {
+              "type": "text",
+              "id": "newsletter_text",
+              "default": "Stay Updated on all that's new add noteworthy",
+              "label": "t:sections.footer.settings.newsletter_text.label"
+            },
+                {
+                "type": "select",
+                "id": "input_style",
+                "label": "field input style",
+                "default": "2",
+                "options": [
+                    {
+                        "label": "input style 1",
+                        "value": "1"
+                    },
+                    {
+                        "label": "input style 2",
+                        "value": "2"
+                    }
+                ]
+            },
+             {
+              "type": "checkbox",
+              "id": "show_social",
+              "default": false,
+              "label": "t:sections.footer.blocks.brand_information.settings.show_social.label",
+              "info": "t:sections.footer.blocks.brand_information.settings.show_social.info"
+            }
+        ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "min": 50,
+          "max": 550,
+          "step": 5,
+          "unit": "px",
+          "label": "Image width",
+          "default": 100
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Image alignment on large screen",
+          "options": [
+            {
+              "value": "",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "center"
+        },
+        {
+        	"type": "select",
+        	"id": "columns_desktop",
+        	"label": "Block width",
+        	"options": [
+        		{
+        		"value": "6",
+        		"label": "16.66%"
+        		},
+        		{
+        		"value": "5",
+        		"label": "20%"
+        		},
+        		{
+        		"value": "4",
+        		"label": "25%"
+        		},
+        		{
+        		"value": "3",
+        		"label": "33.33%"
+        		},
+        		{
+        		"value": "2",
+        		"label": "50%"
+        		},
+        		{
+        		"value": "8",
+        		"label": "66.67%"
+        		},
+        		{
+        		"value": "1",
+        		"label": "100%"
+        		}
+        	],
+        	"default": "3"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+        "type": "range",
+        "id": "page_width",
+        "min": 1000,
+        "max": 1900,
+        "step": 50,
+        "default": 1200,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "enable_inverse_logo",
+      "label": "Enable inverse logo",
+      "default": false
+    },
+   
+     {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__9.content",
+      "info": "t:sections.footer.settings.header__9.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_follow_on_shop",
+      "default": false,
+      "label": "t:sections.footer.settings.enable_follow_on_shop.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__2.content",
+      "info": "t:sections.footer.settings.header__2.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "default": true,
+      "label": "t:sections.footer.settings.show_social.label"
+    },
+    {
+      "type": "select",
+      "id": "social_style",
+      "label": "social icon style",
+      "default": "color",
+          "options": [
+              {
+                  "label": "color",
+                  "value": "color"
+              },
+              {
+                  "label": "standard",
+                  "value": "standard"
+              },
+              {
+                  "label": "circle",
+                  "value": "circle"
+              },
+              {
+                  "label": "square",
+                  "value": "square"
+              }
+          ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__3.content",
+      "info": "t:sections.footer.settings.header__4.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_country_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__5.content",
+      "info": "t:sections.footer.settings.header__6.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "default": true,
+      "label": "t:sections.footer.settings.enable_language_selector.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__7.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "payment_enable",
+      "default": true,
+      "label": "t:sections.footer.settings.payment_enable.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.footer.settings.header__8.content",
+      "info": "t:sections.footer.settings.header__8.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy",
+      "default": false,
+      "label": "t:sections.footer.settings.show_policy.label"
+    },
+        {
+      "type": "link_list",
+      "id": "menu",
+      "default": "footer",
+      "label": "t:sections.footer.blocks.link_list.settings.menu.label",
+      "info": "t:sections.footer.blocks.link_list.settings.menu.info"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.footer.settings.margin_top.label",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "link_list"
+      },
+      {
+        "type": "text"
+      }
+    ]
+  }
+}
+{% endschema %}

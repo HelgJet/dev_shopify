@@ -1,0 +1,223 @@
+.index-devok-collage .collage-wrapper-title {
+    margin-top: 0;
+    margin-bottom: 3rem;
+}
+
+.index-devok-collage .collage {
+    display: grid;
+    overflow-x: hidden; 
+}
+
+.index-devok-collage .collage__item > * {
+    width: 100%;
+}
+
+.index-devok-collage .collage__item .card:not(.card--template-preview) .card__content {
+    flex-grow: initial; 
+}
+
+
+.index-devok-collage .product-card-wrapper .card--media .card__inner .card__media+.card__content .card__information {
+    display: none;
+}
+
+.index-devok-collage .container-fullWidth {
+    padding-left: 0;
+    padding-right: 0;
+}
+@media screen and (min-width: 750px) {
+    .index-devok-collage .container-fullWidth {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .index-devok-collage .collage__item--collection:only-child,
+    .index-devok-collage .collage__item--product:only-child {
+        justify-self: center;
+        max-width: 73rem;
+        width: 100%;
+    }
+}
+
+.index-devok-collage .collage-card {
+    background: rgb(var(--color-background));
+    height: 100%;
+    position: relative;
+    border-radius: var(--border-radius);
+    border: var(--border-width) solid rgba(var(--color-foreground), var(--border-opacity));
+    padding: var(--image-padding);
+}
+
+.index-devok-collage .collage-card:after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-horizontal-offset) var(--shadow-vertical-offset) var(--shadow-blur-radius) rgba(var(--color-shadow), var(--shadow-opacity));
+    width: calc(var(--border-width) * 2 + 100%);
+    height: calc(var(--border-width) * 2 + 100%);
+    top: calc(var(--border-width) * -1);
+    left: calc(var(--border-width) * -1);
+}
+
+.index-devok-collage .collage-card .media {
+    height: 100%;
+    overflow: hidden;
+    border-radius: calc(var(--border-radius) - var(--border-width) - var(--image-padding));
+}
+
+.index-devok-collage .collage-card .deferred-media {
+    height: 100%;
+    overflow: visible;
+}
+
+.index-devok-collage .collage-card__link {
+    display: block;
+    height: 100%;
+}
+
+.index-devok-collage .collage-card .deferred-media__poster {
+    background-color: transparent;
+    border: 0;
+}
+
+.index-devok-collage .collage-card .deferred-media__poster:after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    outline-offset: 0.3rem;
+    bottom: calc(var(--border-width) * -1);
+    left: calc(var(--border-width) * -1);
+    right: calc(var(--border-width) * -1);
+    top: calc(var(--border-width) * -1);
+}
+
+.index-devok-collage .collage-card .deferred-media__poster:focus:after {
+    box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+}
+
+.index-devok-collage .collage-card .deferred-media__poster:focus-visible:after {
+    box-shadow: 0 0 0 0.3rem rgb(var(--color-background)), 0 0 0.5rem 0.4rem rgba(var(--color-foreground), 0.3);
+    outline: 0.2rem solid rgba(var(--color-foreground), 0.5);
+}
+
+.index-devok-collage .collage-card .deferred-media__poster:focus:not(:focus-visible),
+.index-devok-collage .collage-card .deferred-media__poster:focus:not(:focus-visible):after {
+    outline: none;
+    box-shadow: none;
+}
+
+.index-devok-collage .collage-card .deferred-media__poster:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.index-devok-collage .collage .collage-card-spacing img {
+    object-fit: contain;
+}
+.index-devok-collage .description p{
+    margin: 0 0 3rem 0;
+}
+.index-devok-collage .title {
+    margin: 0;
+}
+.index-devok-collage .caption--wrapper {
+    left: 0;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+}
+.index-devok-collage .devok-collage-default .card:not(.card--template-preview) .card__content {
+    position: absolute;
+    height: 100%;
+    align-items: center;
+}
+.index-devok-collage .devok-collage-default .card--design-3 .card__content {
+    position: static;
+}
+@media screen and (min-width: 990px){
+    .index-devok-collage .devok-collage-default .card--design-3 .card__content {
+        position: absolute;
+    }
+    .index-devok-collage .devok-collage-default .card--design-3 .card__content .card__information{
+        opacity: 0;
+        visibility: hidden;
+    }
+    .index-devok-collage .devok-collage-default .card--design-3:hover .card__content .card__information{
+        opacity: 1;
+        visibility: visible;
+    }
+    .index-devok-collage .devok-collage-default .card--design-3:hover .card__content{
+        background: rgba(255,255,255,0.6);
+    }
+    .index-devok-collage .title {
+        margin: 0;
+    }
+}
+
+ .modal-video__content-info video {
+    width: 100%;
+}
+@media screen and (min-width: 750px){
+    .index-devok-collage .collage.devok-collage--four-items {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+    }
+
+    .index-devok-collage .devok-collage--four-items .collage__item:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+    .index-devok-collage .devok-collage--four-items .collage__item:nth-child(2) { grid-area: 1 / 2 / 2 / 3; }
+    .index-devok-collage .devok-collage--four-items .collage__item:nth-child(3) { grid-area: 2 / 2 / 3 / 3; }
+    .index-devok-collage .devok-collage--four-items .collage__item:nth-child(4) { grid-area: 2 / 1 / 3 / 2; }
+
+    .index-devok-collage .devok-collage--four-items .collage__item--right:nth-child(2) { grid-area: 1 / 1 / 2 / 2; }
+    .index-devok-collage .devok-collage--four-items .collage__item--right:nth-child(1) { grid-area: 1 / 2 / 2 / 3; }
+    .index-devok-collage .devok-collage--four-items .collage__item--right:nth-child(4) { grid-area: 2 / 2 / 3 / 3; }
+    .index-devok-collage .devok-collage--four-items .collage__item--right:nth-child(3) { grid-area: 2 / 1 / 3 / 2; }
+}
+
+
+.index-devok-collage .collage-card.product-card-wrapper,
+.card--standard .card__inner{
+    border: none!important;
+}
+
+.index-devok-collage .devok-collage-default .card--design-3 .card__inner {
+    z-index: 1;
+}
+.index-devok-collage .devok-collage-default .card--design-3 .card__content .card__information{
+    position: relative;
+    z-index: 1;
+    height: 100%;
+}
+
+.index-devok-collage .devok-collage-default .caption-container .link {
+    min-width: 100%;
+}
+.index-devok-collage .devok-collage-default a.product-item--link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px;
+}
+.index-devok-collage .devok-collage-default .card:not(.card--template-preview) .card__information {
+    height: 100%; 
+}
+.index-devok-collage .devok-collage-default .button.devok-btn-lg {
+    min-width: auto;
+}
+@media screen and (min-width: 1400px){
+    .index-devok-collage .devok-collage-default .button.devok-btn-lg {
+        min-width: auto;
+    }
+}
+@media screen and (max-width: 986px){
+    .index-devok-collage .devok-collage-default .button {
+        font-size: 1.4rem;
+    }
+}

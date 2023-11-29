@@ -1,0 +1,62 @@
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+{{ 'component-rating.css' | asset_url | stylesheet_tag }}
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+{{ 'component-rte.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'template-collection.css' | asset_url }}" media="print" onload="this.media='all'">
+ <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+<noscript>{{ 'template-collection.css' | asset_url | stylesheet_tag }}</noscript> 
+ 
+<div class="page-width wishlist_page wishlist-empty" template-wishlist-page-js>
+ <h1 class="section_heading center">
+	{{ page.title }}
+  </h1>
+  
+  {% if page.content.size > 0 %}
+	<div class="rte">
+	  {{ page.content }}
+	</div>
+  {% endif %}
+ 	<div class="product-grid-container mt-3 mt-md-5" id="ProductGridContainer">
+		       	<div class="wishlist__block-empty">
+				   <span class="empty-icon">{% render 'icon-heart' %}</span>
+				   <span class="h5">No products added to the wishlist</span>
+				    <a href="{{ routes.all_products_collection_url }}" class="button button--prymary mt-3">{{ 'general.continue_shopping' | t }}</a>
+				</div>
+		<div data-id="{{ section.id }}" class="
+				grid grid--2-col-tablet-down 
+				grid--4-col-desktop" 
+				template-wishlist-js>
+		
+				<div class="wishlist__loader full-width text-center position-relative loading">
+
+					<span class="loading-overlay__spinner">
+						<svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+						<circle class="path" fill="none" stroke-width="4" cx="33" cy="33" r="30"></circle>
+						</svg>
+					</span>
+					<span class="d-inline-block my-1">Loading...</span>  
+				</div>
+		</div> 
+  	</div>
+  <div class="mt-3 wishlist__share">
+     {% assign share_url =  pages[settings.wishlist_page].url | prepend: request.origin %} 
+	 {%- assign sharetitle = page.title | prepend: 'Share ' -%}
+               {% render 'share-button',
+			    block: section,  
+                share_link: share_url,
+				share_label: sharetitle
+			   %} 
+  </div> 
+</div>
+
+
+{% schema %}
+{
+  "templates": [
+   "page"
+  ]
+}
+{% endschema %}
+

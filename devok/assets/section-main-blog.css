@@ -1,0 +1,127 @@
+.blog-articles {
+  display: grid;
+  grid-gap: 1rem;
+  column-gap: var(--grid-mobile-horizontal-spacing);
+  row-gap: var(--grid-mobile-vertical-spacing);
+}
+
+.blog-articles .card-wrapper {
+  width: 100%;
+}
+.index-main-blog-posts .blog-article-tag-listWrapper {
+margin-bottom: 1.5rem;
+}
+.index-main-blog-posts a.blog-article-tag-list {
+text-transform: uppercase;
+font-size: 1.4rem;
+font-weight: 700;
+text-decoration: none;
+color: rgb(var(--color-foreground));
+}
+.index-main-blog-posts a.blog__button.article-card-btn {
+text-transform: uppercase;
+}
+.index-main-blog-posts a.article-card-btn {
+margin-top: 3.3rem;
+}
+.index-main-blog-posts a.link.article-card-btn {
+  margin-top: 1.6rem;
+}
+.index-main-blog-posts .blog-articles__article:hover a{
+text-decoration: none;
+}
+.index-main-blog-posts .blog-article-tag-list:hover,
+.index-main-blog-posts .card__heading a:hover{
+opacity: 0.7;
+}
+.index-main-blog-posts span.circle-divider:after {
+opacity: 0;
+}
+.index-main-blog-posts span.article-comment-count {
+display: flex;
+align-items: center;
+}
+.index-main-blog-posts span.article-comment-count svg {
+margin-right: 6px;
+}
+.index-main-blog-posts a.link.animate-arrow.article-card-btn {
+text-decoration: none;
+text-transform: uppercase;
+}
+.index-main-blog-posts .blog__button.article-card-btn {
+margin-top: 1.3rem;
+}
+.index-main-blog-posts .card-information-v-bottom .card__content{
+align-self: end;
+}
+.index-main-blog-posts .card-information-v-top .card__content{
+align-self: start;
+}
+.index-main-blog-posts .card-information-v-middle .card__content {
+    align-items: center;
+}
+.index-main-blog-posts .card--standard.card--text a:after {
+    bottom: calc(var(--border-width) );
+    left: calc(var(--border-width) );
+    right: calc(var(--border-width) );
+    top: calc(var(--border-width) );
+}
+.index-main-blog-posts .article-card__info .article-card-wrap{
+    flex-wrap: wrap;
+}
+.index-main-blog-posts .card-info-abs .card__content{
+display:none;
+}
+.index-main-blog-posts .card-info-abs .card__inner .card__content{
+display:flex;
+}
+@media screen and (min-width: 750px) {
+  .blog-articles {
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--grid-desktop-horizontal-spacing);
+    row-gap: var(--grid-desktop-vertical-spacing); 
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1),
+  .blog-articles--collage > *:nth-child(3n + 2):last-child {
+    grid-column: span 2;
+    text-align: center;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .card,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .card {
+    text-align: center;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--small .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--small .ratio::before {
+    padding-bottom: 22rem;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--medium .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--medium .ratio::before {
+    padding-bottom: 44rem;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--large .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--large .ratio::before {
+    padding-bottom: 66rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--small .ratio .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--small .ratio .ratio::before {
+    padding-bottom: 27.5rem;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--medium .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--medium .ratio::before {
+    padding-bottom: 55rem;
+  }
+
+  .blog-articles--collage > *:nth-child(3n + 1) .article-card__image--large .ratio::before,
+  .blog-articles--collage > *:nth-child(3n + 2):last-child .article-card__image--large .ratio::before {
+    padding-bottom: 82.5rem;
+  }
+}

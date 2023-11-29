@@ -1,0 +1,86 @@
+
+{%- if block.settings.image != blank -%}
+
+  {% if image_ratio == 'adapt' or image_ratio == 'circle' %}
+    {% assign spaced_image = true %}
+  {% endif %}
+  <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{%- unless block.settings.banner_style == 'overlay' -%}{{ block.settings.image_width }}-width{%- endunless -%}{% if block.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
+    <div
+      class="media media--transparent media--{{ image_ratio }}"
+      {% if image_ratio == 'adapt' %}
+      style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"
+      {% endif %}>
+      {% if block.settings.banner_style == 'overlay' %}
+        <div class="multicolumn-card__info {{ block.settings.banner_style }}{% if block.settings.off_overlay_mobile %} offOverlayMobile{% endif %}" style="justify-content: {{ block.settings.v_cpos }};">
+          <div class="bannerItemWrapper">
+            {% render 'caption', block: block, subtitle: block.settings.subtitle, title: block.settings.title, description: block.settings.text %}
+          </div> 
+        </div>
+      {% endif %}
+                    {%- liquid
+                      if section.settings.box_type == 'box'
+                        assign section_width = section.settings.section_width | append: 'px'
+                      elsif section.settings.box_type == 'fluid'
+                         assign section_width = section.settings.section_fluid_width | append: 'px'
+                      else
+                         assign section_width = '100vw' 
+                      endif
+                      assign number_of_columns = section.settings.columns_desktop
+                      assign number_of_columns_mobile = section.settings.columns_mobile
+                      assign grid_space_desktop = number_of_columns | minus: 1 | times: section.settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_tablet = number_of_columns_mobile | minus: 1 | times: section.settings.spacing_grid_horizontal | plus: 100 | append: 'px'
+                      assign grid_space_mobile = number_of_columns_mobile | minus: 1 | times: section.settings.spacing_grid_horizontal | divided_by: 2 | plus: 30 | append: 'px'
+                      if section.settings.image_width == 'half'
+                        assign image_width = 0.5
+                      elsif section.settings.image_width == 'third'
+                        assign image_width = 0.33
+                      else
+                        assign image_width = 1
+                      endif
+                    -%}
+                    {% capture sizes %}
+                      (min-width: {{ section_width }}) calc(({{ section_width }} - {{ grid_space_desktop }}) * {{ image_width }} /  {{ number_of_columns }}),
+                      (min-width: 990px) calc((100vw - {{ grid_space_desktop }}) * {{ image_width }} / {{ number_of_columns }}),
+                      (min-width: 750px) calc((100vw - {{ grid_space_tablet }}) * {{ image_width }} / {{ number_of_columns_mobile }}),
+                      calc((100vw - {{ grid_space_mobile }}) * {{ image_width }} / {{ number_of_columns_mobile }})
+                    {% endcapture %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 3200
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+                        sizes: sizes,
+                        class: 'multicolumn-card__image'
+                    }}
+
+
+    </div>
+
+  </div>
+{% else %}
+ 
+      <div class="banner-placeholder-wrapper">
+        {% if block.settings.banner_style == 'overlay' %}
+          <div class="placeholder media media--landscape">
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+             <div class="multicolumn-card__info {{ block.settings.banner_style }}{% if block.settings.off_overlay_mobile %} offOverlayMobile{% endif %}" style="justify-content: {{ block.settings.v_cpos }};">
+                <div class="bannerItemWrapper">
+                    {% render 'caption', block: block, subtitle: block.settings.subtitle, title: block.settings.title, description: block.settings.text %}
+                </div> 
+             </div>
+          </div>
+        {% else %}
+         <div class="placeholder media media--landscape">
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+        <div class="multicolumn-card__info {{ block.settings.banner_style }}{% if block.settings.off_overlay_mobile %} offOverlayMobileVisible{% endif %}">
+            <div class="bannerItemWrapper">
+                {% render 'caption', block: block, subtitle: block.settings.subtitle, title: block.settings.title, description: block.settings.text %}
+            </div>
+        </div>
+
+        {% endif %}   
+    </div>
+
+{%- endif -%}

@@ -1,0 +1,65 @@
+
+<button id="backToTop" title="Back to the top" class="back-to-top">
+	{% render 'icon-arrow' %}
+</button> 
+
+<style>
+	.back-to-top {
+	    position: fixed;
+	    bottom: 1.2rem;
+	    right: 0px;
+		  display: none;
+		  border: none;
+	    color: var(--color-background); 
+	    background-color: rgba(var(--color-foreground), .7);
+	    font-size: 1.4rem;
+		  cursor: pointer;
+	    padding: 0.5rem 0.2rem; 
+	    border-top-left-radius: 0.3rem;
+	    border-bottom-left-radius: 0.3rem;
+		  min-width: unset; 
+		  min-height: unset;
+	    z-index: 60000;
+	}
+	.back-to-top .icon {
+	    vertical-align: middle;
+		transform: rotate(-90deg);
+		color: #fff;  
+	}
+	
+	.back-to-top:hover {
+	   background-color: rgba(var(--color-foreground), 1);
+	}
+	
+</style>
+
+<script>
+    function handleScroll() {
+      const button = document.getElementById('backToTop');
+      if (window.pageYOffset > 1000) {
+        button.style.display = 'block';
+      } else {
+        button.style.display = 'none';
+      }
+    }
+
+    function createScrollObserver() {
+      const button = document.getElementById('backToTop');
+
+      handleScroll();
+
+      window.addEventListener('scroll', handleScroll);
+
+      return function disconnectObserver() {
+        window.removeEventListener('scroll', handleScroll);
+      };
+    }
+    const disconnectObserver = createScrollObserver();
+
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+</script>

@@ -1,0 +1,17 @@
+{% if subtitle.size > 0 %}
+    <span class="heading--subtitle">
+    {{ subtitle }}
+</span>
+{% endif %}
+
+{% if title.size > 0 %}
+    <h2 class="heading--title">
+        {{ title }} 
+    </h2>
+{% endif %}
+
+{% if description.size > 0 %}
+    <div class="heading--description{% if descriptionStyle %} collection__description {{ descriptionStyle }}{% endif %}">
+        {{ description }}
+    </div>
+{% endif %}

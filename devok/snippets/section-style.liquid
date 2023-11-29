@@ -1,0 +1,80 @@
+
+{%- style -%}
+
+    {% if section.settings.box_type == 'box' %}
+      .section-style-{{ section.id }}{ 
+        --page-width: {{ section.settings.section_width | divided_by: 10 }}rem; 
+      }
+    {% elsif section.settings.box_type == 'fluid' %}
+      .section-style-{{ section.id }}{
+        --page-width: {{ section.settings.section_fluid_width | divided_by: 10 }}rem;
+      }
+      {% else %}
+      .section-style-{{ section.id }}{
+        --page-width: 100%; 
+      }
+    {% endif %}
+ 
+
+    .section-style-{{ section.id }}{
+      --grid-desktop-horizontal-spacing: {{ section.settings.spacing_grid_horizontal }}px;
+      --grid-mobile-horizontal-spacing: {{ section.settings.spacing_grid_horizontal | divided_by: 4 }}px;
+      position: relative; 
+    }
+
+    #shopify-section-{{ section.id }} .container--wrapper{
+      padding: {{ section.settings.mobileContainerPadding | default: 0 }};
+    }
+
+    @media screen and (max-width: 749px){
+      #shopify-section-{{ section.id }} .section--wrapper{
+        padding: {{ section.settings.mobile_section_padding | default: 0 }};
+      }
+    } 
+
+    @media screen and (min-width: 750px) {
+      #shopify-section-{{ section.id }} .container--wrapper{
+        padding: {{ section.settings.desktopContainerPadding | default: 0 }};
+      }
+
+      #shopify-section-{{ section.id }} .section--wrapper{
+        padding: {{ section.settings.desktop_section_padding | default: 0 }};
+      }
+    } 
+
+    .section-style-{{ section.id }}.color-custom_color.gradient{
+      background: {{ section.settings.bg_color | color_modify: 'alpha', section.settings.bg_color_opacity | default: 'transparent' }};
+    }
+
+    .section-style-{{ section.id }} .color-section_custom_color.gradient{
+      background: {{ section.settings.bg_section_color | default: 'transparent' }}; 
+    }
+
+    {% if isHeading %}
+          @media screen and (min-width: 750px) {
+            .section-style-{{ section.id }} .heading--subtitle{
+              font-size: {{ section.settings.section_subtitle_scale | times: 1.0 | divided_by: 100 | times: 1.8 | append: "rem" }};
+            } 
+            
+            .section-style-{{ section.id }} .heading--description{
+              font-size: {{ section.settings.section_description_scale | times: 1.0 | divided_by: 100 | times: 1.8 | append: "rem" }};
+            }
+          } 
+
+          {%- case section.settings.heading_alignment -%}
+            {%- when 'center' -%}
+              {%- assign text_align = 'center' -%}
+            {%- when 'flex-end' -%}
+              {%- assign text_align = 'right' -%}
+            {%- else -%}
+              {%- assign text_align = 'left' -%}
+          {%- endcase -%} 
+
+          .section-style-{{ section.id }} .heading--container {
+            --font-heading-scale: {{ section.settings.section_heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+            align-items: {{ section.settings.heading_alignment }};
+            text-align: {{ text_align }}; 
+          } 
+    {% endif %}
+
+{%- endstyle -%}

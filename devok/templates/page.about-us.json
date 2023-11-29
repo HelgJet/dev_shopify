@@ -1,0 +1,252 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "a7fcb435-4e4e-4cfc-913c-10d8bc37cbe0": {
+      "type": "rich-text",
+      "blocks": {
+        "4f23c5bc-cddf-4371-9467-6438d0763ebf": {
+          "type": "caption",
+          "settings": {
+            "caption": "Devok is a worldwide style point for ecommerce trends. We provide customers around the world with the best online stores. Checked by the time!",
+            "text_style": "subtitle",
+            "text_size": "large"
+          }
+        }
+      },
+      "block_order": [
+        "4f23c5bc-cddf-4371-9467-6438d0763ebf"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "left",
+        "color_scheme": "background-1",
+        "full_width": false,
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "2af431c3-f7b7-407e-8eef-50dcfbf64ff5": {
+      "type": "devok-banners",
+      "blocks": {
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-0": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ab-ban1.jpg",
+            "image_width": "full",
+            "image_ratio": "adapt",
+            "banner_style": "standard",
+            "contentHorizontal": "contentLeft",
+            "reverse_cpos": "column",
+            "columns_desktop": "2",
+            "link_type_banner": false,
+            "text_alignment": "left",
+            "v_cpos": "flex-start",
+            "background_style": "none",
+            "bg_custom_color": "",
+            "bg_color_opacity": 0.1,
+            "subtitle": "",
+            "subtitle_color": "#222222",
+            "section_subtitle_scale": 100,
+            "title": "",
+            "caption_size": "h1",
+            "title_color": "#222222",
+            "section_heading_scale": 100,
+            "text": "",
+            "text_color": "#222222",
+            "section_description_scale": 100,
+            "code": "",
+            "caption_padding": "0rem 0rem 0rem 0rem",
+            "margin_title": 2,
+            "margin_subtitle": 2,
+            "margin_text": 2,
+            "margin_btn": 10,
+            "link_label": "",
+            "link": "",
+            "useButton": false,
+            "btn_bg_color": "#222222",
+            "btn_border_color": "#222222",
+            "btn_text_color": "#ffffff",
+            "btn_bg_color_hover": "#222222",
+            "btn_border_color_hover": "#222222",
+            "btn_text_color_hover": "#ffffff",
+            "devok_btn_size": "devok-btn-md",
+            "custom_class": "",
+            "off_overlay_mobile": false,
+            "caption_mobile_padding": "1rem 1rem 1rem 1rem"
+          }
+        },
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-1": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ab-ban2.jpg",
+            "image_width": "full",
+            "image_ratio": "portrait",
+            "banner_style": "overlay",
+            "contentHorizontal": "contentLeft",
+            "reverse_cpos": "column",
+            "columns_desktop": "4",
+            "link_type_banner": false,
+            "text_alignment": "left",
+            "v_cpos": "flex-start",
+            "background_style": "none",
+            "bg_custom_color": "",
+            "bg_color_opacity": 0.1,
+            "subtitle": "",
+            "subtitle_color": "#222222",
+            "section_subtitle_scale": 100,
+            "title": "",
+            "caption_size": "h1",
+            "title_color": "#222222",
+            "section_heading_scale": 100,
+            "text": "",
+            "text_color": "#222222",
+            "section_description_scale": 100,
+            "code": "",
+            "caption_padding": "0rem 0rem 0rem 0rem",
+            "margin_title": 0,
+            "margin_subtitle": 0,
+            "margin_text": 0,
+            "margin_btn": 0,
+            "link_label": "",
+            "link": "",
+            "useButton": false,
+            "btn_bg_color": "#222222",
+            "btn_border_color": "#222222",
+            "btn_text_color": "#ffffff",
+            "btn_bg_color_hover": "#222222",
+            "btn_border_color_hover": "#222222",
+            "btn_text_color_hover": "#ffffff",
+            "devok_btn_size": "devok-btn-md",
+            "custom_class": "",
+            "off_overlay_mobile": false,
+            "caption_mobile_padding": "1rem 1rem 1rem 1rem"
+          }
+        },
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-2": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/ab-ban3.jpg",
+            "image_width": "full",
+            "image_ratio": "portrait",
+            "banner_style": "standard",
+            "contentHorizontal": "contentLeft",
+            "reverse_cpos": "column",
+            "columns_desktop": "4",
+            "link_type_banner": false,
+            "text_alignment": "left",
+            "v_cpos": "flex-start",
+            "background_style": "primary",
+            "bg_custom_color": "",
+            "bg_color_opacity": 0.1,
+            "subtitle": "",
+            "subtitle_color": "#222222",
+            "section_subtitle_scale": 100,
+            "title": "",
+            "caption_size": "h1",
+            "title_color": "#222222",
+            "section_heading_scale": 100,
+            "text": "",
+            "text_color": "#222222",
+            "section_description_scale": 100,
+            "code": "",
+            "caption_padding": "0rem 0rem 0rem 0rem",
+            "margin_title": 2,
+            "margin_subtitle": 2,
+            "margin_text": 2,
+            "margin_btn": 10,
+            "link_label": "",
+            "link": "",
+            "useButton": false,
+            "btn_bg_color": "#222222",
+            "btn_border_color": "#222222",
+            "btn_text_color": "#ffffff",
+            "btn_bg_color_hover": "#222222",
+            "btn_border_color_hover": "#222222",
+            "btn_text_color_hover": "#ffffff",
+            "devok_btn_size": "devok-btn-md",
+            "custom_class": "",
+            "off_overlay_mobile": false,
+            "caption_mobile_padding": "1rem 1rem 1rem 1rem"
+          }
+        }
+      },
+      "block_order": [
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-0",
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-1",
+        "template--14894060929066__2af431c3-f7b7-407e-8eef-50dcfbf64ff5-16768315582cb05beb-2"
+      ],
+      "settings": {
+        "box_type": "fluid",
+        "section_width": 1200,
+        "section_fluid_width": 1920,
+        "title": "",
+        "section_heading_scale": 100,
+        "subtitle": "",
+        "section_subtitle_scale": 100,
+        "description": "",
+        "section_description_scale": 100,
+        "heading_alignment": "center",
+        "spacing_grid_horizontal": 30,
+        "inverted": false,
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "background-1",
+        "customColor": false,
+        "bg_color": "",
+        "container_color_scheme": "background-1",
+        "section_custom_color": false,
+        "bg_section_color": "",
+        "bg_color_opacity": 0.1,
+        "desktop_section_padding": "0 0 0 0",
+        "desktopContainerPadding": "0rem 2rem 2rem 2rem",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "mobile_section_padding": "1rem 1rem 1rem 1rem",
+        "mobileContainerPadding": "1rem 1rem 1rem 1rem"
+      }
+    },
+    "3c63a0a8-405d-4657-b528-e86a524f1e13": {
+      "type": "rich-text",
+      "blocks": {
+        "template--14894060929066__3c63a0a8-405d-4657-b528-e86a524f1e13-1676831496c18f6571-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p>Fashion has no boundaries for us!<\/p>",
+            "heading_size": "h2"
+          }
+        },
+        "template--14894060929066__3c63a0a8-405d-4657-b528-e86a524f1e13-1676831496c18f6571-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>We follow the latest trends, combining classic patterns with new and unique fashion deals. Devok is a worldwide style point for ecommerce trends. We provide customers around the world with the best online stores. Checked by the time!<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--14894060929066__3c63a0a8-405d-4657-b528-e86a524f1e13-1676831496c18f6571-0",
+        "template--14894060929066__3c63a0a8-405d-4657-b528-e86a524f1e13-1676831496c18f6571-1"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "left",
+        "color_scheme": "background-1",
+        "full_width": false,
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    }
+  },
+  "order": [
+    "main",
+    "a7fcb435-4e4e-4cfc-913c-10d8bc37cbe0",
+    "2af431c3-f7b7-407e-8eef-50dcfbf64ff5",
+    "3c63a0a8-405d-4657-b528-e86a524f1e13"
+  ]
+}

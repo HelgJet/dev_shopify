@@ -1,0 +1,15 @@
+  {{ 'component-card.css' | asset_url | stylesheet_tag }}
+ <ul class="grid contains-card  {% if block.settings.horizontal_class != blank %} grid--1-col {% elsif menu_type_desktop == 'drawer' and block.settings.horizontal_class == blank %} grid--2-col {% else %} grid--{{ block.settings.columns_desktop }}-col-desktop grid--1-col-tablet-down {% endif %}">
+  {%- for product in block.settings.collection.products limit: block.settings.products_to_show -%}
+    <li  class="grid__item">
+      {% render 'card-product',
+        card_product: product,
+        media_aspect_ratio: block.settings.image_ratio,
+        show_vendor: block.settings.show_vendor,
+        horizontal_class: block.settings.horizontal_class,
+        badge_card_toggle: settings.badge_card_toggle,
+        section_id: section.id
+      %}
+    </li>
+    {%- endfor -%} 
+</ul>

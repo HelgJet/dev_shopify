@@ -1,0 +1,75 @@
+<li class="two-linklists-two-banners" data-type="2linklists-2banners" data-index="{{ ind }}">
+    {% for i in (1..2) %}
+        {% capture list %}links_{{ i }}{% endcapture %}
+        {%- assign list = block.settings[list] -%}
+        {% if list != blank %}
+        <div class="megamenu_col">
+            <div class="h6 {% if block.settings.show_title %}visible{% else %}hidden{% endif %}">{{ linklists[list].title }}</div>
+            <ul class="linklists" id="menu_{{ block.id }}-{{ i }}">
+                {% for link in linklists[list].links %}
+                    <li class="linklists__item">
+                        {% if link.title contains '[new]' %}
+                                      {%- assign link_text = link.title | replace: '[new]', '' -%}
+                                      {%- assign link_badge = 'new' -%}
+                                  {% elsif link.title contains '[hot]' %} 
+                                      {%- assign link_text = link.title | replace: '[hot]', '' -%}
+                                      {%- assign link_badge = 'hot' -%}	
+                                  {% elsif link.title contains '[bestseller]' %} 
+                                      {%- assign link_text = link.title | replace: '[bestseller]', '' -%}
+                                      {%- assign link_badge = 'bestseller' -%}	
+                                  {% elsif link.title contains '[popular]' %}  
+                                      {%- assign link_text = link.title | replace: '[popular]', '' -%}
+                                      {%- assign link_badge = 'popular' -%}
+                                  {% elsif link.title contains '[soon]' %}  
+                                      {%- assign link_text = link.title | replace: '[soon]', '' -%}
+                                      {%- assign link_badge = 'soon' -%}
+                                  {% else %}
+                                      {%- assign link_text = link.title -%}
+                                      {%- assign link_badge = false -%}	
+                                  {% endif %}
+                     <a class="linklists__link" href="{{ link.url }}">{{ link_text }}{% if link_badge %}<span class="menu_badge badge_{{ link_badge }}">{{ link_badge }}</span>{% endif %}</a>
+ 
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    {% endfor %}
+        {% for i in (1..2) %}
+            {% capture banner_title %}banner{{ i }}_title{% endcapture %}
+            {%- assign b_title = block.settings[banner_title] -%}
+            {% capture banner_link %}banner{{ i }}_link{% endcapture %}
+            {%- assign b_link = block.settings[banner_link] -%}
+            {% capture banner_img %}banner{{ i }}_img{% endcapture %}
+            {%- assign b_img = block.settings[banner_img] -%}
+            {% assign blm_it = block.settings %}
+            {% capture banner_style %}banner_style_{{ i }}{% endcapture %}
+            {% capture banner_position_vertical %}banner_position_vertical_{{ i }}{% endcapture %}
+            {% capture banner_position_horizontal %}banner_position_horizontal_{{ i }}{% endcapture %}
+            {% if b_img != blank %}
+                <div class="menu_banner_item megamenu_col {{ blm_it[banner_style] }}">
+                {%- if b_link != blank -%}
+                  <a class="megamenu_banner" href="{{ b_link }}"></a>
+                {%- endif -%}    
+                  {%- capture sizes -%}(min-width: 990px)1420px, (min-width: 750px) 550px, calc(100vw - 30px){%- endcapture -%}
+
+                  <div class="megamenu-img">
+                    {{ b_img | image_url: width: 1420 | image_tag:
+                      sizes: sizes,
+                      loading: 'lazy',
+                      widths: '275, 550, 710, 1420',
+                      alt: b_img.alt | escape 
+                    }}
+                  </div> 
+
+                  <div class="menu_banner_caption justify-content-{{ blm_it[banner_position_vertical] }} align-items-{{ blm_it[banner_position_horizontal] }}">
+                    {%- if b_title != blank -%}
+                        <div class="bg_wrapp">
+                            <div class="h6">{{ b_title }}</div> 
+                        </div>
+                    {%- endif -%} 
+                  </div>
+                </div>
+          {% endif %}
+        {% endfor %}
+</li>

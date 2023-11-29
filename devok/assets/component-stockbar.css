@@ -1,0 +1,30 @@
+ 
+.devok-stockbar {
+  max-width: 42rem; 
+} 
+.devok-stockinfo-bar {
+  position: relative;
+  display: block;
+  margin-top: 0.7rem;   
+  height: 0.3rem;
+  border-radius: 0.4rem;
+  background: #dbdbdb;
+  overflow: hidden;
+}
+
+.devok-stockinfo-probar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  display: block;
+  transition: width 1.15s ease-in-out;
+}
+
+.devok-stockinfo_high > .devok-stockinfo-bar > .devok-stockinfo-probar {
+  background: var(--product-in-stock-color);
+}
+.devok-stockinfo_low > .devok-stockinfo-bar > .devok-stockinfo-probar {
+  background: var(--product-low-stock-color); 
+}

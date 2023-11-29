@@ -1,0 +1,48 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "642fd293-7f30-47a9-84d6-9252d000057b": {
+      "type": "devok-blog-post",
+      "settings": {
+        "box_type": "box",
+        "section_width": 1200,
+        "section_fluid_width": 1880,
+        "heading": "Fresh news from our blog",
+        "heading_size": "h2",
+        "style_text_align": "flex-start",
+        "blog": "news",
+        "post_limit": 4,
+        "columns_desktop": 3,
+        "enable_desktop_slider": true,
+        "post_layout": "grid",
+        "textalign_pos": "left",
+        "caption_vertical_alignment": "middle",
+        "caption_padding": "0rem 0rem 0rem 0rem",
+        "show_image": true,
+        "show_date": true,
+        "show_author": true,
+        "show_comments": true,
+        "blog_show_tags": false,
+        "blog_show_btn": false,
+        "desc_none": false,
+        "btn_style": "blog__button button",
+        "show_view_all": false,
+        "color_scheme": "background-1",
+        "padding_top": 20,
+        "padding_bottom": 40,
+        "caption_padding_mobile": "0rem 1rem 0rem 1rem"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "642fd293-7f30-47a9-84d6-9252d000057b"
+  ]
+}

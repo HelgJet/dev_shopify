@@ -1,0 +1,36 @@
+.devok-logo-list .slider-buttons {
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.devok-logo-list .grid {
+    margin-bottom: 0;
+}
+.devok-logo-list li.multicolumn-list__item {
+    margin-top: 1.5rem;
+}
+.devok-logo-list .media img{
+    opacity: 0.75; 
+}
+.devok-logo-list .media img:hover{
+    transition: 0.3s;
+    opacity: 1;
+}
+
+.devok-logo-list .multicolumn-list__item.grid__item {
+    margin-top: 0;
+}
+
+
+@media screen and (min-width: 990px){
+    .devok-logo-list .slider-buttons button.slider-button.slider-button--next,
+    .devok-logo-list .slider-buttons button.slider-button.slider-button--prev {
+        position: absolute;
+        top: 50%;
+    }
+
+    .devok-logo-list .slider-buttons.is-counter button.slider-button.slider-button--next,
+    .devok-logo-list .slider-buttons.is-counter button.slider-button.slider-button--prev {
+        position: absolute;
+        top: 30%;
+    }
+}

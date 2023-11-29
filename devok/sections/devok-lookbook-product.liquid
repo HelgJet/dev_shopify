@@ -1,0 +1,914 @@
+{{ 'devok-lookbook.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+
+
+
+{%- style -%}
+    {% if section.settings.box_type == 'box' %}
+        .section-style-{{ section.id }}{
+        --page-width: {{ section.settings.section_width | divided_by: 10 }}rem;
+        }
+    {% elsif section.settings.box_type == 'fluid' %}
+        .section-style-{{ section.id }}{
+        --page-width: {{ section.settings.section_fluid_width | divided_by: 10 }}rem;
+        }
+    {% else %}
+        .section-style-{{ section.id }}{
+        --page-width: 100%;
+        }
+    {% endif %}
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+    #shopify-section-{{ section.id }} .card__information {
+    text-align:{{ section.settings.textalign_pos }};
+    padding:{{ section.settings.caption_padding_mobile }};
+    }
+    #shopify-section-{{ section.id }} .card__information .price {
+    text-align:{{ section.settings.textalign_pos }};
+    }
+    @media screen and (min-width: 990px) {
+
+    .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+    }
+    #shopify-section-{{ section.id }} .title-wrapper-with-link{
+    align-items:{{ section.settings.style_text_align }};
+    }
+
+    @media screen and (min-width: 990px){
+    #shopify-section-{{ section.id }} .card__information {
+    padding:{{ section.settings.caption_padding }};
+    }
+    #shopify-section-{{ section.id }} .title-wrapper-with-link{
+    align-items:{{ section.settings.style_text_align }};
+    }
+    }
+{%- endstyle -%}
+
+{%- liquid
+
+    assign columns_int = section.settings.columns_desktop | plus: 0
+
+    assign show_desktop_slider = false
+    if section.settings.enable_desktop_slider and section.blocks.size > columns_int  
+        assign show_desktop_slider = true
+    endif
+
+    assign show_tablet_slider = false
+    if section.settings.enable_tablet_slider and section.blocks.size > columns_int
+        assign show_tablet_slider = true
+    endif
+
+    assign show_mobile_slider = false
+    if section.settings.enable_mobile_slider and section.blocks.size > 1
+        assign show_mobile_slider = true
+    endif
+
+    assign style_class = false
+    unless section.settings.popup_product_style == "grid"
+        assign style_class = true
+    endunless
+
+-%}
+
+
+<lookbook-component class="lookbook color-{{ section.settings.color_scheme }} gradient{% if section.settings.heading == blank %} no-heading{% endif %} section-style-{{ section.id }}">
+        <div id="Lookbook-{{section.id}}" class="page-width section-{{ section.id }}-padding{% if section.settings.box_type == 'full_width' %} page-width-full{% endif %}">
+            {%- unless section.settings.heading == blank -%}
+                <div class="title-wrapper-with-link heading--container{% if posts_displayed > 2 %} title-wrapper--self-padded-tablet-down{% else %}
+      title-wrapper--self-padded-mobile{% endif %} title-wrapper--no-top-margin">
+                    <h2 id="SectionHeading-{{ section.id }}" class="{{ section.settings.heading_size }}">
+                        {{ section.settings.heading | escape }}
+                    </h2>
+                </div>
+            {%- endunless -%}
+            <slider-component id="SliderGallery-{{ section.id }}" class="slider-mobile-gutter{% if columns_int == 1 %} slider-component--slidshow{% endif %}{% unless columns_int == 1 %} slider-component-full-width{% endunless %}{% if show_desktop_slider %} slider-component-desktop{% endif %}{% if show_desktop_slider == false  %} sliderDesktopHide{% endif %}{% if show_tablet_slider == false  %} sliderTabletHide{% endif %}{% if show_mobile_slider == false  %} sliderMobileHide{% endif %} lookbook__product__style--{{section.settings.popup_product_style}}">
+                <ul
+                        id="Slider-{{ section.id }}"
+                        class="lookbook__slider grid grid--1-col-tablet-down grid--{{ columns_int }}-col-desktop{% if show_mobile_slider or show_tablet_slider or show_desktop_slider %} slider{% if columns_int == 1 %} slideshow{% endif %}{% if show_desktop_slider %} slider--desktop{% endif %}{% if show_tablet_slider %} slider--tablet2{% endif %}{% if show_mobile_slider %} slider--mobile{% endif %}{% endif %}"
+                        role="list"
+                        data-devok-type="slider"
+                        data-slider-per-mobile="1"
+                        data-slider-per-desktop="{{ columns_int }}"
+                >
+
+                    {%- liquid
+                        assign highest_ratio = 0
+                        for block in section.blocks
+                            if block.settings.image.aspect_ratio > highest_ratio
+                                assign highest_ratio = block.settings.image.aspect_ratio
+                            endif
+                        endfor
+                    -%}
+
+                    {%- for block in section.blocks -%}
+                        {%- liquid
+                            assign bl_it = block.settings
+                            assign productSpot = "product-"
+                            assign productCount = ''
+                            for i in (1..4)
+                                assign idx = productSpot | append: i
+                                if bl_it[idx] != blank
+                                    assign productCount = forloop.index
+                                endif
+                            endfor
+                        -%}
+                        <li id="Slide-{{ section.id }}-{{ forloop.index }}"
+                            class="grid__item{% if show_mobile_slider or show_tablet_slider or show_desktop_slider %} slider__slide{% if columns_int == 1%} slideshow__slide slider__slide--full-width grid--1-col{% endif %}{% endif %}{% if section.settings.show_image == false %} card-info-abs{% endif %}"
+                            {{ block.shopify_attributes }}
+                            tabindex="-1"
+                            role="group"
+                            {% if columns_int > 1 %}
+                            aria-roledescription="{{ 'sections.slideshow.slide' | t }}"
+                            aria-label="{{ forloop.index }} {{ 'general.slider.of' | t }} {{ forloop.length }}"
+                            {% endif %}
+                        >
+                            <div class="lookbook__inner">
+                                {%- if block.settings.image != blank -%}
+                                    <div class="media media--transparent media--{{ block.settings.image_ratio }}"{% if block.settings.image_ratio == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;"{% endif %}>
+                                        {{ block.settings.image | image_url: width: 2048 | image_tag:
+                                        loading: 'lazy',
+                                        sizes: sizes,
+                                        widths: '180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048',
+                                        class: 'lookbook__image' }}
+                                    </div>
+                                {%- else -%}
+                                    <div class="placeholder media media--landscape">
+                                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                                    </div>
+                                {%- endif -%}
+
+                                {% assign bl_it = block.settings %}
+                                {% assign productSpot = "product-" %}
+                                {% for i in (1..4) %}
+                                    {% capture pt %}position_top{{i}}{% endcapture %}
+                                    {% capture pl %}position_left{{i}}{% endcapture %}
+                                    {% capture idx %}{{productSpot}}{{i}}{% endcapture %}
+                                    {% if bl_it[idx] != blank %}
+                                        <div class="lookbook__item__wrap">
+                                            <button
+                                                    aria-label="click for show product"
+                                                    data-popover-bullet
+                                                    id="button-id-{{ block.id }}_{{ i }}"
+                                                    data-popover="{{ block.id }}_{{ i }}"
+                                                    style="top: {{ bl_it[pt] }}%; left: {{ bl_it[pl] }}%;"
+                                                    class="lookbook__product__icon {% if columns_int <= 2 %} big_icon{% endif %}{% if columns_int >= 3 %} mid_icon{% endif %}{% if columns_int >= 4 %} sml_icon{% endif %}">
+                                                <svg class="icon icon-cross" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M30 13.0909V16.9091H16.6981V30H12.6651V16.9091H0V13.0909H12.6651V0H16.6981V13.0909H30Z" fill="currentColor"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% unless columns_int > 1 %}
+                                {% if show_desktop_slider == false or show_mobile_slider == false or show_tablet_slider == false %}
+                                    {% if section.settings.show_product_list %}
+                                        <div class="promo-product-wrapper-grid{% if show_mobile_slider %} hideMobileItem{% elsif show_mobile_slider == false and show_desktop_slider == true %} hideDesktopItem{% endif %}{% if show_tablet_slider == false and show_desktop_slider == true %} showTabletItem{% elsif show_tablet_slider %} hideTabletItem{% endif %}">
+                                            {%- if section.blocks.size > 0 -%}
+                                                <div class="promo-product-item-wrap item-list-{{ productCount }}">
+                                                    {%- assign bl_it = block.settings -%}
+                                                    {%- assign productSpot = "product-" -%}
+                                                    {% for i in (1..4) %}
+                                                        {% capture idx %}{{productSpot}}{{i}}{% endcapture %}
+                                                        {% if bl_it[idx] != blank %}
+                                                            {% render 'card-product',
+                                                                    card_product: bl_it[idx],
+                                                                    media_aspect_ratio: 'portrait',
+                                                                    badge_card_toggle: false,
+                                                                    show_rating: false,
+                                                                    show_quick_add: false,
+                                                                    show_compare: false,
+                                                                    show_wishlist: false,
+                                                                    horizontal_class: true
+                                                            %}
+                                                        {%- endif -%}
+                                                    {%- endfor -%}
+                                                </div>
+                                            {%- endif -%}
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            {% endunless %}
+                        </li>
+                    {%- endfor -%}
+                </ul>
+                {% if show_mobile_slider or show_tablet_slider or show_desktop_slider %}
+                    <div class="slider-buttons no-js-hidden{% if show_mobile_slider == false %} hideMobileItem{% endif %}">
+                        <button
+                                type="button"
+                                class="slider-button slider-button--prev"
+                                name="previous"
+                                aria-label="{{ 'general.slider.previous_slide' | t }}"
+                                aria-controls="Slider-{{ section.id }}"
+                        >
+                            {% if section.settings.nav_style_type == 'type_1' %}
+                                {%- render 'icon-list', icon: "caret-left" -%}
+                            {% else %}
+                                {%- render 'icon-list', icon: "left-style-2" -%}
+                            {% endif %}
+                        </button>
+                        <div class="slider-counter caption">
+                            <span class="slider-counter--current">1</span>
+                            <span aria-hidden="true"> / </span>
+                            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+                            <span class="slider-counter--total">{{ section.blocks.size }}</span> 
+                        </div>
+                        <button
+                                type="button"
+                                class="slider-button slider-button--next"
+                                name="next"
+                                aria-label="{{ 'general.slider.next_slide' | t }}"
+                                 aria-controls="Slider-{{ section.id }}"
+                        >
+
+                            {% if section.settings.nav_style_type == 'type_1' %}
+                                {%- render 'icon-list', icon: "caret-right" -%}
+                            {% else %}
+                                {%- render 'icon-list', icon: "right-style-2" -%}
+                            {% endif %}
+                        </button>
+                    </div>
+                {% endif %}
+                {%- if section.blocks.size > 0 -%}
+                    {%- for block in section.blocks -%}
+                        {%- assign bl_it = block.settings -%}
+                        {%- assign productSpot = "product-" -%}
+                        {% for i in (1..4) %}
+                            {% capture idx %}{{productSpot}}{{i}}{% endcapture %}
+                            {% if bl_it[idx] != blank %}
+                                <div
+                                        id="popover-id-{{ block.id }}_{{ i }}"
+                                        role="tooltip"
+                                        data-popover="{{ block.id }}_{{ i }}"
+                                        data-popover-content
+                                        class="lookbook__product">
+                                    {% render 'card-product',
+                                            card_product: bl_it[idx],
+                                            media_aspect_ratio: 'portrait',
+                                            badge_card_toggle: true,
+                                            show_rating: false,
+                                            show_quick_add: false,
+                                            show_compare: false,
+                                            show_wishlist: false,
+                                            horizontal_class: style_class
+                                    %}
+                                </div>
+                            {%- endif -%}
+                        {%- endfor -%}
+                    {%- endfor -%}
+                {%- endif -%}
+            </slider-component>
+        </div>
+        {% unless columns_int > 1 %}
+            {% if show_desktop_slider or show_mobile_slider or show_tablet_slider %}
+                {% if section.settings.show_product_list %}
+                    {%- for block in section.blocks -%}
+                        {%- liquid
+                            assign bl_it = block.settings
+                            assign productSpot = "product-"
+                            assign productCount = ''
+                            for i in (1..4)
+                                assign idx = productSpot | append: i
+                                if bl_it[idx] != blank
+                                    assign productCount = forloop.index
+                                endif
+                            endfor
+                        -%}
+                        <div data-idx="{{ forloop.index }}" class="promo-product-item promo-product-wrapper-grid{% unless forloop.first %} hidden{% endunless %}{% if show_mobile_slider and show_desktop_slider == false %} hideDesktopItem{% endif %}">
+                            {%- if section.blocks.size > 0 -%} 
+                                <div class="promo-product-item-wrap item-list-{{ productCount }}">
+                                    {%- assign bl_it = block.settings -%}
+                                    {%- assign productSpot = "product-" -%}
+                                    {% for i in (1..4) %}
+                                        {% capture idx %}{{productSpot}}{{i}}{% endcapture %}
+                                        {% if bl_it[idx] != blank %}
+                                            {% render 'card-product',
+                                                    card_product: bl_it[idx],
+                                                    media_aspect_ratio: 'portrait',
+                                                    badge_card_toggle: false,
+                                                    show_rating: false,
+                                                    show_quick_add: false,
+                                                    show_compare: false,
+                                                    show_wishlist: false,
+                                                    horizontal_class: true
+                                            %}
+                                        {%- endif -%}
+                                    {%- endfor -%}
+                                </div>
+                            {%- endif -%}
+                        </div>
+                    {%- endfor -%}
+                {% endif %}
+            {% endif %}
+        {% endunless %}
+</lookbook-component>
+
+<script src="{{ 'popover.js' | asset_url }}" defer></script>
+
+
+
+{% javascript %}  
+
+if (!customElements.get('lookbook-component')) {
+  customElements.define(
+    'lookbook-component',
+    class LookbookComponent extends HTMLElement {
+      constructor() {
+        super();
+        this.popoverButtons = this.querySelectorAll('[data-popover-bullet]');
+        this.popperInstances = new Map();
+        this.popoverTimeout = null;
+
+        this.setupEventListeners(); 
+
+        this.sliderWrapper = this.querySelector('[id^="SliderGallery"]');
+        this.slider = this.sliderWrapper.querySelector('[id^="Slider-"]');
+       
+        if(this.slider.classList.contains('slider')){
+          this.slider.addEventListener('scroll', () => {
+            this.hideAllPopovers();  
+            this.updatePromo();  
+          });
+          this.sliderWrapper.addEventListener('slideChanged', this.updatePromo.bind(this)); 
+        } 
+      }
+
+
+      setupEventListeners() {
+        this.popoverButtons.forEach((button) => {
+          if (window.matchMedia('(min-width: 990px)').matches) {
+            button.addEventListener('mouseover', () => this.handleMouseOver(button));
+          } else {
+            button.addEventListener('click', () => this.handleButtonClick(button));
+          }
+        });
+
+        document.addEventListener('click', (event) => this.handleDocumentClick(event));  
+      }
+
+
+      connectedCallback() {
+        const handleIntersection = (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              this.hideAllPopovers();
+            }
+          });
+        };
+        const observer = new IntersectionObserver(handleIntersection.bind(this));
+        observer.observe(this);
+      }
+
+      handleMouseOver(button) {
+        const popoverID = button.getAttribute('data-popover');
+        if (this.popperInstances.has(popoverID)) {
+          clearTimeout(this.popoverTimeout);
+        } else {
+          this.hideAllPopovers();
+          this.showPopper(popoverID);
+        }
+      }
+
+      handleButtonClick(button) {
+        const popoverID = button.getAttribute('data-popover');
+        if (this.popperInstances.has(popoverID)) {
+          this.hidePopper(popoverID);
+        } else {
+          this.hideAllPopovers();
+          this.showPopper(popoverID); 
+        }
+      }
+
+      handleDocumentClick(event) {
+        const target = event.target;
+        const isButton = Array.from(this.popoverButtons).some((button) => button.contains(target));
+        const isPopover = Array.from(this.popperInstances.values()).some((popper) =>
+          popper.state.elements.popper.contains(target)
+        );
+
+        if (!isButton && !isPopover) {
+         this.popoverTimeout = setTimeout(() => {
+          this.hideAllPopovers();
+         }, 500); 
+        }
+      }
+
+      updatePromo() {
+        const currentSlide = parseInt(this.querySelector('.slider-counter--current').innerHTML); 
+        const productList = [...this.querySelectorAll(".promo-product-item")]; 
+        if (productList) {
+          productList.forEach(function (elem) {
+            const dataIdx = parseInt(elem.getAttribute('data-idx')); 
+            if (dataIdx === currentSlide) {
+              elem.classList.remove('hidden');
+            } else {
+              elem.classList.add('hidden'); 
+            }
+          });
+        }
+      }
+
+      createInstance(popoverID) {
+        const popperPopup = this.querySelector(`#popover-id-${popoverID}`);
+        const popperButton = this.querySelector(`#button-id-${popoverID}`);
+
+        if (popperPopup && popperButton) {
+          const popperInstance = Popper.createPopper(popperButton, popperPopup, {
+            placement: 'auto',
+            modifiers: [
+              {
+                name: 'offset',
+                options: {
+                  offset: [0, 6],
+                },
+              },
+              {
+                name: 'flip',
+                options: {
+                  allowedAutoPlacements: ['left', 'right', 'top', 'bottom'],
+                  rootBoundary: 'viewport',
+                },
+              },
+            ],
+          });
+          this.popperInstances.set(popoverID, popperInstance); // Store the popper instance in the map
+        }
+      }
+
+      destroyInstance(popoverID) {
+        if (this.popperInstances.has(popoverID)) {
+          const popperInstance = this.popperInstances.get(popoverID);
+          popperInstance.destroy();
+          this.popperInstances.delete(popoverID); // Remove the popper instance from the map
+        }
+      }
+
+      showPopper(popoverID) {
+        let openTimeout; 
+        clearTimeout(openTimeout);
+        const popperPopup = this.querySelector(`#popover-id-${popoverID}`);
+        const popperButton = this.querySelector(`#button-id-${popoverID}`);
+        if (popperPopup && popperButton) {
+          openTimeout = setTimeout(() => { 
+            popperPopup.setAttribute('is-open', '');
+            popperButton.setAttribute('is-active', ''); 
+            this.createInstance(popoverID);
+          }, 300);  
+        }
+      }
+
+      hidePopper(popoverID) {
+        
+        const popperPopup = this.querySelector(`#popover-id-${popoverID}`);
+        const popperButton = this.querySelector(`#button-id-${popoverID}`);
+
+        if (popperPopup && popperButton) {
+          popperPopup.removeAttribute('is-open');
+          popperButton.removeAttribute('is-active');
+          this.destroyInstance(popoverID);
+        }
+      }
+      hideAllPopovers() {
+        this.popoverButtons.forEach((button) => {
+          const popoverID = button.getAttribute('data-popover');
+          this.hidePopper(popoverID);
+        });
+      }
+    }
+  );
+}
+
+{% endjavascript %} 
+
+{% schema %}
+{
+  "name": "devok slider lookbook",
+  "name": "t:sections.devok-lookbook.name",
+  "tag": "section",
+  "class": "section devok-lookbook-product devok-slider devok-slider--modify devok-lookbook-product-list",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.banners.settings.header.header_1"
+    },
+    {
+      "type": "select",
+      "id": "box_type",
+      "options": [
+        {
+          "value": "box",
+          "label": "Box"
+        },
+        {
+          "value": "fluid",
+          "label": "Container fluid"
+        },
+        {
+          "value": "full_width",
+          "label": "Container full width"
+        }
+      ],
+      "default": "box",
+      "label": "t:sections.banners.settings.box_type.label"
+    },
+
+    {
+      "type": "range",
+      "id": "section_width",
+      "min": 700,
+      "max": 1600,
+      "step": 100,
+      "default": 1200,
+      "unit": "px",
+      "label": "t:sections.banners.settings.section_width.label"
+    },
+    {
+      "type": "range",
+      "id": "section_fluid_width",
+      "min": 1000,
+      "max": 1920,
+      "step": 10,
+      "default": 1880,
+      "unit": "px",
+      "label": "t:sections.banners.settings.section_fluid_width.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Lookbook Title",
+      "label": "t:sections.banners.settings.header.header_1"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h0",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h1",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "select",
+      "id": "style_text_align",
+      "label": "t:sections.banners.settings.heading_alignment.label",
+      "default": "center",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "t:sections.devok-lookbook.content"
+    },
+    {
+      "type": "select",
+      "id": "popup_product_style",
+      "label": "t:sections.devok-lookbook.content_2",
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid style"
+        },
+        {
+          "value": "list",
+          "label": "List style"
+        },
+        {
+          "value": "listWithoutImg",
+          "label": "Simple style"
+        }
+      ]
+    },
+
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "default": 3,
+      "label": "t:sections.featured-blog.settings.columns_desktop.label"
+    },
+
+    {
+      "type": "checkbox",
+      "id": "enable_desktop_slider",
+      "label": "t:sections.devok-lookbook.content_3",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_tablet_slider",
+      "label": "t:sections.devok-lookbook.content_4",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile_slider",
+      "label": "t:sections.devok-lookbook.content_5",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_list",
+      "label": "Show list of products",
+      "info": "Only with 1 column content",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "nav_style_type",
+      "label": "t:sections.devok-testimonials.settings.nav_style_type.label",
+      "default": "type_1",
+      "options": [
+        {
+          "value": "type_1",
+          "label": "Type #1"
+        },
+        {
+          "value": "type_2",
+          "label": "Type #2"
+        }
+      ]
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.featured-blog.settings.content.content_3"
+    },
+
+    {
+      "type": "select",
+      "id": "textalign_pos",
+      "label": "t:sections.featured-blog.settings.textalign_pos.label",
+      "default": "left",
+      "options": [
+        {
+          "label": "Left align",
+          "value": "left"
+        },
+        {
+          "label": "Center align",
+          "value": "center"
+        },
+        {
+          "label": "Right align",
+          "value": "right"
+        }
+      ]
+    },
+
+    {
+      "type": "text",
+      "id": "caption_padding",
+      "label": "t:sections.banners.settings.caption_padding.label",
+      "default": "0rem 1rem 0rem 1rem",
+      "info": "t:sections.banners.settings.desktop_section_padding.info"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.featured-blog.settings.content.content_4"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "background-1",
+      "info": "t:sections.all.colors.has_cards_info"
+    },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "t:sections.featured-blog.settings.content.content_5"
+    },
+    {
+      "type": "text",
+      "id": "caption_padding_mobile",
+      "label": "t:sections.banners.settings.caption_padding.label",
+      "default": "0rem 1rem 0rem 1rem",
+      "info": "t:sections.banners.settings.desktop_section_padding.info"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "t:sections.devok-lookbook.blocks.name_2",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.devok-lookbook.blocks.settings.name_3"
+        },
+        {
+          "type": "select",
+          "id": "image_ratio",
+          "info": "t:sections.devok-icon-text.settings.image_ratio.info",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "t:sections.multicolumn.settings.image_ratio.options__1.label"
+            },
+            {
+              "value": "portrait",
+              "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
+            },
+            {
+              "value": "square",
+              "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
+            }
+          ],
+          "default": "adapt",
+          "label": "t:sections.multicolumn.settings.image_ratio.label"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devok-lookbook.blocks.settings.name_4"
+        },
+        {
+          "type": "product",
+          "id": "product-1",
+          "label": "t:sections.devok-lookbook.blocks.settings.name_5"
+        },
+        {
+          "type": "range",
+          "id": "position_top1",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_v",
+          "default": 5,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "position_left1",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_h",
+          "default": 5,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devok-lookbook.blocks.settings.name_4"
+        },
+        {
+          "type": "product",
+          "id": "product-2",
+          "label": "t:sections.devok-lookbook.blocks.settings.name_5"
+        },
+        {
+          "type": "range",
+          "id": "position_top2",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_v",
+          "default": 10,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "position_left2",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_h",
+          "default": 10,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devok-lookbook.blocks.settings.name_4"
+        },
+        {
+          "type": "product",
+          "id": "product-3",
+          "label": "t:sections.devok-lookbook.blocks.settings.name_5"
+        },
+        {
+          "type": "range",
+          "id": "position_top3",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_v",
+          "default": 15,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "position_left3",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_h",
+          "default": 15,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.devok-lookbook.blocks.settings.name_4"
+        },
+        {
+          "type": "product",
+          "id": "product-4",
+          "label": "t:sections.devok-lookbook.blocks.settings.name_5"
+        },
+        {
+          "type": "range",
+          "id": "position_top4",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_v",
+          "default": 20,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        },
+        {
+          "type": "range",
+          "id": "position_left4",
+          "label": "t:sections.devok-lookbook.blocks.settings.pos_h",
+          "default": 20,
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "unit": "%"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "devok slider lookbook",
+      "blocks": [
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

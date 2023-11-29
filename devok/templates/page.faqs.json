@@ -1,0 +1,77 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 12,
+        "padding_bottom": 8
+      }
+    },
+    "2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76": {
+      "type": "collapsible-content",
+      "blocks": {
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-0": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "YOUR ACCOUNT & ORDERS",
+            "icon": "message_question",
+            "row_content": "<p>With the great pleasure we are offering you our goods<br\/>•  Fashion satisfies our willingness to be attractive<br\/>•  That is why we are offering you the result of great market and technological r<br\/>•  The unique combination of fair price, extraordinary style and perfect quality<br\/>So, this circumstance forced all leading successful companies to explore all needs and wishes of different groups of potential clients very deeply.<\/p>",
+            "page": ""
+          }
+        },
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-1": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "PAYMENTS",
+            "icon": "message_question",
+            "row_content": "<p>Yes, you can! After placing your order you will receive an order confirmation via email. Each order starts production 24 hours after your order is placed. Within 72 hours of you placing your order, you will receive an expected delivery date. When the order ships, you will receive another email with the tracking number and a link to trace the order online with the carrier.<\/p>",
+            "page": ""
+          }
+        },
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-2": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "SHIPPING & RETURNS",
+            "icon": "message_question",
+            "row_content": "<p>Yes, you can! After placing your order you will receive an order confirmation via email. Each order starts production 24 hours after your order is placed. Within 72 hours of you placing your order, you will receive an expected delivery date. When the order ships, you will receive another email with the tracking number and a link to trace the order online with the carrier.<\/p>",
+            "page": ""
+          }
+        },
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-3": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "SHOPPING INFORMATION",
+            "icon": "message_question",
+            "row_content": "<p>Yes, you can! After placing your order you will receive an order confirmation via email. Each order starts production 24 hours after your order is placed.<\/p><p>Within 72 hours of you placing your order, you will receive an expected delivery date. When the order ships, you will receive another email with the tracking number and a link to trace the order online with the carrier.<\/p>",
+            "page": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-0",
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-1",
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-2",
+        "template--15831124377775__2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76-16729400013f0d6fe9-3"
+      ],
+      "settings": {
+        "caption": "",
+        "heading": "How Can We Help You?",
+        "heading_size": "h1",
+        "heading_alignment": "left",
+        "layout": "row",
+        "color_scheme": "background-1",
+        "container_color_scheme": "background-1",
+        "open_first_collapsible_row": true,
+        "image_ratio": "adapt",
+        "desktop_layout": "image_second",
+        "padding_top": 0,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "2ae58dde-41f6-42e8-80c8-0c0a3e1f4d76"
+  ]
+}

@@ -1,0 +1,125 @@
+{% comment %}
+  Renders a header megamenu for mobile and desktop.
+
+  Usage:
+  {% render 'header-megamenu' %}
+{% endcomment %}
+    <div id="MegaMenu-Content-{{ forloop.index }}" class="mega-menu__content {{color_sub_scheme}} gradient {% unless section.settings.hover_menu != blank %} motion-reduce {% endunless %} global-settings-popup" tabindex="-1">  
+                          <div class="mega-menu__content_inner">
+                             
+                              {% if empty_var == false %}
+                                        {% capture custom_defmenu_style %}
+                                          {%- for block in section.blocks -%}
+                                            {%- case block.type -%}       
+
+                                              {%- when 'bloglist' -%}
+                                                {% assign bsh4 = block.settings.heading | downcase %}
+                                                {% if bsh4 == link_name %}
+                                                  {%- assign widthDefMenu = block.settings.width_default_menu | append: '%' -%} 
+                                                  {%- assign countDefMenu = block.settings.count_default_menu -%}  
+                                                      style="width: {{ widthDefMenu }};  grid-template-columns: repeat({{countDefMenu}},minmax(0,1fr));"
+                                                {% endif %}
+
+                                              {%- when 'product-list' -%}
+                                                {% assign bsh2 = block.settings.heading | downcase %}
+                                                {% if bsh2 == link_name %}
+                                                  {%- assign widthDefMenu = block.settings.width_default_menu | append: '%' -%} 
+                                                  {%- assign countDefMenu = block.settings.count_default_menu -%}  
+                                                    style="width: {{ widthDefMenu }};  grid-template-columns: repeat({{countDefMenu}},minmax(0,1fr));"
+                                                {% endif %} 
+          
+                                            {% endcase %}    
+                                          {%- endfor -%}
+
+                                        {% endcapture %} 
+
+                                        {% capture custom_megamenu_style %}
+                                          {%- for block in section.blocks -%}
+                                            {%- case block.type -%}       
+
+                                              {%- when 'bloglist' -%}
+                                                {% assign bsh4 = block.settings.heading | downcase %}
+                                                {% if bsh4 == link_name %}
+                                                  {%- assign widthCustomMenu = block.settings.width_custom_menu | append: '%' -%}
+                                                      style="width: {{ widthCustomMenu }};"
+                                                {% endif %}
+
+                                                {%- when 'product-list' -%}
+                                                {% assign bsh2 = block.settings.heading | downcase %}
+                                                {% if bsh2 == link_name %}
+                                                  {%- assign widthCustomMenu = block.settings.width_custom_menu | append: '%' -%}
+                                                      style="width: {{ widthCustomMenu }};"
+                                                {% endif %} 
+
+                                            {% endcase %}    
+                                           {%- endfor -%}
+                                        {% endcapture %} 
+                                      {% endif %}
+                              
+                                      
+                              <ul 
+                                 data-empty="{{ empty_var }}"
+                                   {% if empty_var == false %}{{ custom_defmenu_style }}{% endif %}
+                                 class="mega-menu__list list-unstyled {% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                                 role="list"
+                                  >
+                                  {%- for childlink in link.links -%}
+                                    <li>
+                                      <a href="{{ childlink.url }}" class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"{% if childlink.current %} aria-current="page"{% endif %}>
+                                        {{ childlink.title | escape }}
+                                      </a>
+                                      {%- if childlink.links != blank -%}
+                                        <ul class="list-unstyled" role="list">
+                                          {%- for grandchildlink in childlink.links -%}
+                                            <li>
+                                              <a href="{{ grandchildlink.url }}" class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"{% if grandchildlink.current %} aria-current="page"{% endif %}>
+                                                {{ grandchildlink.title | escape }}
+                                              </a>
+                                            </li>
+                                          {%- endfor -%}
+                                        </ul>
+                                      {%- endif -%}
+                                    </li>
+                                  {%- endfor -%}
+                                </ul>
+                                <ul class="mega-menu__list_custom__blocks"  {% if empty_var == false %}{{ custom_megamenu_style }}{% endif %}>
+                                {%- for block in section.blocks -%}
+                            
+                                  {%- case block.type -%}
+
+                                    {%- when 'bloglist' -%}
+                                    {% assign bsh4 = block.settings.heading | downcase %}
+                                    {% if bsh4 == link_name %}
+                                        {% render 'devok-megamenu-bloglist', block: block %}
+                                    {% endif %}
+                                  
+                                    {% when '4img-4linklists' %}
+                                    {% assign bsh8 = block.settings.heading | downcase %}
+                                    {% if bsh8 == link_name %}
+                                        {% render 'devok-megamenu-4img-4linklists', block: block %}
+                                    {% endif %}
+
+                                    {% when '2linklists-2banners' %}
+                                    {% assign bsh6 = block.settings.heading | downcase %}
+                                    {% if bsh6 == link_name %}
+                                        {% render 'devok-megamenu-2linklists-2banners', block: block %}
+                                    {% endif %}
+
+                                    {% when '3linklists-2banners' %}
+                                    {% assign bsh7 = block.settings.heading | downcase %}
+                                    {% if bsh7 == link_name %}
+                                        {% render 'devok-megamenu-3linklists-2banners', block: block %}       
+                                    {% endif %}
+
+                                    {%- when 'product-list' -%}
+                                    {% assign bsh2 = block.settings.heading | downcase %}
+                                    {% if bsh2 == link_name %}
+                                        {% render 'devok-megamenu-product-list', block: block, menu_type_desktop: section.settings.menu_type_desktop  %}
+                                    {% endif %}
+
+
+                                {% endcase %}
+                                {%- endfor -%}
+                              </ul>
+                          </div>
+                        </div>

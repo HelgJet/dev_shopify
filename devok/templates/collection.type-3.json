@@ -1,0 +1,85 @@
+{
+  "sections": {
+    "0982bc30-bc03-4c3e-91de-9de9d9d7f4ec": {
+      "type": "rich-text",
+      "blocks": {
+        "template--14893808975914__0982bc30-bc03-4c3e-91de-9de9d9d7f4ec-167675197644a76286-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "<p><strong>15% off $60, 20% off $80 or 25% off $100 + free shipping<\/strong><\/p>",
+            "heading_size": "h2"
+          }
+        },
+        "template--14893808975914__0982bc30-bc03-4c3e-91de-9de9d9d7f4ec-167675197644a76286-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>One day only<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "template--14893808975914__0982bc30-bc03-4c3e-91de-9de9d9d7f4ec-167675197644a76286-0",
+        "template--14893808975914__0982bc30-bc03-4c3e-91de-9de9d9d7f4ec-167675197644a76286-1"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "background-2",
+        "full_width": false,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "banner": {
+      "type": "main-collection-banner",
+      "disabled": true,
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": false,
+        "color_scheme": "background-1"
+      }
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "page_width": 1200,
+        "use_section_width": true,
+        "products_per_page": 12,
+        "columns_desktop": 4,
+        "pagination_type": "pagination_loadmore",
+        "image_ratio": "portrait",
+        "show_secondary_image": true,
+        "show_vendor": true,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "enable_quick_view": true,
+        "show_compare": true,
+        "show_wishlist": true,
+        "show_color_link": true,
+        "show_countdown": false,
+        "enable_filtering": true,
+        "filter_type": "drawer",
+        "enable_default_state_opened": true,
+        "enable_sorting": true,
+        "type_price_range": "default",
+        "enable_columnsview": true,
+        "short_columnsview": true,
+        "filter_by_type": true,
+        "filter_by_availability": false,
+        "filter_by_vendor": true,
+        "filter_by_tag": false,
+        "filter_by_color": true,
+        "filter_by_size": true,
+        "disable_count_filter_option": true,
+        "columns_mobile": "2",
+        "padding_top": 0,
+        "padding_bottom": 48
+      }
+    }
+  },
+  "order": [
+    "0982bc30-bc03-4c3e-91de-9de9d9d7f4ec",
+    "banner",
+    "product-grid"
+  ]
+}

@@ -1,0 +1,12 @@
+.product-recommendations {
+  display: block;
+}
+
+.product-recommendations__heading {
+  margin: 0 0 3rem;
+}
+
+
+.product-recommendations .button__icon {
+  display: none;
+}

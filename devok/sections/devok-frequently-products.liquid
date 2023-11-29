@@ -1,0 +1,515 @@
+{% if product.metafields.custom.featured_products != blank %}
+
+ {{ 'component-price.css' | asset_url | stylesheet_tag }}  
+ {{ 'component-rte.css' | asset_url | stylesheet_tag }} 
+ {{ 'component-rating.css' | asset_url | stylesheet_tag }}
+
+{% style%}
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+   
+   @media screen and (min-width: 990px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px; 
+    }
+  }
+{% endstyle %}
+
+  <div class="page-width section-{{ section.id }}-padding" data-section="{{ section.id }}">
+
+    <h2 class="h3">
+      {%- if section.settings.title != blank -%}
+        {{ section.settings.title }}
+      {%- endif -%} 
+    </h2>
+
+    {% assign meta_products_string = product.metafields.custom.featured_products
+      | remove: 'gid://shopify/Product/'
+      | remove: '['
+      | remove: ']'
+      | remove: '"'
+    %}
+    {% assign meta_product_ids = meta_products_string | split: ',' %}
+    
+    <devok-fbt id="frequently-products-template-{{ section.id }}" class="devok-fbt">
+      {{ 'devok-fbt.css' | asset_url | stylesheet_tag }}
+       <script src="{{ 'devok-fbt.js' | asset_url }}" defer="defer"></script>
+
+      <div class="devok-fbt-wrapper">
+       <div class="devok-fbt--image-container">
+        <ul class="devok-fbt-images list-unstyled">
+          {% for meta_product_id in meta_product_ids %}
+            {%- liquid
+              assign product_id = meta_product_id | times: 1
+              assign products_obj = collections.all.products | where: 'id', product_id
+              assign meta_product = products_obj[0]
+            -%}
+
+            {%- if meta_product.available == true -%} 
+            
+            {%- liquid
+              assign variant_images = meta_product.images | where: 'attached_to_variant?', true | map: 'src'
+
+                if variant_images.size == meta_product.media.size
+                  assign single_media_visible = true
+                endif 
+
+                assign media_count = meta_product.media.size 
+          
+                if media_count > 1 and variant_images.size > 0
+                  assign media_count = media_count | minus: variant_images.size | plus: 1
+                endif 
+            -%} 
+              <li class="devok-fbt--image-item product-checkbox-{{ forloop.index }}" data-ids-image="product-checkbox-{{ forloop.index }}">
+                <div class="devok-fbt-img">
+                     <media-gallery
+                    id="ProductGallery-{{ meta_product.id }}" 
+                    role="region"
+                    class="slider-component-full-width gallery--not-scroll-to-image"
+                    aria-label="{{ 'products.product.media.gallery_viewer' | t }}"
+                  >
+                      <div id="GalleryViewer-{{ meta_product.id }}" class="slider-mobile-gutter">  
+                      <ul
+                        id="Slider-Gallery-{{ meta_product.id }}"
+                        class="product__media-list grid grid--1-col slider slider--everywhere list-unstyled"  
+                        role="list"
+                      >
+                        {%- if meta_product.selected_or_first_available_variant.featured_media != null and meta_product.selected_or_first_available_variant.featured_media.media_type == 'image' -%}
+                          {%- assign featured_media = meta_product.selected_or_first_available_variant.featured_media -%}
+                          <li
+                            id="Slide-{{ meta_product.id }}-{{ featured_media.id }}"
+                            class="product__media-item grid__item slideshow__slide is-active"
+                            data-media-id="{{ meta_product.id }}-{{ featured_media.id }}"
+                          >
+                             <img
+                              src="{{ featured_media | image_url: width: 140 }}"
+                              alt="{{ featured_media.alt | escape }}"
+                              width="130"
+                              height="{{ 130 | divided_by: featured_media.aspect_ratio | ceil }}"
+                              loading="lazy"
+                             >
+                          </li>
+                        {%- endif -%}
+                        {%- for media in meta_product.media -%}
+                          {%- unless media.id == meta_product.selected_or_first_available_variant.featured_media.id -%}
+                            {%- if media.media_type == 'image' -%}
+                              <li 
+                                id="Slide-{{ meta_product.id }}-{{ media.id }}{{ id_append }}"
+                                class="product__media-item grid__item slideshow__slide"
+                                data-media-id="{{ meta_product.id }}-{{ media.id }}" 
+                              >
+                                <img
+                                src="{{ media | image_url: width: 140 }}"
+                                alt="{{ media.alt | escape }}"
+                                width="130"
+                                height="{{ 130 | divided_by: media.aspect_ratio | ceil }}"
+                                loading="lazy"
+                              >
+                              </li>
+                            {%- endif -%}
+                          {%- endunless -%} 
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  </media-gallery>
+                </div>
+
+                 {% if forloop.last %}
+              {% else %}
+               <div class="plus_icon">
+                    {% render 'icon-plus' %} 
+                  </div> 
+                {% endif %}   
+              </li>
+            {%- endif -%}
+          {% endfor %}
+        </ul>
+        <div class="add-to-cart-total-price ml-2">
+          <div>
+            {% assign totalVariantPrice = 0 %}
+            {% assign maxTotalVariantPrice = 0 %}
+
+            {% for meta_product_id in meta_product_ids %}
+              {%- liquid
+                assign product_id = meta_product_id | times: 1
+                assign products_obj = collections.all.products | where: 'id', product_id
+                assign meta_product = products_obj[0] 
+              -%} 
+              {%- if meta_product.available == true -%} 
+                {% for variant in meta_product.variants %} 
+                    {%- if variant == meta_product.selected_or_first_available_variant -%}
+                      {% assign totalVariantPrice = totalVariantPrice | plus: variant.price %}
+                      
+                      {%- if variant.compare_at_price > variant.price -%} 
+                        {%- assign diffPrice = variant.compare_at_price  | minus: variant.price %} 
+                      {%- endif -%}
+        
+                      {% assign maxTotalVariantPrice = totalVariantPrice | plus: diffPrice %}  
+                    {%- endif -%} 
+                {% endfor %}
+              {%- endif -%} 
+            {% endfor %}  
+
+            <div>
+              <div class="atc--total-sale price--on-sale d-inline-flex align-items-center">
+             
+                <div class="price__sale">
+                  {{ 'sections.cart.subtotal' | t }}:
+                  <span id="frequently-price-regular" class="price-item price-item--regular">
+                    {% if settings.currency_code_enabled %} 
+                      {{ maxTotalVariantPrice  | money_with_currency }}
+                    {% else %}
+                      {{ maxTotalVariantPrice | money }}  
+                    {% endif %}
+                  </span>
+                  <span id="frequently-price-sale" class="price-item price-item--sale price-item--last pl-1">
+                    {% if settings.currency_code_enabled %} 
+                      {{ totalVariantPrice   | money_with_currency }}
+                    {% else %}
+                      {{ totalVariantPrice | money }}  
+                    {% endif %}
+                  </span>
+                </div>
+                <div class="loading-overlay__spinner hidden">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    class="spinner mt-1 ml-1"
+                    viewBox="0 0 66 66"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+                  </svg>
+                </div> 
+
+              </div>
+            </div>
+          </div>
+          <button class="devok-fbt-atc button button--primary">{{ "accessibility.add_all_to_cart" | t }}</button> 
+        </div>
+       </div>
+        
+        <input type="hidden" id="product-variants-ids" value="">
+
+        <ul class="devok-fbt--products list-unstyled mt-2">
+          {% for meta_product_id in meta_product_ids %}
+            {%- liquid
+              assign product_id = meta_product_id | times: 1
+              assign products_obj = collections.all.products | where: 'id', product_id
+              assign meta_product = products_obj[0]
+              if meta_product.id != product.id
+                assign meta_product_url = meta_product.selected_variant.url | default: meta_product.url | prepend: request.origin 
+              else
+                assign meta_product_url = product.url | prepend: request.origin 
+              endif
+            -%}
+            {%- if meta_product.available == true -%}
+              <li class="devok-fbt--products__item">
+                <div class="devok-fbt-text-price">
+                  <div class="devok-fbt-checkbox">
+                    <input
+                      type="checkbox"
+                      data-ids-val="product-checkbox-{{ forloop.index }}"
+                      class="custom-checkbox product-checkbox-{{ forloop.index }} input-checkbox-js"
+                      id="{{ meta_product.handle }}-{{ forloop.index }}"
+                      value="Devok"
+                      checked
+                    >
+                    <label class="label" for="{{ meta_product.handle }}-{{ forloop.index }}"
+                      ><span class="hidden">{{ meta_product.title }}</span></label 
+                    >
+                  </div>
+                  <div data-index="product-checkbox-{{ forloop.index }}" class="devok-fbt--info-wrapper fbt-product-added--js {{ forloop.index }}{% if product.handle == meta_product.handle %} current-product{% endif %}{% if meta_product.has_only_default_variant %} devok-fbt--default{% endif %}">
+                    <div
+                        id="ProductInfo-{{ meta_product.id }}" 
+                        data-product="{{ meta_product.id }}" 
+                        data-url="{{ meta_product_url }}"  
+                        class="devok-fbt--info-container" 
+                    > 
+
+                     {%- assign product_form_id = 'product-form-' | append: meta_product.id | append: '-' | append: section.id -%}
+
+                     <div class="meta__product__title">
+                       
+                        <{% if product.handle != meta_product.handle %}a href="{{ meta_product_url }}"{% else %}div{% endif %} class="product__title h5">
+                           <span>
+                              {{ meta_product.title | escape }} 
+                           </span> 
+                        </{% if product.handle != meta_product.handle %}a{% else %}div{% endif %}>
+                     </div>
+                     
+                     <span class="ml-1"> / </span>
+                     
+                      <div class="variants__selects {% if meta_product.has_only_default_variant %} hidden{% endif %}">
+
+                        <bundle-variant-selects
+                          id="variant-selects-{{ meta_product.id }}"
+                          class="no-js-hidden"
+                          data-section-id="{{ section.id }}" 
+                          data-product="{{ meta_product.id }}"
+                          data-product-url="{{ meta_product_url }}"  
+                        >
+                         
+                          {%- for option in meta_product.options_with_values -%}
+
+
+                            <div class="product-form__input product-form__input--dropdown">
+                              <label class="form__label" for="Option-{{ meta_product.id }}-{{ forloop.index0 }}"> 
+                                {{ option.name }}
+                              </label> 
+                              <div class="select">
+
+                                <select
+                                  id="Option-{{ meta_product.id }}-{{ forloop.index0 }}"
+                                  class="select__select selector-for-featured-product"
+                                  name="options[{{ option.name | escape }}]"
+                                  form="{{ product_form_id }}"
+                                >
+
+                                    {%- liquid
+                                      assign variants_option1_arr = meta_product.variants | map: 'option1'
+                                      assign variants_option2_arr = meta_product.variants | map: 'option2'
+                                      assign variants_option3_arr = meta_product.variants | map: 'option3'
+                                      assign variants_available_arr = meta_product.variants | map: 'available'
+                                    -%}
+
+                                    {%- for value in option.values -%}
+
+                                      {%- liquid
+                                       assign found_option_1 = false
+                                       assign option_disabled = true
+                                      
+                                       for variant in meta_product.variants 
+                                        if variant.options contains value
+                                          assign variant_needed = variant 
+                                        endif 
+                                       endfor
+
+                                       for option1_name in variants_option1_arr 
+                                         case option.position
+                                           when 1
+                                               for variant in meta_product.variants 
+                                                   if variants_option1_arr[forloop.index0] == value
+                                                     assign found_option_1 = true   
+                                                   endif
+                                               endfor
+                                             if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                               assign option_disabled = false 
+                                             endif
+                                           when 2
+                                             if option1_name == meta_product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                               assign option_disabled = false 
+                                             endif
+                                           when 3
+                                             if option1_name == meta_product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == meta_product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+                                               assign option_disabled = false
+                                             endif
+                                         endcase 
+                                       endfor
+                                      -%}
+
+                                      <option
+                                        id="{{ variant_needed.id }}"
+                                        value="{{ value | escape }}"
+                                        {% if option.selected_value == value %}
+                                          selected="selected"
+                                        {% endif %}
+                                      >
+                                        {% if option_disabled -%}
+                                          {{- 'products.product.value_sold' | t: option_value: value -}}
+                                        {%- else -%}
+                                          {{- value -}}
+                                        {%- endif -%}
+                                      </option>
+                                    {%- endfor -%} 
+                                </select>
+                                {% render 'icon-caret' %}
+                              </div>
+                            </div>
+                          {%- endfor -%}
+
+                          <script type="application/json">
+                            {{ meta_product.variants | json }} 
+                          </script>
+                        </bundle-variant-selects> 
+                      </div>
+
+                         {%- if meta_product != blank -%} 
+                            <div class="product-form hidden">
+                              {%- form 'product',
+                                meta_product,
+                                id: product_form_id,
+                                class: 'form',
+                                novalidate: 'novalidate',
+                                data-type: 'atc-form'
+                              -%}
+                                  
+                                <input
+                                  type="hidden"
+                                  name="fid"
+                                  value="{{ meta_product.selected_or_first_available_variant.id }}"
+                                  disabled
+                                  class="product-variant-id" 
+                                >
+                                
+                              {%- endform -%}
+                            </div> 
+                        {%- endif -%}
+
+                      <div
+                        class="prices no-js-hidden"
+                        id="price-{{ meta_product.id }}"
+                        role="status"
+                     >
+                        {%- render 'price', 
+                           product: meta_product,
+                           use_variant: true,
+                           show_badges: false, 
+                           show_compare_at_price: false
+                         -%}
+                     </div>
+
+
+                     {%- if meta_product.metafields.reviews.rating.value != blank -%}
+                      
+                        {% liquid
+                        assign rating_decimal = 0
+                        assign decimal = meta_product.metafields.reviews.rating.value.rating | modulo: 1
+                        if decimal >= 0.3 and decimal <= 0.7
+                           assign rating_decimal = 0.5
+                        elsif decimal > 0.7
+                           assign rating_decimal = 1 
+                        endif
+                        %}
+                        <div
+                           class="rating"
+                           role="img"
+                           aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: meta_product.metafields.reviews.rating.value, rating_max: meta_product.metafields.reviews.rating.value.scale_max }}">
+                           <span
+                              aria-hidden="true"
+                              class="rating-star color-icon-{{ settings.accent_icons }}"
+                              style="--rating: {{ meta_product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ meta_product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"></span>
+                        </div>
+                        <p class="rating-text caption">
+                          <span aria-hidden="true">
+                            {{- meta_product.metafields.reviews.rating.value }} /
+                            {{ meta_product.metafields.reviews.rating.value.scale_max -}}
+                          </span>
+                        </p>
+                        <p class="rating-count caption">
+                          <span aria-hidden="true">({{ meta_product.metafields.reviews.rating_count }})</span>
+                          <span class="visually-hidden">
+                            {{- meta_product.metafields.reviews.rating_count }}
+                            {{ 'accessibility.total_reviews' | t -}}
+                          </span>
+                        </p>
+                         
+                      {%- endif -%}
+                  </div> 
+                  </div>
+                </div>
+                   <script type="application/ld+json">
+                {
+                "@context": "http://schema.org/",
+                "@type": "Product",
+                "name": {{ meta_product.title | json }},
+                "url": {{ request.origin | append: meta_product.url | json }}, 
+                "offers": [
+                  {%- for variant in meta_product.variants -%}
+                    {
+                    "@type" : "Offer",
+                    "price" : {{ variant.price | divided_by: 100.00 | json }},
+                    "priceCurrency" : {{ cart.currency.iso_code | json }},
+                    "url" : {{ request.origin | append: variant.url | json }}
+                    }{% unless forloop.last %},{% endunless %}
+                  {%- endfor -%}
+                 ]
+                }
+              </script>
+              </li>
+            {%- endif -%}
+          {% endfor %}
+        </ul>
+      </div>
+
+    </devok-fbt>
+  </div>
+
+
+  <script>
+  // Function to change image values
+function changeImageWidth() {
+  const imgElements = document.querySelectorAll('.devok-fbt [id^="Slider-Gallery-"] img'); 
+
+    imgElements.forEach((img) => {
+       if (window.innerWidth <= 749) {
+          img.setAttribute('width', '56');
+          img.setAttribute('height', 'auto');
+       } else if (window.innerWidth >= 750 && window.innerWidth <= 989){
+          img.setAttribute('width', '87'); 
+          img.setAttribute('height', 'auto');
+       } else {
+         img.setAttribute('width', '130');
+       }
+    });
+ 
+}
+
+window.addEventListener('resize', changeImageWidth);
+changeImageWidth();
+
+  </script>
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "devok Frequently Products",
+  "tag": "section",
+  "limit": 1, 
+  "enabled_on": {
+    "templates": ["product"]
+  }, 
+  "settings": [
+     {
+      "type": "text",
+      "id": "title",
+      "default": "Frequently bought together",
+      "label": "Title"
+    },
+     {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }
+  ],
+   "presets": [
+    {
+      "name": "devok Frequently Bought Together"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,34 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "page_width": 1200,
+        "use_section_width": true,
+        "title": "Collections",
+        "show_items_count": true,
+        "sort": "alphabetical",
+        "image_ratio": "adapt",
+        "contentHorizontal": "center",
+        "design_type": "grid_design",
+        "columns_desktop": 3,
+        "banner_style": "standard",
+        "v_cpos": "center",
+        "useButton": false,
+        "btn_bg_color": "#222222",
+        "btn_border_color": "#222222",
+        "btn_text_color": "#ffffff",
+        "btn_bg_color_hover": "#222222",
+        "btn_border_color_hover": "#222222",
+        "btn_text_color_hover": "#ffffff",
+        "buttom_full_width": false,
+        "image_layout": "alternate-left",
+        "media_size": "small",
+        "columns_mobile": "2"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

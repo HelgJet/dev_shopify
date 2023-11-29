@@ -1,0 +1,234 @@
+.components-multicolumns .title {
+    margin: 0;
+}
+
+.components-multicolumns.no-heading .title {
+    display: none;
+}
+
+.components-multicolumns .title-wrapper-with-link {
+    margin-top: 0;
+}
+
+
+.multicolumn-card .itemTextInfo .title{
+  margin-top: 0;
+}
+
+@media screen and (max-width: 749px) {
+    .components-multicolumns .title-wrapper-with-link {
+        margin-bottom: 3rem;
+    }
+
+    .components-multicolumns .page-width {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+
+.components-multicolumns .multicolumn-card__image-wrapper--five-width {
+    width: 20%;
+}
+
+.components-multicolumns .multicolumn-card__image-wrapper--third-width {
+    width: 33%;
+}
+
+.components-multicolumns .multicolumn-card__image-wrapper--half-width {
+    width: 50%;
+}
+
+.components-multicolumns .multicolumn-list__item.center
+.components-multicolumns .multicolumn-card__image-wrapper:not(.multicolumn-card__image-wrapper--full-width),
+.components-multicolumns .multicolumn-list__item:only-child {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.components-multicolumns .multicolumn-card__info .button {
+    margin-top: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+    .components-multicolumns .multicolumn-card__info .button {
+        margin-top: 4rem;
+    }
+}
+
+.components-multicolumns .multicolumn-list {
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.components-multicolumns .multicolumn-list__item:only-child {
+    max-width: 72rem;
+}
+
+.components-multicolumns .multicolumn-list__item--empty {
+    display: none;
+}
+
+.components-multicolumns .section-wrapper:not(.background-none) .multicolumn-card {
+    background: rgb(var(--color-background));
+    height: 100%;
+}
+
+.components-multicolumns .section-wrapper.background-primary .multicolumn-card {
+    background: rgb(var(--color-background)) linear-gradient(rgba(var(--color-foreground), 0.04), rgba(var(--color-foreground), 0.04));
+}
+
+.components-multicolumns .multicolumn-list h3 {
+    line-height: calc(1 + 0.5 / max(1, var(--font-heading-scale)));
+}
+
+.components-multicolumns .multicolumn-list h3,
+.components-multicolumns .multicolumn-list p {
+    margin: 0;
+}
+
+.components-multicolumns .multicolumn-card-spacing {
+    padding-top: 2.5rem;
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+}
+
+.components-multicolumns .multicolumn-card__info > :nth-child(2) {
+    margin-top: 1rem;
+}
+
+.components-multicolumns .multicolumn-list__item.center .media--adapt,
+.components-multicolumns .multicolumn-list__item .media--adapt .multicolumn-card__image {
+    width: auto;
+}
+
+.components-multicolumns .multicolumn-list__item.center .media--adapt img {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 749px) {
+    .components-multicolumns .multicolumn-list {
+        margin: 0;
+        width: 100%;
+    }
+
+    .components-multicolumns .multicolumn-list:not(.slider) {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+
+@media screen and (min-width: 750px) {
+    .components-multicolumns .multicolumn-list.slider,
+    .components-multicolumns .multicolumn-list.grid--4-col-desktop {
+        padding: 0;
+    }
+
+    .components-multicolumns .multicolumn-list__item,
+    .components-multicolumns .grid--4-col-desktop .multicolumn-list__item {
+        padding-bottom: 0;
+    }
+
+    .components-multicolumns .background-none .grid--2-col-tablet .multicolumn-list__item {
+        margin-top: 4rem;
+    }
+}
+
+.components-multicolumns .background-none .multicolumn-card-spacing {
+    padding: 0;
+    margin: 0;
+}
+
+.components-multicolumns .background-none .multicolumn-card__info {
+    padding-top: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.components-multicolumns .background-none .slider .multicolumn-card__info {
+    padding-bottom: 0;
+}
+
+.components-multicolumns .background-none .multicolumn-card__image-wrapper + .multicolumn-card__info {
+    padding-top: 2.5rem;
+}
+
+.components-multicolumns .background-none .slider .multicolumn-card__info {
+    padding-left: 0.5rem;
+}
+
+.components-multicolumns .background-none
+.slider
+.multicolumn-card__image-wrapper
++ .multicolumn-card__info {
+    padding-left: 1.5rem;
+}
+
+.components-multicolumns .background-none
+.multicolumn-list:not(.slider)
+.center
+.multicolumn-card__info {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+@media screen and (max-width: 749px) {
+    .components-multicolumns .background-none .slider .multicolumn-card__info {
+        padding-bottom: 1rem;
+    }
+
+    .components-multicolumns.background-none .slider.slider--mobile {
+        margin-bottom: 0rem;
+    }
+}
+
+@media screen and (min-width: 750px) {
+    .components-multicolumns .background-none .multicolumn-card__image-wrapper {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    }
+
+    .components-multicolumns .background-none .multicolumn-list .multicolumn-card__info,
+    .components-multicolumns .background-none
+    .multicolumn-list:not(.slider)
+    .center
+    .multicolumn-card__info {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+}
+
+.components-multicolumns .multicolumn-card {
+    position: relative;
+    box-sizing: border-box;
+}
+
+.components-multicolumns .multicolumn-card > .multicolumn-card__image-wrapper--full-width:not(.multicolumn-card-spacing) {
+    border-top-left-radius: calc(var(--text-boxes-radius) - var(--text-boxes-border-width));
+    border-top-right-radius: calc(var(--text-boxes-radius) - var(--text-boxes-border-width));
+    overflow: hidden;
+}
+
+.components-multicolumns.background-none .multicolumn-card {
+    border-radius: 0;
+}
+
+.components-multicolumns .multicolumn-card__info .link {
+    text-decoration: none;
+    font-size: inherit;
+    margin-top: 1.5rem;
+}
+
+.components-multicolumns .multicolumn-card__info .icon-wrap {
+    margin-left: 0.8rem;
+    white-space: nowrap;
+}
+
+@media screen and (min-width: 990px) {
+    .components-multicolumns .multicolumn-list__item--empty {
+        display: list-item;
+    }
+}

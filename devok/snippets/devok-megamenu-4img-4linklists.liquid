@@ -1,0 +1,71 @@
+<li class="img-linklist content_wrapper" data-type="4img-4linklists">
+    {% for i in (1..4) %}
+        {% capture list %}links_{{ i }}_4imgl{% endcapture %}
+        {% capture item_image %}image_{{ i }}_4imgl{% endcapture %}
+        {% capture img_link %}image_{{ i }}_link{% endcapture %}
+        {%- assign list = block.settings[list] -%}
+        {%- assign item_image = block.settings[item_image] -%}
+        {%- assign img_link = block.settings[img_link] -%}
+      {% if item_image != blank or list != blank  %}
+        <div class="megamenu_col">
+           {% if img_link != blank %}
+             <a href="{{ img_link }}">
+              {% if item_image %}
+               {%- capture sizes -%}(min-width: 990px)710px, (min-width: 750px) 550px, calc(100vw - 30px){%- endcapture -%}
+
+                  {{ item_image | image_url: width: 710 | image_tag:
+                     loading: 'lazy',
+                     sizes: sizes,
+                     widths: '275, 550, 710',
+                     alt: item_image.alt | escape
+                   }}
+              {% endif %}
+             </a>
+            {% else %}
+            {% if item_image %}
+              {%- capture sizes -%}(min-width: 990px)710px, (min-width: 750px) 550px, calc(100vw - 30px){%- endcapture -%}
+
+                  {{ item_image | image_url: width: 710 | image_tag:
+                     loading: 'lazy',
+                     sizes: sizes,
+                     widths: '275, 550, 710',
+                     alt: item_image.alt | escape
+                   }}
+            {% endif %}
+          {% endif %}
+            {% if linklists[list].title.size > 0 %}
+                  <div class="h6 {% if block.settings.show_title %}visible{% else %}hidden{% endif %}">{{ linklists[list].title }}</div>
+            {% endif %}
+            {% if list != blank %}
+              <ul class="linklists" id="menu_{{ block.id }}-{{ i }}">
+                  {% for link in linklists[list].links %}
+                      <li class="linklists__item">
+                                  {% if link.title contains '[new]' %}
+                                      {%- assign link_text = link.title | replace: '[new]', '' -%}
+                                      {%- assign link_badge = 'new' -%}
+                                  {% elsif link.title contains '[hot]' %} 
+                                      {%- assign link_text = link.title | replace: '[hot]', '' -%}
+                                      {%- assign link_badge = 'hot' -%}	
+                                  {% elsif link.title contains '[bestseller]' %} 
+                                      {%- assign link_text = link.title | replace: '[bestseller]', '' -%}
+                                      {%- assign link_badge = 'bestseller' -%}	
+                                  {% elsif link.title contains '[popular]' %}  
+                                      {%- assign link_text = link.title | replace: '[popular]', '' -%}
+                                      {%- assign link_badge = 'popular' -%}
+                                  {% elsif link.title contains '[soon]' %}  
+                                      {%- assign link_text = link.title | replace: '[soon]', '' -%}
+                                      {%- assign link_badge = 'soon' -%}
+                                  {% else %}
+                                      {%- assign link_text = link.title -%}
+                                      {%- assign link_badge = false -%}	
+                                  {% endif %}
+                      <a class="linklists__link" href="{{ link.url }}">{{ link_text }}{% if link_badge %}<span class="menu_badge badge_{{ link_badge }}">{{ link_badge }}</span>{% endif %}</a>
+
+                      </li>
+                  {% endfor %}
+              </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endfor %}
+</li>

@@ -1,0 +1,14 @@
+{% if section.settings.card_styles == 'product-card-wrapper' %}
+    {% assign cardLink = true %}
+{% endif %}
+<div class="collage{% if section.settings.mobile_layout == 'collage' %} collage--mobile{% endif %} devok-collage--quintet">
+    {%- for block in section.blocks limit: 5 -%}
+        <div
+                id="Slider-{{ block.id }}"
+                class="collage__item collage__item--{{ block.type }} collage__item--{{ section.settings.horizontal_layout }}"
+                {{ block.shopify_attributes }}
+        >
+        {% render 'devok-collage-media.liquid', block: block, section: section, cardLink: cardLink %}
+        </div>
+    {%- endfor -%}
+</div>

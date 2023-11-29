@@ -1,0 +1,689 @@
+{{ 'component-product-tabs-pro.css' | asset_url | stylesheet_tag }}
+
+  {% style %}
+  
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+  {% endstyle %} 
+
+
+{% render 'section-style', section: section %}
+
+<product-tabs
+  class="product-tabs section-style-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product-tabs"
+  {% if section.blocks.size == 1 %}
+    data-single-tab="true"
+  {% endif %}
+>
+
+<div class="section-{{ section.id }}-padding">
+
+  {%- if section.blocks.size > 0 -%} 
+    <div class="product-tabs__header tabs-container" data-sticky-element>
+      <div class="product-tabs__tabpanel scroller-parent focus-inset"> 
+        <div
+         class="product-tabs__tab-wrapper{% if section.blocks.size > 1 %} scroller-wrapper{% endif %}"
+          {% if section.blocks.size > 1 %}
+            data-scroller-wrapper 
+          {% endif %}>
+          <ul
+            class="product-tabs__tablist scroller-content"
+            role="tablist"
+            data-scroller-content
+          >
+            {%- assign block_counter = 0 -%}  
+
+            {%- for block in section.blocks -%}
+              {% assign first_block = false %}
+              {% if forloop.first %} 
+                {% assign first_block = true %}
+              {% endif %}
+              {%- case block.type -%}
+                {%- when 'description' -%} 
+                  {%- assign block_counter = block_counter | plus: 1 -%} 
+                  {%- assign block_counter_first = block_counter | minus: 1 -%}
+                  <li
+                    class="product-tabs-tab__item{% if first_block or block_counter_first == 0 %} product-tabs-tab__item--active{% endif %} focus-inset{% if section.settings.tab_style == 'uppercase' %} h6{% elsif section.settings.tab_style == 'subtitle' %} subtitle{% elsif section.settings.tab_style == 'title' %} h2{% endif %}"
+                    id="{{ block.id }}-tab"
+                    role="tab"
+                    aria-selected="{% if first_block %}true{% else %}false{% endif %}"
+                    aria-controls="{{ block.id }}-tab-panel"
+                    tabindex="{% if first_block %}0{% else %}-1{% endif %}"
+                    data-product-tabs-tab
+                   {% if first_block or block_counter_first == 0 %}
+                      data-product-tabs-selected-tab
+                    {% endif %}
+                    data-block-title="{{ block.settings.title }}"
+                    data-product-tabs-tab-number="{{ block_counter | minus: 1 }}"
+                    data-product-tabs-block-id="{{ block.id }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <span>
+                      {{ block.settings.title }}
+                    </span>
+                  </li>
+                {%- when 'all_tab' -%}
+                  {%- assign block_counter = block_counter | plus: 1 -%}
+                  {%- assign block_counter_first = block_counter | minus: 1 -%}
+                  <li
+                    class="product-tabs-tab__item{% if first_block or block_counter_first == 0 %} product-tabs-tab__item--active{% endif %} focus-inset{% if section.settings.tab_style == 'uppercase' %} h6{% elsif section.settings.tab_style == 'subtitle' %} subtitle{% elsif section.settings.tab_style == 'title' %} h2{% endif %}"
+                    id="{{ block.id }}-tab"
+                    role="tab"
+                    aria-selected="{% if first_block %}true{% else %}false{% endif %}"
+                    aria-controls="{{ block.id }}-tab-panel"
+                    tabindex="{% if first_block %}0{% else %}-1{% endif %}"
+                    data-product-tabs-tab
+                    {% if first_block or block_counter_first == 0 %}
+                      data-product-tabs-selected-tab
+                    {% endif %}
+                    data-block-title="{{ block.settings.title }}"
+                    data-product-tabs-tab-number="{{ block_counter | minus: 1 }}"
+                    data-product-tabs-block-id="{{ block.id }}"
+                    {{ block.shopify_attributes }}
+                    {% if block.settings.page != blank %}
+                      data-page-url="{{ pages[block.settings.page].url }}" 
+                    {% endif %} 
+                  >
+                    <span> {{ block.settings.title }}</span>
+                  </li>
+                {%- when 'reviews' -%}
+                  {%- assign block_counter = block_counter | plus: 1 -%}
+                  {%- assign block_counter_first = block_counter | minus: 1 -%}
+                  <li
+                    class="product-tabs-tab__item{% if first_block or block_counter_first == 0 %} product-tabs-tab__item--active{% endif %} focus-inset{% if section.settings.tab_style == 'uppercase' %} h6{% elsif section.settings.tab_style == 'subtitle' %} subtitle{% elsif section.settings.tab_style == 'title' %} h2{% endif %}"
+                    id="{{ block.id }}-tab"
+                    role="tab"
+                    aria-selected="{% if first_block %}true{% else %}false{% endif %}"
+                    aria-controls="{{ block.id }}-tab-panel"
+                    tabindex="{% if first_block %}0{% else %}-1{% endif %}"
+                    data-product-tabs-tab
+                    {% if first_block or block_counter_first == 0 %}
+                      data-product-tabs-selected-tab
+                    {% endif %} 
+                    data-block-title="{{ block.settings.title }}"
+                    data-product-tabs-tab-number="{{ block_counter | minus: 1 }}"
+                    data-product-tabs-block-id="{{ block.id }}"
+                    data-item-reviews  
+                    {{ block.shopify_attributes }}
+                  >
+                    <span>
+                      {{ block.settings.title }}
+                      {%- assign reviews_count = product.metafields.spr.reviews | split: '"reviewCount": "' | last | split: '",' | first | plus: 0 -%} 
+                      {% if reviews_count != 0 -%} 
+                       <span id="review_count">({{- reviews_count -}})</span>
+                      {%- endif -%} 
+                    </span>
+                  </li>
+                {%- when 'product_tab' -%}
+                  {% if block.settings.custom_product == product.handle %}
+                    {%- assign block_counter = block_counter | plus: 1 -%}
+                    {%- assign block_counter_first = block_counter | minus: 1 -%}
+                    <li
+                    class="product-tabs-tab__item{% if first_block or block_counter_first == 0 %} product-tabs-tab__item--active{% endif %} focus-inset{% if section.settings.tab_style == 'uppercase' %} h6{% elsif section.settings.tab_style == 'subtitle' %} subtitle{% elsif section.settings.tab_style == 'title' %} h2{% endif %}"
+                      id="{{ block.id }}-tab"
+                      role="tab"
+                      aria-selected="{% if first_block %}true{% else %}false{% endif %}"
+                      aria-controls="{{ block.id }}-tab-panel"
+                      tabindex="{% if first_block %}0{% else %}-1{% endif %}"
+                      data-product-tabs-tab
+                     {% if first_block or block_counter_first == 0 %}
+                         data-product-tabs-selected-tab
+                      {% endif %}  
+                      data-block-title="{{ block.settings.title }}"
+                      data-product-tabs-tab-number="{{ block_counter | minus: 1 }}"
+                      data-product-tabs-block-id="{{ block.id }}"
+                      {{ block.shopify_attributes }}
+                      {% if block.settings.page != blank %}
+                        data-page-url="{{ pages[block.settings.page].url }}"
+                      {% endif %}
+                    >
+                      <span> {{ block.settings.title }}</span> 
+                    </li>
+                  {% endif %} 
+
+                {%- when 'collection_tab' -%}
+                       
+                    {%- liquid 
+                        assign isCollection = false 
+                        if product.collections.size > 0 
+                          for collection in product.collections
+                            if collection.title contains collections[block.settings.custom_collection].title 
+                            assign isCollection = true
+                            endif 
+                          endfor 
+                        endif 
+                      -%}
+                      {%- if isCollection -%}
+                       {%- assign block_counter = block_counter | plus: 1 -%}
+                      {%- assign block_counter_first = block_counter | minus: 1 -%}
+                        <li
+                          class="product-tabs-tab__item{% if first_block or block_counter_first == 0 %} product-tabs-tab__item--active{% endif %} focus-inset{% if section.settings.tab_style == 'uppercase' %} h6{% elsif section.settings.tab_style == 'subtitle' %} subtitle{% elsif section.settings.tab_style == 'title' %} h2{% endif %}"
+                          id="{{ block.id }}-tab"
+                          role="tab"
+                          aria-selected="{% if first_block %}true{% else %}false{% endif %}"
+                          aria-controls="{{ block.id }}-tab-panel"
+                          tabindex="{% if first_block %}0{% else %}-1{% endif %}" 
+                          data-product-tabs-tab 
+                          {% if first_block or block_counter_first == 0 %}
+                            data-product-tabs-selected-tab 
+                          {% endif %}
+                          data-block-title="{{ block.settings.title }}"
+                          data-product-tabs-tab-number="{{ block_counter | minus: 1 }}"
+                          data-product-tabs-block-id="{{ block.id }}"
+                          {{ block.shopify_attributes }}
+                          {% if block.settings.page != blank %}
+                            data-page-url="{{ pages[block.settings.page].url }}"
+                          {% endif %}  
+                        >
+                          <span> {{ block.settings.title }}</span> 
+                        </li>
+                  {%- endif -%}
+              {%- endcase -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+        <div class="product-tabs__gradient"></div>
+        <button
+          class="product-tabs__tabpanel-arrow scroller-arrow scroller-arrow--previous"
+          aria-hidden="true"
+          tabindex="-1"
+          data-scroller-arrow
+          data-scroller-arrow-direction="previous"
+        >
+          {% render 'icon-arrow-right' %}
+        </button>
+        <button
+          class="product-tabs__tabpanel-arrow scroller-arrow scroller-arrow--next"
+          aria-hidden="true"
+          tabindex="-1"
+          data-scroller-arrow
+          data-scroller-arrow-direction="next"
+        >
+          {% render 'icon-arrow-right' %}
+        </button>
+      </div>
+    </div>
+  {%- endif -%}
+
+    <div class="collection-wrapper section-style-{{ section.id }} section-container" data-product-tabs-wrapper>
+      {%- assign block_counter = 0 -%} 
+      {%- for block in section.blocks -%} 
+        {% assign first_block = false %}
+        {% if forloop.first == true %} 
+          {% assign first_block = true %}
+        {% endif %}
+      
+        {%- capture box-width -%}
+          {% style %}
+          .block-{{ block.id }} .block-container {
+            max-width: {{ block.settings.block_width }}px; 
+          }
+          {% endstyle %}
+        {%- endcapture -%} 
+
+        {%- case block.type -%}
+          {%- when 'description' -%} 
+            {%- assign block_counter = block_counter | plus: 1 -%}
+            {%- assign block_counter_first = block_counter | minus: 1 -%}
+            
+            <div
+              class="product-tabs__panel{% if first_block or block_counter_first == 0 %} product-tabs__panel--active product-tabs__panel--visible{% endif %} block-{{ block.id }}"
+              role="tabpanel"
+              id="{{ block.id }}-tab-panel"
+              aria-labelledby="{{ block.id }}-tab"
+              data-product-tabs-tab-panel
+              data-product-tabs-tab-panel-number="{{ block_counter | minus: 1 }}"
+              data-block-title="{{ block.settings.title }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ box-width }}
+              <div class="isolate block-container">
+                {%- if product.description != blank -%}
+                  <div class="product__description rte quick-add-hidden">
+                    {{ product.description }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          {%- when 'all_tab' -%}
+            {%- assign block_counter = block_counter | plus: 1 -%}
+            {%- assign block_counter_first = block_counter | minus: 1 -%}
+            <div
+              class="product-tabs__panel{% if first_block or block_counter_first == 0 %} product-tabs__panel--active product-tabs__panel--visible{% endif %} block-{{ block.id }}"
+              role="tabpanel"
+              id="{{ block.id }}-tab-panel"
+              aria-labelledby="{{ block.id }}-tab" 
+              data-product-tabs-tab-panel
+              data-product-tabs-tab-panel-number="{{ block_counter | minus: 1 }}"
+              data-block-title="{{ block.settings.title }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ box-width }}
+              <div class="isolate block-container">
+                {%- if block.settings.content != blank -%}
+                  <div>{{ block.settings.content }}</div>
+                {%- endif -%}  
+                {%- if block.settings.page != blank -%}
+                  <div class="template__page__content" template-page-js></div>
+                {%- endif -%}
+                {{ block.settings.custom_liquid }}
+              </div>
+            </div>
+          {%- when 'reviews' -%}
+          {%- assign block_counter = block_counter | plus: 1 -%}
+            {%- assign block_counter_first = block_counter | minus: 1 -%}
+            <div
+              class="product-tabs__panel{% if first_block or block_counter_first == 0 %} product-tabs__panel--active product-tabs__panel--visible{% endif %} block-{{ block.id }}"
+              role="tabpanel"
+              id="{{ block.id }}-tab-panel"
+              aria-labelledby="{{ block.id }}-tab"
+              data-product-tabs-tab-panel
+              data-product-tabs-tab-panel-number="{{ block_counter | minus: 1 }}"
+              data-block-title="{{ block.settings.title }}"
+              {{ block.shopify_attributes }}
+            >
+              {{ box-width }}
+              <div class="isolate block-container">
+                {% if block.settings.custom_liquid != blank %}
+                  {{ block.settings.custom_liquid }}
+                {% else %}
+                  <div id="shopify-product-reviews" data-id="{{ product.id }}"> 
+                    {{ product.metafields.spr.reviews }}   
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {%- when 'product_tab' -%}
+            {% if block.settings.custom_product == product.handle %}
+            {%- assign block_counter = block_counter | plus: 1 -%}
+            {%- assign block_counter_first = block_counter | minus: 1 -%}
+              <div
+                class="product-tabs__panel{% if first_block or block_counter_first == 0 %} product-tabs__panel--active product-tabs__panel--visible{% endif %} block-{{ block.id }}"
+                role="tabpanel"
+                id="{{ block.id }}-tab-panel"
+                aria-labelledby="{{ block.id }}-tab"
+                data-product-tabs-tab-panel
+                data-product-tabs-tab-panel-number="{{ block_counter | minus: 1 }}"
+                data-block-title="{{ block.settings.title }}" 
+                {{ block.shopify_attributes }} 
+              >
+                {{ box-width }}
+                <div class=" isolate block-container">
+            
+                  {%- if block.settings.content != blank -%}
+                    <div>{{ block.settings.content }}</div>
+                  {%- endif -%}  
+                  {%- if block.settings.page != blank -%}
+                    <div class="template__page__content" template-page-js></div>
+                  {%- endif -%}
+                  {{ block.settings.custom_liquid }} 
+                </div>
+              </div>
+            {% endif %}
+          {%- when 'collection_tab' -%}
+           
+                 {%- liquid 
+                        assign isCollection = false 
+                        if product.collections.size > 0 
+                          for collection in product.collections
+                            if collection.title contains collections[block.settings.custom_collection].title 
+                            assign isCollection = true
+                            endif 
+                          endfor 
+                        endif 
+                      -%}
+                {%- if isCollection -%}
+                    {%- assign block_counter = block_counter | plus: 1 -%}
+                    {%- assign block_counter_first = block_counter | minus: 1 -%}
+                  <div
+                    class="product-tabs__panel{% if first_block or block_counter_first == 0 %} product-tabs__panel--active product-tabs__panel--visible{% endif %} block-{{ block.id }}"
+                    role="tabpanel"
+                    id="{{ block.id }}-tab-panel"
+                    aria-labelledby="{{ block.id }}-tab"
+                    data-product-tabs-tab-panel
+                    data-product-tabs-tab-panel-number="{{ block_counter | minus: 1 }}"
+                    data-block-title="{{ block.settings.title }}"
+                    {{ block.shopify_attributes }} 
+                  > 
+                  {{ box-width }}
+                    <div class="isolate block-container">
+                
+                      {%- if block.settings.content != blank -%}
+                        <div>{{ block.settings.content }}</div>
+                      {%- endif -%}  
+                      {%- if block.settings.page != blank -%} 
+                       <div class="template__page__content" template-page-js></div>
+                      {%- endif -%}
+                      {{ block.settings.custom_liquid }}
+                    </div>
+                  </div>
+            {%- endif -%} 
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</product-tabs>  
+
+<script src="{{ 'product-tabs-pro.js' | asset_url }}" defer="defer"></script> 
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "limit": 1,
+   "enabled_on": { 
+     "templates": ["product"]
+   }, 
+  "settings": [
+    {
+      "type": "select",
+      "id": "box_type",
+      "options": [
+        {
+          "value": "box",
+          "label": "Box"
+        },
+        {
+          "value": "fluid",
+          "label": "Container fluid"
+        },
+        {
+          "value": "full_width",
+          "label": "Container full width"
+        }
+      ],
+      "default": "box",
+      "label": "Type container"
+    },
+    {
+      "type": "range",
+      "id": "section_width",
+      "min": 700,
+      "max": 1600,
+      "step": 100,
+      "default": 1200,
+      "unit": "px",
+      "label": "Box width"
+    },
+    {
+      "type": "range",
+      "id": "section_fluid_width",
+      "min": 1000,
+      "max": 1920,
+      "step": 10,
+      "default": 1880,
+      "unit": "px",
+      "label": "Fluid Box width"
+    },
+      {
+        "type": "paragraph",
+        "content": "t:settings_schema.layout.settings.paragraph__grid.content"
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_horizontal",
+        "min": 4,
+        "max": 40,
+        "step": 4,
+        "default": 8,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.spacing_grid_horizontal.label"
+      },
+      {
+        "type": "range",
+        "id": "spacing_grid_vertical",
+        "min": 4,
+        "max": 40,
+        "step": 4,
+        "default": 8,
+        "unit": "px",
+        "label": "t:settings_schema.layout.settings.spacing_grid_vertical.label"
+      },
+
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 36
+    }, 
+    {
+      "type": "select",
+      "id": "tab_style",    
+      "options": [
+        {
+          "value": "title", 
+          "label": "t:sections.main-product.blocks.text.settings.text_style.options__1.label"
+        },
+        {
+          "value": "subtitle",
+          "label": "t:sections.main-product.blocks.text.settings.text_style.options__2.label"
+        },
+        {
+          "value": "uppercase",
+          "label": "t:sections.main-product.blocks.text.settings.text_style.options__3.label"
+        }
+      ],
+      "default": "title",
+      "label": "t:sections.main-product.blocks.text.settings.text_style.label" 
+    }
+  ],
+
+  "blocks": [
+    {
+      "type": "description",
+      "name": "Product description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "description"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "min": 500,
+          "max": 1600,
+          "step": 100,
+          "default": 1200,
+          "unit": "px",
+          "label": "Box width"
+        }
+      ]
+    },
+    {
+      "type": "all_tab",
+      "name": "Tab for all product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Some Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "Select a page with content"
+        },
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "min": 500,
+          "max": 1600,
+          "step": 100,
+          "default": 1200,
+          "unit": "px",
+          "label": "Box width"
+        }
+      ]
+    },
+
+    {
+      "type": "reviews",
+      "name": "Tab Product reviews",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Product reviews",
+          "info": "[Product Reviews](https:\/\/apps.shopify.com\/product-reviews)"
+        },
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "min": 500,
+          "max": 1600,
+          "step": 100,
+          "default": 1200,
+          "unit": "px",
+          "label": "Box width"
+        }
+      ]
+    },
+
+    {
+      "type": "product_tab",
+      "name": "Tab for this product",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab title"
+        },
+        {
+          "type": "product",
+          "id": "custom_product",
+          "label": "Product",
+          "info": "Content will only be shown on this product."
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Some Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "Select a page with content"
+        },
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "min": 500,
+          "max": 1600,
+          "step": 100,
+          "default": 1200,
+          "unit": "px",
+          "label": "Box width"
+        }
+      ]
+    },
+
+    {
+      "type": "collection_tab",
+      "name": "Tab for collection",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab title"
+        },
+        {
+          "type": "collection",
+          "id": "custom_collection",
+          "label": "Collection",
+          "info": "Content will only be shown on products from this collection."
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Some Content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Page",
+          "info": "Select a page with content."
+        },
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom liquid"
+        },
+        {
+          "type": "range",
+          "id": "block_width",
+          "min": 500,
+          "max": 1600,
+          "step": 100,
+          "default": 1200,
+          "unit": "px",
+          "label": "Box width"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "devok Product tabs pro"
+    }
+  ]
+}
+{% endschema %}
