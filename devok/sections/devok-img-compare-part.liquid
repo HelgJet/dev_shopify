@@ -3,8 +3,8 @@
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
 {{ 'component-rte.css' | asset_url | stylesheet_tag }}
 
-{{ 'component-devok-image-compare-container.css' | asset_url | stylesheet_tag }} 
-{{ 'devok-image-compare-with-text.css' | asset_url | stylesheet_tag }}
+{{ 'devok-img-compare-container.css' | asset_url | stylesheet_tag }} 
+{{ 'devok-img-compare-part.css' | asset_url | stylesheet_tag }}
 
 <script src="{{ 'image-compare.js' | asset_url }}" defer="defer"></script>
 
@@ -135,7 +135,7 @@
 
 {% schema %}
 {
-  "name": "devok Image Compare + text",
+  "name": "Image Compare + text",
   "class": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
@@ -471,7 +471,7 @@
   ],
   "presets": [
     {
-      "name": "devok Image Compare + text",
+      "name": "Image Compare + text",
       "blocks": [
         {
           "type": "heading"

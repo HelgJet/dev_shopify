@@ -3,13 +3,13 @@
  assign isHeading = false
  if section.settings.title != blank or section.settings.subtitle != blank or section.settings.description != blank 
    assign isHeading = true
- endif 
+ endif  
 -%}
 
 {% render 'section-style', section: section, isHeading: isHeading %}
 
-{{ 'component-devok-image-compare-container.css' | asset_url | stylesheet_tag }} 
-{{ 'devok-image-compare-banner.css' | asset_url | stylesheet_tag }} 
+{{ 'devok-img-compare-container.css' | asset_url | stylesheet_tag }} 
+{{ 'devok-img-compare-full.css' | asset_url | stylesheet_tag }} 
 
 <script src="{{ 'image-compare.js' | asset_url }}" defer="defer"></script>
 
@@ -154,7 +154,7 @@
   "class": "section section-devok-image-compare-banner",
     "disabled_on": {
     "groups": ["header", "footer"] 
-  },
+  }, 
 
   "settings": [
      {

@@ -4,22 +4,9 @@
     "theme_name": "Devok",
     "theme_version": "1.0.0", 
     "theme_author": "Shopify",
-    "theme_documentation_url": "",
-    "theme_support_url": "" 
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://support.shopify.com/"
   },
-  { 
-    "name": "NEED MORE HELP?",
-    "settings": [
-      {   
-        "type": "paragraph",
-        "content": "Learn more from our [Documentation]()"
-      },
-      {
-        "type": "paragraph",
-        "content": "In case of additional questions or problems, as well as requests to customize the template, please contact with us by [support link](https:\/\/devok.ticksy.com\/submit\/#100021039)"
-      }
-    ] 
-  }, 
   {
     "name": "t:settings_schema.logo.name",
     "settings": [

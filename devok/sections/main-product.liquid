@@ -97,7 +97,7 @@
    <script src="{{ 'product-info.js' | asset_url }}" defer="defer"></script>
 
    {% assign variantPicker = section.blocks | where: 'type', 'variant_picker' %}
-   {%- if product.quantity_price_breaks_configured? or variantPicker > 0 -%}
+   {%- if product.quantity_price_breaks_configured? or variantPicker.size > 0 -%}
       <script src="{{ 'show-more.js' | asset_url }}" defer="defer"></script> 
    {%- endif -%}
 
@@ -1649,6 +1649,9 @@
       <script src="{{ 'sticky-func-button.js' | asset_url }}" defer="defer"></script>
    {% endif %}  
 </div>
+
+
+      
 
 <script>
    // Necessary for section Recently viewed product - add or upd product handle in local storage 

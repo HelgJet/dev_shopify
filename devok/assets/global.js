@@ -918,6 +918,30 @@ class SliderComponent extends HTMLElement {
       this.slider.addEventListener('scroll', this.setSlideVisibility.bind(this));  
     }
 
+
+    if (this.slider.hasAttribute("data-devok-featcollection-type")) {
+      this.autoplayInterval = 5000; // Adjust the autoplay interval in milliseconds
+      this.autoplayTimer = null;
+  
+      // Start autoplay
+      this.startAutoplay();
+    }
+
+  }
+
+  startAutoplay() {
+    this.autoplayTimer = setInterval(() => {
+      this.slideNext(); // You can customize this method based on your requirements
+    }, this.autoplayInterval);
+  }
+
+  stopAutoplay() {
+    clearInterval(this.autoplayTimer);
+  }
+
+  slideNext() {
+    const nextPosition = this.slider.scrollLeft + this.sliderItemOffset;
+    this.setSlidePosition(nextPosition);
   }
 
   setSlideVisibility() {
@@ -940,7 +964,7 @@ class SliderComponent extends HTMLElement {
 
     this.sliderControlButtons[this.currentPage - parseInt(countVisibleSlides)].classList.add('slider-counter__link--active');
     this.sliderControlButtons[this.currentPage - parseInt(countVisibleSlides)].setAttribute('aria-current', true);
-  }  
+  }   
 
   initPages() {
     this.sliderItemsToShow = Array.from(this.sliderItems).filter(element => element.clientWidth > 0);
@@ -1002,10 +1026,14 @@ class SliderComponent extends HTMLElement {
     } 
 
     if (this.currentPage != previousPage) {
-      this.dispatchEvent(new CustomEvent('slideChanged', { detail: {
-        currentPage: this.currentPage,
-        currentElement: this.sliderItemsToShow[this.currentPage - 1]
-      }}));
+      this.dispatchEvent(
+        new CustomEvent('slideChanged', {
+          detail: {
+            currentPage: this.currentPage,
+            currentElement: this.sliderItemsToShow[this.currentPage - 1],
+          },
+        })
+      );
     }
 
     if (this.enableSliderLooping) return;
@@ -1032,10 +1060,20 @@ class SliderComponent extends HTMLElement {
     event.preventDefault();
     const step = event.currentTarget.dataset.step || 1;
     this.slideScrollPosition = event.currentTarget.name === 'next' ? this.slider.scrollLeft + (step * this.sliderItemOffset) : this.slider.scrollLeft - (step * this.sliderItemOffset);
+    this.setSlidePosition(this.slideScrollPosition);
+
+       // Stop autoplay when user interacts with the slider
+      this.stopAutoplay(); 
+  }
+
+
+  setSlidePosition(position) {
     this.slider.scrollTo({
-      left: this.slideScrollPosition
+      left: position,
     });
   }
+
+
 }
 
 customElements.define('slider-component', SliderComponent);

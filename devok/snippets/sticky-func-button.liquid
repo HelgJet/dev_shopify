@@ -20,7 +20,7 @@
          <div class="ml-2">
            <div class="d-flex align-items-center mb-1">
             <h3 class="h5 product__title my-0"> 
-               {{ product.title | escape }} 
+               {{ product.title | truncate: 50, '...' | escape }} 
             </h3>  
             {%- if product.selected_or_first_available_variant.title != "Default Title" -%}
                <span id="CurrentVariantTitle-{{ section.id }}" class="current_variant__title ml-1"> {{ product.selected_or_first_available_variant.title }} </span>         

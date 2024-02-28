@@ -427,7 +427,7 @@
           "label": "Background 2"
         },
         "inverse": {
-          "label": "Inverse" 
+          "label": "Inverse"
         },
         "label": "Color scheme",
         "label_sub": "Color scheme level 2 (sub header)",
@@ -453,7 +453,7 @@
       }
     },
     "announcement-bar": {
-      "name": "devok Announcement bar",
+      "name": "Devok Announcement bar",
       "settings": {
         "separate_border": {
           "label": "Showing separate bottom border"
@@ -882,7 +882,7 @@
       }
     },
     "devok-featured-collection": {
-      "name": "devok featured collection",
+      "name": "Devok featured collection",
       "block_name": "Collection",
       "content": "Card variants url",
       "content_2": "Slider settings",
@@ -925,12 +925,12 @@
           "info": "Select > 1 collection"
         },
         "presets": {
-          "name": "devok Featured collection"
+          "name": "Devok Featured collection"
         }
       }
     },
     "devok-featured-collection-vtabs": {
-      "name": "devok products with v-tabs",
+      "name": "Devok products with v-tabs",
       "content_1": "Banner 1 settings",
       "content_2": "Banner 2 settings",
       "content_3": "Sidebar Image settings",
@@ -984,20 +984,20 @@
       }
     },
     "devok-viewed-products": {
-      "name": "devok Recently Viewed Products"
+      "name": "Devok Recently Viewed Products"
     },
     "devok-link-list": {
-      "name": "devok link list",
+      "name": "Devok link list",
       "blocks": {
         "settings": {
           "customLinkList": {
-            "label": "Link list"
+            "label": "Link list" 
           }
-        }
+        } 
       }
     },
-    "devok-featured-collection-with-image": {
-      "name": "devok Featured Collection Products & Image",
+    "devok-featured-collection-img": {
+      "name": "Devok Featured Collection Products & Image",
       "content": "Image settings",
       "settings": {
         "image_url": {
@@ -1028,7 +1028,7 @@
       }
     },
     "devok-collection-list": {
-      "name": "devok collection list",
+      "name": "Devok collection list",
       "content_2": "Collection cards settings",
       "settings": {
         "use_section_width": {
@@ -1047,7 +1047,7 @@
       }
     },
     "devok-collage": {
-      "name": "devok collage",
+      "name": "Devok collage",
       "content": "Mobile settings",
       "settings": {
         "horizontal_layout": {
@@ -1091,7 +1091,7 @@
       }
     },
     "devok-testimonials": {
-      "name": "devok testimonials",
+      "name": "Devok testimonials",
       "content": "Image settings",
       "content_2": "SLIDER SETTINGS",
       "content_3": "Button",
@@ -1120,7 +1120,7 @@
           "info": "Custom container default color from general settings"
         },
         "presets": {
-          "name": "devok testimonials"
+          "name": "Devok testimonials"
         }
       },
       "blocks": {
@@ -1159,7 +1159,7 @@
       }
     },
     "devok-icon-text": {
-      "name": "devok icon text",
+      "name": "Devok icon text",
       "content": "Image settings",
       "content_2": "SLIDER SETTINGS",
       "settings": {
@@ -1204,7 +1204,7 @@
       }
     },
     "devok-lookbook": {
-      "name": "devok slider lookbook",
+      "name": "Devok slider lookbook",
       "content": "Popup product settings",
       "content_2": "Popup product style",
       "content_3": "Enable carousel on desktop",
@@ -1222,7 +1222,7 @@
       }
     },
     "devok-lookbook-picker": {
-      "name": "devok lookbook picker",
+      "name": "Devok lookbook picker",
       "settings": {
         "inset_space": {
           "label": "Inset slider space"
@@ -1823,7 +1823,7 @@
       }
     },
     "image-banner-scroll-slider": {
-      "name": "devok Image banner scroll slider",
+      "name": "Devok Image banner scroll slider",
       "settings": {
         "header": {
           "content": "Mobile Layout"
@@ -1937,14 +1937,14 @@
         }
       },
       "presets": {
-        "name": "devok Banner scroll slider"
+        "name": "Devok Banner scroll slider"
       }
     },
-    "devok-image-compare-banner": {
-      "name": "devok Image compare banner (before\/after)"
+    "devok-image-compare-full": {
+      "name": "Devok Image compare banner (before\/after)"
     },
     "multirow": {
-      "name": "Multirow",
+      "name": "Multirow", 
       "settings": {
         "image": {
           "label": "Image"
@@ -3587,7 +3587,7 @@
         }
       },
       "presets": {
-        "name": "devok Banners"
+        "name": "Devok Banners"
       }
     },
     "newsletter": {
@@ -3821,7 +3821,7 @@
             "label": "2 columns"
           }
         }
-      } 
+      }
     },
     "quick-order-list": {
       "name": "Quick order list",

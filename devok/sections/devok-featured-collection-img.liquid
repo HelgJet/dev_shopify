@@ -2,7 +2,7 @@
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
 {{ 'component-rte.css' | asset_url | stylesheet_tag }}
 {{ 'devok-featured-collection.css' | asset_url | stylesheet_tag }}
-{{ 'devok-featured-collection-with-image.css' | asset_url | stylesheet_tag }}
+{{ 'devok-featured-collection-img.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
  assign isHeading = false
@@ -28,16 +28,16 @@
 
 {%- style -%}
    @media screen and (min-width: 980px) {
-    .devok-featured-collection-with-image .static-image-wrapper,
-    .devok-featured-collection-with-image .static-image-wrapper .media {
+    .devok-featured-collection-img .static-image-wrapper,
+    .devok-featured-collection-img .static-image-wrapper .media {
       padding-bottom: {{ 1 | divided_by: 700 | times: 100 }}%!important;
       content: ''!important;
       display: block!important;
     }
-     .devok-featured-collection-with-image .media.media--transparent.media--adapt {
+     .devok-featured-collection-img .media.media--transparent.media--adapt {
     height: calc(100% - 27px);
 }
-     .devok-featured-collection-with-image .static-image-wrapper .media>img {
+     .devok-featured-collection-img .static-image-wrapper .media>img {
     object-position: top;
 }
   }
@@ -369,9 +369,9 @@
 
 {% schema %}
 {
-"name": "t:sections.devok-featured-collection-with-image.name",
+"name": "t:sections.devok-featured-collection-img.name",
 "tag": "section",
-"class": "section devok-featured-collection-with-image devok-slider devok-featured-section devok-slider--modify",
+"class": "section devok-featured-collection-img devok-slider devok-featured-section devok-slider--modify",
 "disabled_on": {
 "groups": ["header", "footer"]
 },
@@ -486,7 +486,7 @@
 {
 "type": "html",
 "id": "customInfo",
-"label": "t:sections.devok-featured-collection-with-image.settings.customInfo.label"
+"label": "t:sections.devok-featured-collection-img.settings.customInfo.label"
 },
 
 {
@@ -547,17 +547,17 @@
 },
 {
 "type": "header",
-"content": "t:sections.devok-featured-collection-with-image.content"
+"content": "t:sections.devok-featured-collection-img.content"
 },
 {
 "type": "image_picker",
 "id": "static_image",
-"label": "t:sections.devok-featured-collection-with-image.settings.static_image.label"
+"label": "t:sections.devok-featured-collection-img.settings.static_image.label"
 },
 {
 "type": "url",
 "id": "image_url",
-"label": "t:sections.devok-featured-collection-with-image.settings.image_url.label"
+"label": "t:sections.devok-featured-collection-img.settings.image_url.label"
 },
 {
 "type": "header",
@@ -645,7 +645,7 @@
   {
   "type": "select",
   "id": "image_pos",
-  "label": "t:sections.devok-featured-collection-with-image.settings.image_pos.label",
+  "label": "t:sections.devok-featured-collection-img.settings.image_pos.label",
   "options": [
     {
       "value": "left",
@@ -888,7 +888,7 @@
 }
 ],
 "default": "design-1",
-"label": "t:sections.devok-featured-collection-with-image.blocks.settings.card_design.label"
+"label": "t:sections.devok-featured-collection-img.blocks.settings.card_design.label"
 },
 {
 "type": "select",
@@ -988,21 +988,21 @@
 "type": "checkbox",
 "id": "enable_quick_view",
 "default": false,
-"label": "t:sections.devok-featured-collection-with-image.blocks.settings.enable_quick_view.label"
+"label": "t:sections.devok-featured-collection-img.blocks.settings.enable_quick_view.label"
 },
 
 {
 "type": "checkbox",
 "id": "show_compare",
 "default": false,
-"label": "t:sections.devok-featured-collection-with-image.blocks.settings.show_compare.label"
+"label": "t:sections.devok-featured-collection-img.blocks.settings.show_compare.label"
 },
 
 {
 "type": "checkbox",
 "id": "show_wishlist",
 "default": false,
-"label": "t:sections.devok-featured-collection-with-image.blocks.settings.show_wishlist.label"
+"label": "t:sections.devok-featured-collection-img.blocks.settings.show_wishlist.label"
 },
 {
 "type": "checkbox",
@@ -1024,7 +1024,7 @@
 ],
 "presets": [
 {
-"name": "t:sections.devok-featured-collection-with-image.name"
+"name": "t:sections.devok-featured-collection-img.name"
 }
 ]
 }

@@ -28,7 +28,7 @@
   endif
 -%}
 
-{%- if isPageCollection -%}
+{%- if isPageCollection and filter_type != 'vertical' -%}
   <div class="facet-container--custom">
     <facet-filters-form class="facets facets__custom--type">
       <form
@@ -375,7 +375,7 @@
               {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
               {% case filter.type %}
                 {% when 'boolean', 'list' %} 
-               {%- unless filter_option_type contains 'product_type' and isPageCollection %} 
+               {%- unless filter_option_type contains 'product_type' and isPageCollection and filter_type != 'vertical' %} 
                   <details
                     id="Details-{{ forloop.index }}-{{ section.id }}"
                     class="{% if filterIsType %}hidden {% endif %}{% if filter_type == 'horizontal' %}disclosure-has-popup facets__disclosure{% else %} facets__disclosure-vertical{% endif %}  js-filter"
@@ -769,7 +769,7 @@
                                 <input
                                   class="range range__min"
                                   min="0"
-                                  step="{% if maxValueNumber < 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber < 1000 %}10{% else %}100{% endif %}"
+                                  step="{% if maxValueNumber <= 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber <= 1000 %}10{% else %}100{% endif %}"
                                   type="range"
                                   {%- if uses_comma_decimals -%}
                                     max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
@@ -799,7 +799,7 @@
                                   {%- else -%}
                                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                                   {%- endif -%}
-                                   step="{% if maxValueNumber < 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber < 1000 %}10{% else %}100{% endif %}"
+                                   step="{% if maxValueNumber <= 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber <= 1000 %}10{% else %}100{% endif %}"
                                   type="range"
                                   {%- if filter.max_value.value -%}
                                     {%- if uses_comma_decimals -%}
@@ -1189,7 +1189,7 @@
                   {% case filter.type %}
                     {% when 'boolean', 'list' %}
              
-                  {%- unless filter_option_type contains 'product_type' and isPageCollection -%}
+                  {%- unless filter_option_type contains 'product_type' and isPageCollection and filter_type != 'vertical' -%} 
                       <details
                         id="Details-Mobile-{{ forloop.index }}-{{ section.id }}"
                         class="mobile-facets__details js-filter"
@@ -1202,6 +1202,8 @@
                             <noscript>{% render 'icon-caret' %}</noscript>
                           </div>
                         </summary>
+
+
                         <div
                           id="FacetMobile-{{ forloop.index }}-{{ section.id }}"
                           class="mobile-facets__submenu gradient"
@@ -1497,7 +1499,7 @@
                                 <input
                                   class="range range__min"
                                   min="0"
-                                  step="{% if maxValueNumber < 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber < 1000 %}10{% else %}100{% endif %}"
+                                  step="{% if maxValueNumber <= 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber <= 1000 %}10{% else %}100{% endif %}"
                                   type="range"
                                   {%- if uses_comma_decimals -%}
                                     max="{{ filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
@@ -1527,7 +1529,7 @@
                                   {%- else -%}
                                     max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
                                   {%- endif -%}
-                                  step="{% if maxValueNumber < 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber < 1000 %}10{% else %}100{% endif %}"
+                                  step="{% if maxValueNumber <= 100 %}1{% elsif maxValueNumber > 100 and maxValueNumber <= 1000 %}10{% else %}100{% endif %}"
                                   type="range"
                                   {%- if filter.max_value.value -%}
                                     {%- if uses_comma_decimals -%}

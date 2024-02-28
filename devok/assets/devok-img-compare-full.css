@@ -2,7 +2,7 @@
   position: relative;
   max-width: calc(var(--page-width) - (var(--offsetX)*2));   
   margin: 0 auto; 
-  padding: 0; 
+  padding: 0;  
 }
 
 .devokImageCompare__banner  {

@@ -136,7 +136,10 @@ class RecentlyViewedProducts extends HTMLElement {
 
   getRecentlyViewedProductHandles() {
     const recentlyViewed = JSON.parse(localStorage.getItem('recentlyViewed')) || [];
-    return recentlyViewed.slice(-`${this.selectors.recentlyViewedCount}`).reverse();
+    // Remove undefined values from the array
+    const filteredRecentlyViewed = recentlyViewed.filter(item => item !== undefined);
+
+    return filteredRecentlyViewed.slice(-`${this.selectors.recentlyViewedCount}`).reverse();
   }
   
    fetchProductHTML = (handle) => {
@@ -148,7 +151,12 @@ class RecentlyViewedProducts extends HTMLElement {
          const parser = new DOMParser(); 
          const htmlDocument = parser.parseFromString(text, 'text/html');
          const itemProduct = htmlDocument.documentElement.querySelector(this.selectors.itemProduct); 
-         return  itemProduct.outerHTML;   
+         if (itemProduct) {
+            return itemProduct.outerHTML;
+          } else {
+            console.error(`[ZMZ Recently Viewed Product] No element found for handle: ${handle}`);
+            return ''; // or handle this case in a way that makes sense for your application
+        } 
       }) 
       .catch((err) => console.error(`[devok Recently Viewed Product] Failed to load content for handle: ${handle}`, err));
    }  

@@ -83,7 +83,6 @@
           "type": "slide-video",
           "settings": {
             "image": "shopify:\/\/shop_images\/slide_1_8d296bdb-23b9-4eec-b18d-1ffe514fb098.png",
-            "video": "",
             "enable_video_looping": true,
             "subtitle": "Devok",
             "subtitle_color": "#ec3f19",
@@ -646,8 +645,8 @@
       }
     },
     "3dc43a9e-de92-4cd6-9280-3ef2d5724ebd": {
-      "type": "devok-image-compare-banner",
-      "settings": {
+      "type": "devok-img-compare-full",
+      "settings": { 
         "page_width": 1170,
         "image": "shopify:\/\/shop_images\/Screenshot_3_grey.jpg",
         "image_2": "shopify:\/\/shop_images\/Screenshot_3.jpg",
