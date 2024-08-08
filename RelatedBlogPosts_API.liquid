@@ -1,0 +1,334 @@
+{% comment %}
+  Dynamically fetches related blog posts based on product metafields across all blogs.
+  Falls back to globally defined posts if no specific metafields are present.
+{% endcomment %}
+
+
+{%- if section.settings.blog.articles != blank or product.metafields.custom.related_post_handles.value.size > 0 -%}
+  {% comment %} Dynamicaly styles for section layout {% endcomment %}
+  {%- style -%}
+    #RelatedBlogPosts-{{ section.id }} {
+      --page-width: {{ section.settings.page_width | divided_by: 10 }}rem;
+    }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+      {% if section.settings.use_section_width == blank %}
+        #RelatedBlogPosts-{{ section.id }} .swiper-hidden {
+          padding: 0;
+          margin-left: max(5rem, calc((100vw - var(--page-width) + 10rem - 2.4rem) / 2));
+        }
+      {% endif %}
+    }
+  {%- endstyle -%}
+
+
+  {% comment %} Style for article card {% endcomment %}
+  <style>
+    .related-posts .full-unstyled-link {
+      text-decoration: none;
+      color: currentColor;
+      display: block;
+    }
+
+    .related-posts .card__heading {
+      margin-top: 0;
+    }
+    .related-posts .article-card-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .related-posts .article-card-wrapper:hover img {
+      opacity: 0.88;
+    }
+
+    .related-posts .card__heading a:after {
+      bottom: 0;
+      content: "";
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 1;
+    }
+
+    @media screen and (min-width: 750px) {
+      .related-posts .card__information {
+        padding-bottom: 1.7rem;
+        padding-top: 1.7rem;
+      }
+    }
+
+    .related-posts .card__information {
+      padding: 1.3rem 1rem;
+    }
+
+    .related-posts .swiper-hidden {
+      position: relative;
+      padding-left: 1.6rem;
+    }
+
+    .related-posts .swiper-button {
+      width: 4.4rem;
+      height: 4.4rem;
+      background-color: #fff;
+      border-radius: 50%;
+      color: #000;
+      box-shadow: none;
+      border: none;
+      top: 36%;
+      position: absolute;
+      z-index: 10;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s ease;
+    }
+
+    @media screen and (min-width: 750px) {
+      .related-posts .swiper-button {
+        width: 6.4rem;
+        height: 6.4rem;
+        top: 42%;
+      }
+    }
+
+    .related-posts .swiper-button.swiper-button-disabled {
+      display: none;
+    }
+
+    .related-posts .swiper-button svg {
+      width: 1.2rem;
+    }
+
+    .related-posts .swiper-button.swiper-button-prev svg path {
+      transform-origin: center center;
+      transform: rotate(180deg);
+    }
+    .related-posts .swiper-button:hover {
+      opacity: 0.88;
+    }
+    .related-posts .swiper-button.swiper-button-next,
+    .related-posts .swiper-rtl .swiper-button.swiper-button-prev {
+      left: auto;
+      right: 5%;
+    }
+    .related-posts .swiper-button.swiper-button-prev,
+    .related-posts .swiper-rtl .swiper-button.swiper-button-next {
+      right: auto;
+      left: 5%;
+    }
+    .img-fluid {
+      max-width: 100%;
+      height: auto;
+      transition: opacity 0.2s ease;
+    }
+  </style>
+
+
+{% endif %}
+
+<div class="page-width">
+  <h2>Related blogs API</h2>
+   <related-posts id="related-posts-container" class="related-posts grid" product-id="{{ product.id }}"></related-posts>
+</div>
+
+<script>
+
+ // API base URL and access token for Shopify API
+const API_BASE_URL = '/admin/api/2024-01';
+const ACCESS_TOKEN = 'your_access_token';
+
+// Custom element class for displaying related posts
+class RelatedPosts extends HTMLElement {
+  constructor() {
+    super();
+    // Fetch the product ID from the element's attributes
+    this.productId = this.getAttribute('product-id');
+
+    // Initialize the component when it becomes visible in the viewport
+    window.theme.initWhenVisible({
+      threshold: 0.5,
+      callback: this.init.bind(this), // Ensure 'this' context is preserved
+      element: this // The custom element itself
+    });
+  }
+
+  // Initializes the component by fetching related blogs
+  async init() {
+    await this.fetchBlogs();
+  }
+
+  // Generic API fetch function for making requests to the Shopify API
+  async fetchShopifyAPI(endpoint, options = {}) {
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Access-Token': ACCESS_TOKEN,
+          ...options.headers,
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error(`Error making API call to ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
+  // Fetches list of blogs from the Shopify API
+  async fetchBlogs() {
+    try {
+      const data = await this.fetchShopifyAPI('/blogs.json');
+      const blogs = data.blogs;
+      // Fetch related product metafields for each blog
+      await this.fetchProductMetafield(blogs);
+    } catch (error) {
+      console.error('Error fetching blogs:', error);
+    }
+  }
+
+  // Fetches product metafields to find related post handles
+  async fetchProductMetafield(blogs) {
+    const productId = this.productId;
+    try {
+      const data = await this.fetchShopifyAPI(`/products/${productId}/metafields.json`);
+      const relatedPostHandlesString = data.metafields.find(metafield => metafield.key === 'related_post_handles').value;
+      const relatedPostHandles = JSON.parse(relatedPostHandlesString);
+      blogs.forEach(blog => {
+        this.fetchRelatedPosts(blog.id, blog.handle, relatedPostHandles);
+      });
+    } catch (error) {
+      console.error('Error fetching product metafield:', error);
+    }
+  }
+
+  // Fetches related posts for each blog based on related post handles
+  async fetchRelatedPosts(blogId, blogHandle, relatedPostHandles) {
+    try {
+      const data = await this.fetchShopifyAPI(`/blogs/${blogId}/articles.json`);
+      const articles = data.articles;
+      // Display the related articles on the page
+      this.displayRelatedArticles(articles, blogHandle, relatedPostHandles);
+    } catch (error) {
+      console.error('Error fetching related posts:', error);
+    }
+  }
+
+  // Generates HTML for related articles and appends it to the element
+  displayRelatedArticles(articles, blogHandle, relatedPostHandles) {
+    const relatedArticlesHTML = articles.reduce((acc, article) => {
+      const modifiedArticleHandle = article.handle.split('/').pop();
+      if (relatedPostHandles.includes(modifiedArticleHandle)) {
+        const articleURL = `/blogs/${blogHandle}/${article.handle}`;
+        return acc + `
+          <a href="${articleURL}" id="${article.id}" class="related-posts__articles grid__item full-unstyled-link">
+              <img src="${article.image.src}" class="img-fluid" alt="${article.title}" />
+              <h3>${article.title}</h3>
+          </a>
+        `;
+      }
+      return acc;
+    }, '');
+
+    // Append the related articles HTML to the custom element
+    this.innerHTML += relatedArticlesHTML;
+  }
+}
+
+// Define the 'related-posts' custom element
+customElements.define('related-posts', RelatedPosts);
+</script>
+
+
+{% schema %}
+{
+  "name": "Related Blog Posts",
+  "tag": "section",
+  "limit": 1,
+  "class": "section related-post",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 1000,
+      "max": 1920,
+      "step": 10,
+      "default": 1200,
+      "unit": "px",
+      "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Related Post",
+      "label": "Title"
+    },
+
+    {
+      "type": "text",
+      "id": "description",
+      "default": "Read ours popular posts",
+      "label": "Description"
+    },
+
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Choose default blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "label": "Posts limit"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Related Blog Posts"
+    }
+  ]
+}
+{% endschema %}

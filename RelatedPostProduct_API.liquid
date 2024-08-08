@@ -1,0 +1,392 @@
+{{ 'component-card.css' | asset_url | stylesheet_tag }}
+{{ 'component-price.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+<script>
+// Ensure the theme object exists on the window to avoid errors
+window.theme = window.theme || {};
+
+window.theme.initWhenVisible = function(options) {
+  const { threshold = 50, callback, element } = options;
+
+  // Create an IntersectionObserver to detect when the element is in view
+  const observer = new IntersectionObserver((entries, observer) => {
+    for (const entry of entries) {
+      // Check if the element is intersecting and the callback is a function
+      if (entry.isIntersecting && typeof callback === 'function') {
+        callback();
+        observer.unobserve(entry.target); // Stop observing the element after the callback has been executed
+      }
+    }
+  }, { rootMargin: `0px 0px ${threshold}px 0px` });
+
+  observer.observe(element); // Start observing the specified element
+};
+</script>
+
+<style>
+  .related-post-product .swiper-button.swiper-button-disabled {
+    display: none;
+  }
+</style>
+
+{% assign article_parts = article.handle | split: '/' %}
+{% assign modified_article_handle = article_parts.last %}
+
+<div class="page-width section-{{ section.id }}-padding">
+  {% if section.settings.title != blank %}
+    <h2>{{ section.settings.title }}</h2>
+  {% endif %}
+
+  <related-product
+    article-handle="{{ modified_article_handle }}"
+    data-section="{{ section.id }}"
+  >
+    <swiper-container
+      id="RelatedPostProductsSlider"
+      class="grid"
+      init="false"
+      navigation-next-el="#my-next-button-{{ section.id }}"
+      navigation-prev-el="#my-prev-button-{{ section.id }}"
+      navigation="true"
+    >
+    </swiper-container>
+    <button id="my-next-button-{{ section.id }}" class="swiper-button-next swiper-button">
+      <svg
+        width="11"
+        height="20"
+        viewBox="0 0 11 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="__web-inspector-hide-shortcut__"
+      >
+        <path d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z" fill="currentColor"></path>
+      </svg>
+    </button>
+    <button id="my-prev-button-{{ section.id }}" class="swiper-button-prev swiper-button">
+      <svg
+        width="11"
+        height="20"
+        viewBox="0 0 11 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        class="__web-inspector-hide-shortcut__"
+      >
+        <path d="M0.38296 20.0762C0.111788 19.805 0.111788 19.3654 0.38296 19.0942L9.19758 10.2796L0.38296 1.46497C0.111788 1.19379 0.111788 0.754138 0.38296 0.482966C0.654131 0.211794 1.09379 0.211794 1.36496 0.482966L10.4341 9.55214C10.8359 9.9539 10.8359 10.6053 10.4341 11.007L1.36496 20.0762C1.09379 20.3474 0.654131 20.3474 0.38296 20.0762Z" fill="currentColor"></path>
+      </svg>
+    </button>
+  </related-product>
+</div>
+
+<script>
+const storefrontAccessToken = '374602b3d4bb8103e75becaae1d47c10';
+const domain = 'devpeview.myshopify.com';
+const articleHandle = '{{ modified_article_handle }}';
+const metafieldKey = 'related_post_handles';
+
+  
+class RelatedProduct extends HTMLElement {
+  constructor() {
+    super();
+    this.itemProduct = '[product-template-js]';
+    this.sectionId = this.dataset.section;
+    this.slider = this.querySelector('#RelatedPostProductsSlider');
+    // Initialize the component when it becomes visible in the viewport
+    window.theme.initWhenVisible({
+      threshold: 0.5,
+      callback: this.init.bind(this), 
+      element: this 
+    });
+  }
+
+   async init() { 
+      const productHandles = this.getRelatedPostProductHandles();
+      if (productHandles.length > 0) {
+        this.setTemplate(productHandles);
+      }
+   }
+  
+  getRelatedPostProductHandles() {
+    return JSON.parse(localStorage.getItem('relatedPostProductHandles')) || [];
+  }
+  
+  async connectedCallback () {
+     const allProducts = await this.fetchRelatedPostProducts(domain, storefrontAccessToken, articleHandle, metafieldKey);
+      if (allProducts) {
+        const filteredProducts = this.filterProductsByMetafield(allProducts, metafieldKey, articleHandle);
+        // this.buildProducts(filteredProducts);
+        
+        // Use this logic if need supported multicurrencies store
+        // Set localStorage with product handles
+        const productHandles = filteredProducts.map(product => product.handle);
+        localStorage.setItem('relatedPostProductHandles', JSON.stringify(productHandles));
+      } else {
+        console.error('No products fetched');
+      }
+  }
+
+  async fetchRelatedPostProducts(domain, accessToken, articleHandle, metafieldKey, products = [], cursor = null) {
+    const query = `
+      query {
+        products(first: 30${cursor ? `, after: "${cursor}"` : ''}) {
+          pageInfo {
+            hasNextPage
+            endCursor
+          }
+          edges {
+            node {
+              title
+              handle
+              images(first: 1) {
+                edges {
+                  node {
+                    src
+                    altText
+                  }
+                }
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              metafields(identifiers: [{namespace: "custom", key: "${metafieldKey}"}]) {
+                key
+                namespace
+                value
+              }
+            }
+          }
+        }
+      }`;
+
+    try {
+      const response = await fetch(`https://${domain}/api/2024-01/graphql.json`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': accessToken,
+        },
+        body: JSON.stringify({ query }),
+      });
+
+      if (!response.ok) throw new Error('Network response was not ok.');
+
+      const jsonResponse = await response.json();
+      if (jsonResponse.errors) throw new Error(`GraphQL errors: ${JSON.stringify(jsonResponse.errors)}`);
+
+      const { data } = jsonResponse;
+      const newProducts = data.products.edges.map(edge => edge.node);
+      const allProducts = products.concat(newProducts);
+
+      if (data.products.pageInfo.hasNextPage) {
+        return this.fetchRelatedPostProducts(domain, accessToken, articleHandle, metafieldKey, allProducts, data.products.pageInfo.endCursor);
+      } else {
+        return allProducts;
+      }
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      return null;
+    }
+  }
+
+  filterProductsByMetafield(products, metafieldKey, value) {
+    return products.filter(product => {
+      // Ensure product.metafields is an array; if not, default to an empty array
+      const metafields = Array.isArray(product.metafields) ? product.metafields : [];
+
+      const validMetafields = metafields.filter(metafield => 
+        metafield !== null && metafield.key === metafieldKey
+      );
+
+      return validMetafields.some(metafield => {
+        try {
+          const metafieldValues = JSON.parse(metafield.value);
+          return Array.isArray(metafieldValues) && metafieldValues.includes(value);
+        } catch (error) {
+          console.error(`Error parsing metafield value for Product ID: ${product.id}`, error);
+          return false;
+        }
+      });
+    });
+  }
+
+  async fetchProductHTML(handle) {
+    const productUrl = `/products/${handle}?view=card`;
+    try {
+      const res = await fetch(productUrl);
+      if (!res.ok) throw new Error(`Failed to fetch product for handle: ${handle}`);
+      const text = await res.text();
+      const parser = new DOMParser();
+      const htmlDocument = parser.parseFromString(text, 'text/html');
+      const itemProduct = htmlDocument.documentElement.querySelector(this.itemProduct);
+      if (itemProduct) {
+        return itemProduct.outerHTML;
+      } else {
+        console.error(`No element found for handle: ${handle}`);
+        return '';
+      }
+    } catch (err) {
+      console.error(`Failed to load content for handle: ${handle}`, err);
+      return '';
+    }
+  }
+
+  async setTemplate(handles) {
+    const requests = handles.map(handle => this.fetchProductHTML(handle));
+    try {
+      const responses = await Promise.all(requests);
+      const itemProducts = responses.map((item, index) => `<swiper-slide lazy="true" id="Slide-${this.sectionId}-${index + 1}" class="swiper-slide grid__item">${item}</swiper-slide>`).join('');
+      this.slider.innerHTML = '';
+      this.classList.add('relatedproducts--loaded');
+      this.slider.innerHTML = itemProducts;
+      this.initSlider(handles);
+    } catch (error) {
+      console.error('Error setting template:', error);
+    }
+  }
+
+   initSlider(elements) {
+    const swiperEl = this.querySelector('#RelatedPostProductsSlider');
+    // swiper parameters
+    const swiperParams = {
+        slidesPerView: 2,
+        spaceBetween: 16,
+          
+          breakpoints: {
+            640: {
+              slidesPerView: 3,
+              spaceBetween: 16,
+            },
+            768: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+            },
+            1024: {
+              slidesPerView: 5,
+              spaceBetween: 24, 
+            },
+          },
+    };
+
+    Object.assign(swiperEl, swiperParams);
+    swiperEl.initialize();
+  }
+  
+  // Not support multicurrencies without outsource API  
+  // buildProducts(filteredProducts) {
+  //   this.innerHTML = ''; // Clear the content of the web component
+
+  //   filteredProducts.forEach(product => {
+  //     const productElement = document.createElement('div');
+  //     productElement.className = 'product grid__item';
+      
+  //     const productUrl = `https://${domain}/products/${product.handle}`;
+  //     const imageNode = product.images.edges[0]?.node;
+  //     const imageSrc = imageNode ? imageNode.src : 'default-image.jpg';
+  //     const imageAlt = imageNode ? imageNode.altText : product.title;
+  //     const price = product.priceRange ? `${product.priceRange.minVariantPrice.amount} ${product.priceRange.minVariantPrice.currencyCode}` : 'No price available';
+
+  //     productElement.innerHTML = `
+  //       <a href="${productUrl}">
+  //         <img loading="lazy" src="${imageSrc}" alt="${imageAlt}" style="width:100%; max-width:300px; height:auto;">
+  //         <h2>${product.title}</h2>
+  //         <span>Price: ${price}</span>
+  //       </a>
+  //     `;
+
+  //     this.appendChild(productElement);
+  //   });
+  // }
+}
+
+customElements.define('related-product', RelatedProduct);
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js" defer></script>
+
+{% schema %}
+{
+  "name": "Related Post Products",
+  "tag": "section",
+  "limit": 1,
+  "class": "section related-post-product",
+  "enabled_on": {
+    "templates": ["article"]
+  },
+  "settings": [
+    {
+      "type": "range",
+      "id": "page_width",
+      "min": 1000,
+      "max": 1920,
+      "step": 10,
+      "default": 1200,
+      "unit": "px",
+      "label": "t:settings_schema.layout.settings.page_width.label"
+    },
+
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Related Products",
+      "label": "Title"
+    },
+
+    {
+      "type": "text",
+      "id": "description",
+      "default": "See ours popular products",
+      "label": "Description"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 2,
+      "label": "Posts limit"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Section padding bottom",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Related Post Products"
+    }
+  ]
+}
+{% endschema %}
